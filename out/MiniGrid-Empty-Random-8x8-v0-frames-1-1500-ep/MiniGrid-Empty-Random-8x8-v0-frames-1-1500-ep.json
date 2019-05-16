@@ -1,0 +1,1 @@
+{"name": "MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep", "save_model": 50, "device": "cpu", "summary_q": [20, 40, 60, 80, 100, 200, 300, 400, 500, 600, 700, 900, 1000, 1499], "env": "MiniGrid-Empty-Random-8x8-v0", "run": 0, "T_max": 250, "env_dir": "/Users/geoffreycideron/Documents/SequeL/visual_her/out", "summary_max_q": 10, "episodes": 1500}

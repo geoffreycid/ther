@@ -1,0 +1,1 @@
+{"update_target": 20, "T_exploration": 1000.0, "memory_size": 10000.0, "eps_final": 0.1, "name": "dqn-baseline-cartpole", "eps_init": 1, "lr": 0.0005, "gamma": 0.99, "frames": 1, "batch_size": 128}

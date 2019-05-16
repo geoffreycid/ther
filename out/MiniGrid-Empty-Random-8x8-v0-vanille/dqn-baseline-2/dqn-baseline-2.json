@@ -1,0 +1,1 @@
+{"frames": 4, "name": "dqn-baseline-2", "T_exploration": 10000.0, "eps_final": 0.1, "batch_size": 128, "memory_size": 10000.0, "lr": 0.0005, "eps_init": 1, "update_target": 40, "gamma": 0.99}

@@ -1,0 +1,1 @@
+{"eps_init": 1, "batch_size": 128, "frames": 1, "gamma": 0.99, "T_exploration": 50000.0, "memory_size": 100000.0, "lr": 0.001, "name": "dqn-baseline-1500", "eps_final": 0.05, "update_target": 50}

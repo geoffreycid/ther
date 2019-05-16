@@ -1,0 +1,1 @@
+{"name": "dqn-baseline-1500-explo-low-lr", "update_target": 40, "eps_final": 0.1, "batch_size": 128, "eps_init": 1, "lr": 0.0005, "gamma": 0.99, "frames": 1, "T_exploration": 100000.0, "memory_size": 100000.0}

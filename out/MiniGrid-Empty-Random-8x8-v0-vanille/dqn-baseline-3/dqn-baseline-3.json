@@ -1,0 +1,1 @@
+{"memory_size": 100000.0, "update_target": 40, "name": "dqn-baseline-3", "gamma": 0.99, "lr": 0.0005, "T_exploration": 10000.0, "eps_init": 1, "eps_final": 0.1, "batch_size": 128, "frames": 4}

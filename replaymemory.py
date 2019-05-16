@@ -10,7 +10,7 @@ import collections
 import random
 
 
-class ReplayMemory():
+class ReplayMemory(object):
     def __init__(self, size=1e6):
         self.transition = collections.namedtuple("Transition", ["curr_state", "action", "reward", "next_state", "terminal"])
         self.memory = []

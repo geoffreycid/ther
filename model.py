@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Created on Fri May  3 15:39:14 2019
 
@@ -11,10 +9,13 @@ This script contains the DQN model
 
 import torch
 import torch.nn as nn
+import random
+import torch.nn.functional as F
 
 class DQN(nn.Module):
-    
-    def __init__(self, h, w, frames, n_actions):
+
+
+    def __init__(self, h, w, c, n_actions, frames=4):
         """
         h: height of the screen
         w: width of the screen
@@ -23,51 +24,108 @@ class DQN(nn.Module):
         """
         super(DQN, self).__init__()
 
-        def size_after_conv(size, kernel_size = 3, stride = 1):
-            return (size - (kernel_size - 1) - 1) // stride  + 1
+        self.n_actions = n_actions
             
         self.net = nn.Sequential(
-                nn.Conv2d(in_channels=3*frames, out_channels=24, kernel_size=3),
-                nn.ReLU(True),
-                nn.Conv2d(in_channels=24, out_channels=32, kernel_size=3),
-                nn.ReLU(True),
-                nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3),
-                )
+            nn.Conv2d(c*frames, 16, (2, 2)),
+            nn.ReLU(),
+            nn.MaxPool2d((2, 2)),
+            nn.Conv2d(16, 32, (2, 2)),
+            nn.ReLU(),
+            nn.Conv2d(32, 64, (2, 2)),
+            nn.ReLU()
+        )
         
-        output_conv_h = size_after_conv(size_after_conv(size_after_conv(h, kernel_size=3, stride=1)))
-        output_conv_w = size_after_conv(size_after_conv(size_after_conv(w, kernel_size=3, stride=1)))
-        in_linear = 32 * output_conv_h * output_conv_w
+        output_conv_h = ((h-1)//2-2) #h-3 without maxpool
+        output_conv_w = ((w-1)//2-2) # w-3 without maxpool
+
+        size_after_conv = 64 * output_conv_h * output_conv_w
         
-        self.head = nn.Linear(in_features=in_linear, out_features=n_actions)
+        self.fc = nn.Sequential(
+                nn.Linear(in_features=size_after_conv, out_features=64),
+                nn.ReLU(),
+                nn.Linear(in_features=64, out_features=n_actions)
+        )
+        
         
     def forward(self, x):
         out = self.net(x)
-        return self.head(out.view(out.size(0), -1))
+        flatten = out.view(out.shape[0], -1)
+        return self.fc(flatten)
 
-#%%
-#class Preprocessing():
-#    
-#    def __init__(self):
-#        self.transformations = T.Compose([
-#            # To a pytorch tensor
-#            T.ToTensor()
-#            ])
-#    
-#    def batch_transform(self, imgs):
-#        if imgs.ndim==3:
-#            imgs = imgs.reshape(-1, imgs.shape[0], imgs.shape[1], imgs.shape[2])
-#        imgs_preprocessed = []
-#       for img in imgs:
-#            imgs_preprocessed.append(self.transformations(img))
-#        
-#        return torch.stack(imgs_preprocessed)
+    def select_action(self, state, epsilon):
+        if random.random() < epsilon:
+            action = random.choice(range(self.n_actions))
+        else:
+            # max(1) for the dim, [1] for the indice, [0] for the value
+            action = int(self.forward(state).max(1)[1].detach())
+            # Update the number of steps done
 
-#%%
+        return action
 
-#prepro = Preprocessing()
-#DQNetwork = DQN(8,8,4)
+    # Optimize the model
+    def optimize_model(self, memory, target_net, optimizer, dict_agent):
+        if len(memory) < dict_agent["batch_size"]:
+            return
+        # Sample from the memory replay
+        transitions = memory.sample(dict_agent["batch_size"])
+        # Batch the transitions into one namedtuple
+        batch_transitions = memory.transition(*zip(*transitions))
+        batch_curr_state = torch.cat(batch_transitions.curr_state)
+        batch_next_state = torch.cat(batch_transitions.next_state)
+        batch_terminal = torch.as_tensor(batch_transitions.terminal, dtype=torch.int32)
+        batch_action = torch.as_tensor(batch_transitions.action, dtype=torch.long).reshape(-1, 1)
+        # Compute targets according to the Bellman eq
+        targets = torch.as_tensor(batch_transitions.reward, dtype=torch.float32)
+        targets[batch_terminal == 0] = targets[batch_terminal == 0] \
+                                       + dict_agent["gamma"] \
+                                       * target_net(batch_next_state[batch_terminal == 0]).max(1)[0].detach()
+        targets = targets.reshape(-1, 1)
+        # Compute the current estimate of Q
+        predictions = self.forward(batch_curr_state).gather(1, batch_action)
+        # Loss
+        loss = F.smooth_l1_loss(predictions, targets)
+        # Optimization
+        optimizer.zero_grad()
+        loss.backward()
+        # Keep the gradient between (-1,1). Works like one uses L1 loss for large gradients (see Huber loss)
+        for param in self.parameters():
+            param.grad.data.clamp_(-1, 1)
+        # Do the gradient descent step
+        optimizer.step()
 
 
-#imgs = np.random.randint(0,10,size=(16,8,8,3)).astype("uint8")
-#imgs_prepro = prepro.batch_transform(imgs)
-#DQNetwork(imgs_prepro).shape
+class DQN_cartpole(nn.Module):
+
+    def __init__(self, n_actions, frames=4):
+        """
+        h: height of the screen
+        w: width of the screen
+        frames: number of frames taken into account for the state
+        n_actions: number of actions
+        """
+        super(DQN_cartpole, self).__init__()
+
+        self.n_actions = n_actions
+
+        self.fc = nn.Sequential(
+            nn.Linear(in_features=4, out_features=16),
+            nn.ReLU(),
+            nn.Linear(in_features=16, out_features=16),
+            nn.ReLU(),
+            nn.Linear(in_features=16, out_features=n_actions)
+        )
+
+    def forward(self, x):
+        flatten = x.view(x.shape[0], -1)
+        return self.fc(flatten)
+
+    def select_action(self, state, epsilon):
+        if random.random() < epsilon:
+            action = random.choice(range(self.n_actions))
+        else:
+            # max(1) for the dim, [1] for the indice, [0] for the value
+            action = int(self.forward(state).max(1)[1].detach())
+            # Update the number of steps done
+
+        return action

@@ -1,10 +1,20 @@
-import tensorboardX as tb
+import configwrapper
 
-writer = tb.SummaryWriter(log_dir="./summaries/")
+# import argparse
+# parser = argparse.ArgumentParser(prog="main script")
+#
+# parser.add_argument("--config-env", required=True,
+#                    help="environment config (REQUIRED)")
+# parser.add_argument("--config-agent", required=True,
+#                    help="agent config (REQUIRED)")
+#
+# args = parser.parse_args()
 
-for i in range(100):
-    writer.add_scalar("data/reward", i, global_step=i+1)
 
-writer.close()
+with open('config_env.json', 'r') as myfile:
+    config_env = myfile.read()
 
-print("over")
+with open('config_dqn.json', 'r') as myfile:
+    config_agent = myfile.read()
+
+configwrapper.wrapper(config_env, config_agent)

@@ -1,15 +1,13 @@
 import os
 
 import numpy as np
-import matplotlib.pyplot as plt
-import gym
-import gym_minigrid
+import gym_minigrid.envs.game as game
 import torch
 import tensorboardX as tb
 
-import model
+import models
 import replaymemory
-
+import summaryutils as utils
 
 """training procedure"""
 
@@ -25,19 +23,16 @@ def training(dict_env, dict_agent):
     else:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # Number of times the agent interacted with the enviromnent
-    steps_done = 0
-
     # Directory to save the model
     path_save_model = dict_agent["agent_dir"] + "/model_params"
     if not os.path.exists(path_save_model):
         os.mkdir(path_save_model)
 
     # Summaries (add run{i} for each run)
-    writer = tb.SummaryWriter(log_dir=dict_agent["agent_dir"] + "/logs")
+    writer = tb.SummaryWriter(dict_agent["agent_dir"] + "/logs")
 
     # Create the environment
-    env = gym.make(dict_env["env"])
+    env = game.game(dict_env, dict_agent)
     observation = env.reset()
     # height, width, number of channels
     (h, w, c) = observation['image'].shape
@@ -45,9 +40,37 @@ def training(dict_env, dict_agent):
     n_actions = env.action_space.n
     action_names = [a.name for a in env.actions]
 
-    # Networks
-    policy_net = model.DQN(h, w, c, n_actions, dict_agent["frames"])
-    target_net = model.DQN(h, w, c, n_actions, dict_agent["frames"])
+    # Number of types + colors
+    if "COLOR_TO_IDX" and "TYPE_TO_IDX" in dict_env.keys():
+        num_colors = len(dict_env["COLOR_TO_IDX"].keys())
+        num_types = len(dict_env["TYPE_TO_IDX"].keys())
+        dim_tokenizer = num_colors + num_types
+    else:
+        # The mission is not used
+        dim_tokenizer = 1
+
+    # Define the agent
+    if dict_agent["agent"] == "dqn-vanille":
+        agent = models.DQNVanille
+        params = (h, w, c, n_actions, dict_agent["frames"], device)
+    if dict_agent["agent"] == "dqn":
+        agent = models.DQN
+        params = (h, w, c, n_actions, dict_agent["frames"], dim_tokenizer, device)
+    if dict_agent["agent"] == "double-dqn":
+        agent = models.DoubleDQN
+        params = (h, w, c, n_actions, dict_agent["frames"], dim_tokenizer, device)
+    if dict_agent["agent"] == "dqn-per":
+        agent = models.DQNPER
+        params = (h, w, c, n_actions, dict_agent["frames"], dim_tokenizer, device)
+    if dict_agent["agent"] == "double-dqn-per":
+        agent = models.DoubleDQNPER
+        params = (h, w, c, n_actions, dict_agent["frames"], dim_tokenizer, device)
+    if dict_agent["agent"] == "double-dqn-her":
+        agent = models.DoubleDQNHER
+        params = (h, w, c, n_actions, dict_agent["frames"], dim_tokenizer, device)
+
+    policy_net = agent(*params).to(device)
+    target_net = agent(*params).to(device)
     target_net.load_state_dict(policy_net.state_dict())
     target_net.eval()
 
@@ -55,98 +78,133 @@ def training(dict_env, dict_agent):
     optimizer = torch.optim.RMSprop(policy_net.parameters(), lr=dict_agent["lr"])
 
     # Replay memory
-    memory = replaymemory.ReplayMemory(size=dict_agent["memory_size"])
+    if dict_agent["agent"] == "dqn-per" or dict_agent["agent"] == "double-dqn-per":
+        memory = replaymemory.PrioritizedReplayMemory(size=dict_agent["memory_size"],
+                                                      alpha=dict_agent["alpha"], beta=dict_agent["beta"],
+                                                      annealing_rate=dict_agent["annealing_rate"])
+    else:
+        memory = replaymemory.ReplayMemory(size=dict_agent["memory_size"])
 
     # Max steps per episode
-    T_max = min(dict_env["T_max"], env.max_steps)
+    T_MAX = min(dict_env["T_max"], env.max_steps)
+
+    # Number of times the agent interacted with the environment
+    steps_done = 0
+
+    # Reward per dict_env["smoothing"] steps
+    reward_smoothing = 0
+    discounted_reward_smoothing = 0
     # Starting of the training procedure
-    for episode in range(dict_env["episodes"]):
+    for episode in range(dict_agent["episodes"]):
         # New episode
+        state = {}
         observation = env.reset()
-        frames_list = [observation["image"]]
+        # Reward per episode
         reward_ep = 0
-        discounted_reward_ep = 0
-        # First frames to make a state
-        for _ in range(dict_agent["frames"] - 1):
-            action = env.action_space.sample()
-            observation, reward, terminal, info = env.step(action)
-            frames_list.append(observation['image'])
-        state = torch.as_tensor(np.concatenate(frames_list, axis=2).transpose(), dtype=torch.float32)[None, :]
-        for t in range(T_max):
+        # Erase stored transitions (used for HER)
+        if dict_agent["agent"] == "double-dqn-her":
+            memory.erase_stored_transitions()
+        
+        # One hot encoding of the type and the color of the target object
+        target = {
+            "color": env.targetColor,
+            "type": env.targetType
+        }
+        state["mission"] = utils.mission_tokenizer(dict_env, target, dim_tokenizer).to(device)
+
+        # Stacking frames to make a state
+        state_frames = [observation["image"]] * dict_agent["frames"]
+        state_frames = torch.as_tensor(np.concatenate(state_frames, axis=2).transpose(), dtype=torch.float32)[None, :]
+        state["image"] = state_frames.to(device)
+        
+        for t in range(T_MAX):
             # Update the current state
-            curr_state = state
+            curr_state = state.copy()
             # Update epsilon
             epsilon = max(dict_agent["eps_init"] - steps_done * (dict_agent["eps_init"] - dict_agent["eps_final"])
                           / dict_agent["T_exploration"], dict_agent["eps_final"])
             # Select an action
             action = policy_net.select_action(curr_state, epsilon)
             # Interaction with the environment
-            observation, reward, terminal, info = env.step(action)
-            observation_prep = torch.as_tensor(observation['image'].transpose(), dtype=torch.float32)[None, :]
-            state = torch.cat((curr_state[:, c:], observation_prep), dim=1)
+            out_step = env.step(action)
+            observation, reward, terminal, return_her = out_step[0], out_step[1], out_step[2], out_step[3]
+            observation_prep = \
+                torch.as_tensor(observation['image'].transpose(), dtype=torch.float32, device=device)[None, :]
+            state_frames = torch.cat((curr_state["image"][:, c:], observation_prep), dim=1)
+            state["image"] = state_frames
             # Update the number of steps
             steps_done += 1
-            # Summaries
-            writer.add_scalar("epsilon", epsilon, global_step=steps_done)
-            # Add transition
-            memory.add_transition(curr_state, action, reward, state, terminal)
-            # Optimization
-            policy_net.optimize_model(memory, target_net, optimizer, dict_agent)
 
-            ####### Summaries #######
-            writer.add_scalar("length memory", len(memory), global_step=steps_done)
-            # Cumulative reward: attention the env gives a reward = 1- 0.9* step_count/max_steps
+            # Add transition
+            memory.add_transition(curr_state["image"], action, reward, state["image"], terminal, curr_state["mission"])
+            if dict_agent["use_her"]:
+                memory.store_transition(curr_state["image"], action, reward,
+                                        state["image"], terminal, curr_state["mission"])
+
+            # Optimization
+            if steps_done % dict_agent["ratio_step_optim"] == 0:
+                policy_net.optimize_model(memory, target_net, optimizer, dict_agent)
+
+            # Update the target network
+            if (steps_done + 1) % dict_agent["update_target"] == 0:
+                target_net.load_state_dict(policy_net.state_dict())
+                writer.add_scalar("time target updated", steps_done + 1, global_step=episode)
+
+            # Cumulative reward: attention the env gives a reward = 1- 0.9 * step_count/max_steps
             reward_ep += reward
-            discounted_reward_ep += dict_agent["gamma"] ** t * reward
-            # Display the distribution of Q for 50 states
-            if episode + 1 in dict_env["summary_q"]:
-                if t < 50:
-                    image = env.render("rgb_array")
-                    fig = plt.figure(figsize=(10, 6))
-                    ax1 = fig.add_subplot(1, 2, 2)
-                    ax1.set_title("Actions")
-                    ax1.bar(range(n_actions), policy_net(curr_state).data.numpy().reshape(-1))
-                    ax1.set_xticks(range(n_actions))
-                    ax1.set_xticklabels(action_names, fontdict=None, minor=False)
-                    ax1.set_ylabel("Q values")
-                    ax2 = fig.add_subplot(1, 2, 1)
-                    ax2.set_title("Observations")
-                    ax2.imshow(image)
-                    writer.add_figure("Q values episode {}".format(episode + 1), fig, global_step=t)
-            if "summary_max_q" in dict_env.keys():
-                if steps_done % dict_env["summary_max_q"] == 0 and steps_done > dict_agent["batch_size"]:
-                    # Sample a batch of states and compute mean and max values of Q
-                    transitions = memory.sample(dict_agent["batch_size"])
-                    batch_transitions = memory.transition(*zip(*transitions))
-                    batch_curr_state = torch.cat(batch_transitions.curr_state)
-                    Q_values = policy_net(batch_curr_state).detach()
-                    writer.add_scalar("mean Q", torch.mean(Q_values).data.numpy().reshape(-1)
-                                      , global_step=steps_done)
-                    writer.add_scalar("max Q", torch.max(Q_values).data.numpy().reshape(-1)
-                                      , global_step=steps_done)
+            reward_smoothing += reward
+            discounted_reward_smoothing += dict_agent["gamma"] ** t * reward
+
+            # Summaries
+            writer.add_scalar("length memory", len(memory), global_step=steps_done)
+            writer.add_scalar("epsilon", epsilon, global_step=steps_done)
+
+            # Record a trajectory
+            if episode + 1 in dict_env["summary_trajectory"]:
+                utils.summary_trajectory(env, writer, n_actions, action_names,
+                                         policy_net, state, observation, t, episode)
+            # Summaries of Q values
+            if "summary_mean_max_q" in dict_env.keys():
+                if steps_done % dict_env["summary_mean_max_q"] == 0 and steps_done > dict_agent["batch_size"]:
+                    utils.summary_mean_max_q(dict_agent, memory, policy_net, writer, steps_done)
+
+            # Summaries: cumulative reward per episode & length of an episode
+            if steps_done % dict_env["smoothing"] == 0:
+                reward_smoothing /= dict_env["smoothing"]
+                discounted_reward_smoothing /= dict_env["smoothing"]
+                writer.add_scalar("Mean reward in {} steps".format(dict_env["smoothing"]),
+                                  reward_smoothing, global_step=steps_done)
+                writer.add_scalar("Mean discounted reward in {} steps".format(dict_env["smoothing"]),
+                                  discounted_reward_smoothing, global_step=steps_done)
+                # Re-init to 0
+                reward_smoothing = 0
+                discounted_reward_smoothing = 0
 
             # Terminate the episode if terminal state
             if terminal:
+                if return_her:
+                    hindsight_reward = out_step[4]
+                    hindsight_target = out_step[5]
+                    mission = utils.mission_tokenizer(dict_env, hindsight_target, dim_tokenizer).to(device)
+                    memory.add_hindsight_transitions(reward=hindsight_reward, mission=mission)
                 break
-        # Update the target network
-        if (episode+1) % dict_agent["update_target"] == 0:
-            target_net.load_state_dict(policy_net.state_dict())
-            writer.add_scalar("time target updated", episode+1, global_step=steps_done)
+
+        # Length and reward of an episode
+        writer.add_scalar("length episode", t, global_step=episode)
+        writer.add_scalar("Reward per episode", reward_ep, global_step=episode)
+
         # Save policy_net's parameters
         if (episode + 1) % dict_env["save_model"] == 0:
             curr_path_to_save = os.path.join(path_save_model, "model_ep_{}.pt".format(episode + 1))
             torch.save(policy_net.state_dict(), curr_path_to_save)
-        # Summaries: cumulative reward per episode & length of an episode
-        writer.add_scalar("cum reward per ep", reward_ep, global_step=episode)
-        writer.add_scalar("cum discounted reward per ep", discounted_reward_ep, global_step=episode)
-        writer.add_scalar("length episode", t, global_step=episode)
+
     env.close()
     writer.close()
 
 
 # To debug :
 
-#with open('config_env.json', 'r') as myfile:
+#with open('configenvfetch.json', 'r') as myfile:
 #    config_env = myfile.read()
 
 #with open('config_dqn.json', 'r') as myfile:
@@ -157,5 +215,5 @@ def training(dict_env, dict_agent):
 #dict_env = json.loads(config_env)
 #dict_agent = json.loads(config_agent)
 #dict_agent["agent_dir"] = dict_env["env_dir"] + "/" + dict_env["name"] + "/" + dict_agent["name"]
+#print("Training in progress")
 #training(dict_env, dict_agent)
-

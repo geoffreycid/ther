@@ -1,0 +1,14 @@
+{
+  "name": "Empty-Random-5x5",
+  "game_type": "empty",
+  "size": 5,
+  "random": 1,
+  "env_dir": "out",
+  "episodes": 1000,
+  "summary_trajectory": [500, 800, 1000],
+  "summary_mean_max_q": 100,
+  "save_model": 500,
+  "T_max": 100,
+  "smoothing": 1000
+}
+

@@ -1,0 +1,14 @@
+{
+    "name": "dqn",
+    "agent": "dqn",
+    "frames": 1,
+    "ratio_step_optim": 1,
+    "T_exploration": 1e6,
+    "batch_size": 128,
+    "lr": 5e-4,
+    "memory_size": 32768,
+    "gamma": 0.99,
+    "eps_init": 1,
+    "eps_final": 0.05,
+    "update_target": 10
+}

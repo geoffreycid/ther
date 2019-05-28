@@ -11,10 +11,10 @@ import configwrapper
 # args = parser.parse_args()
 
 
-with open('config_env.json', 'r') as myfile:
+with open('configs/envs/fetch.json', 'r') as myfile:
     config_env = myfile.read()
 
-with open('config_dqn.json', 'r') as myfile:
+with open('configs/agents/fetch/doubledqn.json', 'r') as myfile:
     config_agent = myfile.read()
 
 configwrapper.wrapper(config_env, config_agent)

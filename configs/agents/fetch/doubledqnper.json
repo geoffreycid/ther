@@ -1,0 +1,19 @@
+{
+    "name": "double-dqn-per-largelanguage",
+    "agent": "double-dqn-per",
+    "frames":4,
+    "beta": 0.4,
+    "alpha": 0.6,
+    "annealing_rate": 0.0001,
+    "ratio_step_optim": 1,
+    "T_exploration": 1e5,
+    "batch_size": 128,
+    "lr": 5e-4,
+    "memory_size": 2e5,
+    "gamma": 0.99,
+    "eps_init": 1,
+    "eps_final": 0.1,
+    "update_target": 1000,
+    "episodes": 50000,
+    "use_her": 0
+}

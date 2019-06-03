@@ -11,12 +11,14 @@ import summaryutils as utils
 
 """training procedure"""
 
+
 def training(dict_env, dict_agent):
     """
-
     :type dict_agent: dict of the agent
     ;type dict_env: dict of the environment
     """
+    #dict_env = config["dict_env"]
+    #dict_agent = config["dict_agent"]
     # Device to use
     if "device" in dict_env:
         device = dict_env["device"]
@@ -29,10 +31,19 @@ def training(dict_env, dict_agent):
         os.mkdir(path_save_model)
 
     # Summaries (add run{i} for each run)
-    writer = tb.SummaryWriter(dict_agent["agent_dir"] + "/logs")
+    writer = tb.SummaryWriter(dict_agent["agent_dir"]) # + "/logs")
 
     # Create the environment
     env = game.game(dict_env, dict_agent)
+
+    # Fix all seeds
+    seed = dict_agent["seed"]
+    env.seed(seed)
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
     observation = env.reset()
     # height, width, number of channels
     (h, w, c) = observation['image'].shape
@@ -48,6 +59,9 @@ def training(dict_env, dict_agent):
     else:
         # The mission is not used
         dim_tokenizer = 1
+
+    # By default do not use her
+    use_her = 0
 
     # Define the agent
     if dict_agent["agent"] == "dqn-vanille":
@@ -68,6 +82,7 @@ def training(dict_env, dict_agent):
     if dict_agent["agent"] == "double-dqn-her":
         agent = models.DoubleDQNHER
         params = (h, w, c, n_actions, dict_agent["frames"], dim_tokenizer, device)
+        use_her = 1
 
     policy_net = agent(*params).to(device)
     target_net = agent(*params).to(device)
@@ -80,29 +95,34 @@ def training(dict_env, dict_agent):
     # Replay memory
     if dict_agent["agent"] == "dqn-per" or dict_agent["agent"] == "double-dqn-per":
         memory = replaymemory.PrioritizedReplayMemory(size=dict_agent["memory_size"],
-                                                      alpha=dict_agent["alpha"], beta=dict_agent["beta"],
+                                                      seed=seed, alpha=dict_agent["alpha"], beta=dict_agent["beta"],
                                                       annealing_rate=dict_agent["annealing_rate"])
     else:
-        memory = replaymemory.ReplayMemory(size=dict_agent["memory_size"])
+        memory = replaymemory.ReplayMemory(size=dict_agent["memory_size"], seed=seed)
 
     # Max steps per episode
     T_MAX = min(dict_env["T_max"], env.max_steps)
 
     # Number of times the agent interacted with the environment
     steps_done = 0
+    episode = 0
 
     # Reward per dict_env["smoothing"] steps
     reward_smoothing = 0
     discounted_reward_smoothing = 0
+    episode_done_smoothing = 0
+    length_episode_done_smoothing = 0
+
     # Starting of the training procedure
-    for episode in range(dict_agent["episodes"]):
+    while steps_done < dict_agent["max_steps"]:
         # New episode
+        episode += 1
         state = {}
         observation = env.reset()
         # Reward per episode
         reward_ep = 0
         # Erase stored transitions (used for HER)
-        if dict_agent["agent"] == "double-dqn-her":
+        if use_her:
             memory.erase_stored_transitions()
         
         # One hot encoding of the type and the color of the target object
@@ -137,7 +157,7 @@ def training(dict_env, dict_agent):
 
             # Add transition
             memory.add_transition(curr_state["image"], action, reward, state["image"], terminal, curr_state["mission"])
-            if dict_agent["use_her"]:
+            if use_her:
                 memory.store_transition(curr_state["image"], action, reward,
                                         state["image"], terminal, curr_state["mission"])
 
@@ -148,7 +168,7 @@ def training(dict_env, dict_agent):
             # Update the target network
             if (steps_done + 1) % dict_agent["update_target"] == 0:
                 target_net.load_state_dict(policy_net.state_dict())
-                writer.add_scalar("time target updated", steps_done + 1, global_step=episode)
+                #writer.add_scalar("time target updated", steps_done + 1, global_step=episode)
 
             # Cumulative reward: attention the env gives a reward = 1- 0.9 * step_count/max_steps
             reward_ep += reward
@@ -160,7 +180,7 @@ def training(dict_env, dict_agent):
             writer.add_scalar("epsilon", epsilon, global_step=steps_done)
 
             # Record a trajectory
-            if episode + 1 in dict_env["summary_trajectory"]:
+            if episode in dict_env["summary_trajectory"]:
                 utils.summary_trajectory(env, writer, n_actions, action_names,
                                          policy_net, state, observation, t, episode)
             # Summaries of Q values
@@ -176,9 +196,13 @@ def training(dict_env, dict_agent):
                                   reward_smoothing, global_step=steps_done)
                 writer.add_scalar("Mean discounted reward in {} steps".format(dict_env["smoothing"]),
                                   discounted_reward_smoothing, global_step=steps_done)
+                writer.add_scalar("Mean length episode during {} steps".format(dict_env["smoothing"]),
+                                  length_episode_done_smoothing / episode_done_smoothing, global_step=steps_done)
                 # Re-init to 0
                 reward_smoothing = 0
                 discounted_reward_smoothing = 0
+                episode_done_smoothing = 0
+                length_episode_done_smoothing = 0
 
             # Terminate the episode if terminal state
             if terminal:
@@ -190,12 +214,15 @@ def training(dict_env, dict_agent):
                 break
 
         # Length and reward of an episode
-        writer.add_scalar("length episode", t, global_step=episode)
-        writer.add_scalar("Reward per episode", reward_ep, global_step=episode)
+        #writer.add_scalar("length episode", t, global_step=episode)
+        #writer.add_scalar("Reward per episode", reward_ep, global_step=episode)
+        episode_done_smoothing += 1
+        length_episode_done_smoothing += t
+
 
         # Save policy_net's parameters
-        if (episode + 1) % dict_env["save_model"] == 0:
-            curr_path_to_save = os.path.join(path_save_model, "model_ep_{}.pt".format(episode + 1))
+        if episode % dict_env["save_model"] == 0:
+            curr_path_to_save = os.path.join(path_save_model, "model_ep_{}.pt".format(episode))
             torch.save(policy_net.state_dict(), curr_path_to_save)
 
     env.close()

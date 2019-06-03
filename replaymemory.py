@@ -37,13 +37,14 @@ class ReplayMemoryOld(object):
 
 
 class ReplayMemory(object):
-    def __init__(self, size=1e6):
+    def __init__(self, size, seed):
         self.transition = collections.namedtuple("Transition",
                                                  ["curr_state", "action", "reward", "next_state", "terminal",
                                                   "mission"])
         self.memory = []
         self.stored_transitions = []
         self.memory_size = size
+        random.seed(seed)
 
     def add_transition(self, curr_state, action, reward, next_state, terminal, mission):
         self.memory.append(self.transition(curr_state, action, reward, next_state, terminal, mission))
@@ -157,7 +158,7 @@ class ReplayMemoryPER(object):
 
 
 class PrioritizedReplayMemory(object):
-    def __init__(self, size, alpha, beta, eps=1e-6, annealing_rate=0.0001):
+    def __init__(self, size, seed, alpha, beta, eps=1e-6, annealing_rate=0.0001):
         self.transition = collections.namedtuple("Transition",
                                                  ["curr_state", "action", "reward", "next_state", "terminal",
                                                   "mission"])
@@ -174,6 +175,7 @@ class PrioritizedReplayMemory(object):
         # Annealing beta
         self.annealing_rate = annealing_rate
         self.len = 0
+        random.seed(seed)
 
     def add_transition(self, curr_state, action, reward, next_state, terminal, mission):
         self.memory[self.position] = \

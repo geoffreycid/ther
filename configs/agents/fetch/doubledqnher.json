@@ -1,7 +1,7 @@
 {
-    "name": "double-dqn-her-largelanguage",
+    "name": "double-dqn-her",
     "agent": "double-dqn-her",
-    "use_her": 1,
+    "seed": [48, 98, 120],
     "frames":4,
     "ratio_step_optim": 1,
     "T_exploration": 1e5,
@@ -12,5 +12,5 @@
     "eps_init": 1,
     "eps_final": 0.1,
     "update_target": 1000,
-    "episodes": 50000
+    "max_steps": 500000
 }

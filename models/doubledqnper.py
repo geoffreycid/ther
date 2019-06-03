@@ -38,7 +38,7 @@ class DoubleDQNPER(nn.Module):
         size_after_conv = 64 * output_conv_h * output_conv_w
 
         self.fc = nn.Sequential(
-            nn.Linear(in_features=(size_after_conv+64), out_features=64),
+            nn.Linear(in_features=(size_after_conv+16), out_features=64),
             nn.ReLU(),
             nn.Linear(in_features=64, out_features=n_actions)
         )
@@ -48,9 +48,9 @@ class DoubleDQNPER(nn.Module):
         #    nn.Linear(in_features=64, out_features=n_actions)
         #)
         self.language_net = nn.Sequential(
-            nn.Linear(in_features=self.dim_tokenizer, out_features=self.embedded_dim),
-            nn.ReLU(),
-            nn.Linear(in_features=self.embedded_dim, out_features=64)
+            nn.Linear(in_features=self.dim_tokenizer, out_features=self.embedded_dim)
+        #    nn.ReLU(),
+        #    nn.Linear(in_features=self.embedded_dim, out_features=64)
         )
 
     def forward(self, state):

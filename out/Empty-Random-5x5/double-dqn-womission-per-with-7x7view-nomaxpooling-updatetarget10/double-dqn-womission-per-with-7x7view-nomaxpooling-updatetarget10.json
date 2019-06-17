@@ -1,0 +1,1 @@
+{"agent": "double-dqn-mission-per", "gamma": 0.99, "frames": 1, "memory_size": 32768, "eps_final": 0.05, "batch_size": 128, "eps_init": 1, "T_exploration": 20000.0, "lr": 0.0005, "update_target": 10, "ratio_step_optim": 1, "name": "double-dqn-womission-per-with-7x7view-nomaxpooling-updatetarget10"}

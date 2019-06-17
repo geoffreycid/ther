@@ -12,19 +12,15 @@ from itertools import product
 
 import ray
 import train
-import aggregator.aggregator as aggregator
 
 
-
-def wrapper(config_env, config_agent, config_gridsearch):
+def wrapper(dict_env, dict_agent, grid_search, extension):
     """
     - Create & check files and folders
     - Call the training procedure
     """
-    # Decode json files into dict
-    dict_env = json.loads(config_env)
-    dict_agent = json.loads(config_agent)
-    grid_search = json.loads(config_gridsearch)
+    # Update the agent with the extension
+    dict_agent.update(extension)
 
     # Path to the env and the agent directories
     if not os.path.exists(dict_env["env_dir"]):
@@ -68,11 +64,6 @@ def wrapper(config_env, config_agent, config_gridsearch):
     
     dict_agent["agent_dir"] = agent_dir
     # Train the model
-    clock = time.time()
-
-    @ray.remote(num_gpus=0.5)
-    def training(dict_env, dict_agent):
-        return train.training(dict_env=dict_env, dict_agent=dict_agent)
 
     def cleanstr(string):
         string = string.replace("{", "")
@@ -83,18 +74,27 @@ def wrapper(config_env, config_agent, config_gridsearch):
         string = string.replace(",", "_")
         return string
 
-    dicts = []
     # Grid search
-    items = sorted(grid_search.items())
-    keys, values = zip(*items)
-    for ind, seed in enumerate(dict_agent["seed"]):
-        for val in product(*values):
+    if len(grid_search.items()) > 0:
+        dicts = []
+        items = sorted(grid_search.items())
+        keys, values = zip(*items)
+        for ind, seed in enumerate(dict_agent["seed"]):
+            for val in product(*values):
+                d = dict_agent.copy()
+                d.update(dict(zip(keys, val)))
+                d["seed"] = seed
+                d["agent_dir"] = dict_agent["agent_dir"] + "/run_{}".format(ind + 1) + "/{}".format(cleanstr(str(dict(zip(keys, val)))))
+                os.makedirs(d["agent_dir"])
+                dicts.append(d)
+
+        return dict_agent, dicts
+    else:
+        dicts = []
+        for ind, seed in enumerate(dict_agent["seed"]):
             d = dict_agent.copy()
-            d.update(dict(zip(keys, val)))
             d["seed"] = seed
-            d["agent_dir"] = dict_agent["agent_dir"] + "/run_{}".format(ind + 1) + "/{}".format(cleanstr(str(dict(zip(keys, val)))))
+            d["agent_dir"] = dict_agent["agent_dir"] + "/run_{}".format(ind + 1) + "/a"
             os.makedirs(d["agent_dir"])
             dicts.append(d)
-    ray.get([training.remote(dict_env=dict_env, dict_agent=d) for d in dicts])
-    print("Time to train the model {} s".format(round(time.time()-clock, 2)))
-    aggregator.wrapper(dict_agent["agent_dir"], output="summary")
+        return dict_agent, dicts

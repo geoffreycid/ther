@@ -1,0 +1,1 @@
+{"T_exploration": 20000.0, "frames": 1, "eps_init": 1, "update_target": 50, "memory_size": 16384, "ratio_step_optim": 1, "eps_final": 0.05, "agent": "dqn-vanille", "gamma": 0.99, "batch_size": 128, "name": "dqn-vanille-with-capped-view", "lr": 0.001}

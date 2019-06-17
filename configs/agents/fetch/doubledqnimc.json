@@ -1,0 +1,17 @@
+{
+    "name": "double-dqn-imc",
+    "agent": "double-dqn-imc",
+    "seed": 29,
+    "frames": 4,
+    "ratio_step_optim": 1,
+    "T_exploration": 5e4,
+    "batch_size": 128,
+    "lr": 5e-4,
+    "memory_size": 1e5,
+    "gamma": 0.99,
+    "eps_init": 1,
+    "eps_final": 0.1,
+    "update_target": 1000,
+    "update_imc": 200,
+    "max_steps": 200000
+}

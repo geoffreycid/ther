@@ -7,7 +7,7 @@ import torch.nn.functional as F
 
 class DoubleDQNHER(nn.Module):
 
-    def __init__(self, h, w, c, n_actions, frames, dim_tokenizer, device):
+    def __init__(self, h, w, c, n_actions, frames, lr, dim_tokenizer, device):
         """
         h: height of the screen
         w: width of the screen
@@ -55,6 +55,8 @@ class DoubleDQNHER(nn.Module):
         #    nn.Linear(in_features=64, out_features=n_actions)
         #)
 
+        self.optimizer = torch.optim.RMSprop(self.parameters(), lr=lr)
+
     def forward(self, state):
         out_conv = self.conv_net(state["image"])
         flatten = out_conv.view(out_conv.shape[0], -1)
@@ -72,7 +74,7 @@ class DoubleDQNHER(nn.Module):
         return action
 
     # Optimize the model
-    def optimize_model(self, memory, target_net, optimizer, dict_agent):
+    def optimize_model(self, memory, target_net, dict_agent):
         if len(memory) < dict_agent["batch_size"]:
             return
 
@@ -113,10 +115,10 @@ class DoubleDQNHER(nn.Module):
         # Loss
         loss = F.smooth_l1_loss(predictions, targets)
         # Optimization
-        optimizer.zero_grad()
+        self.optimizer.zero_grad()
         loss.backward()
         # Keep the gradient between (-1,1). Works like one uses L1 loss for large gradients (see Huber loss)
         for param in self.parameters():
             param.grad.data.clamp_(-1, 1)
         # Do the gradient descent step
-        optimizer.step()
+        self.optimizer.step()

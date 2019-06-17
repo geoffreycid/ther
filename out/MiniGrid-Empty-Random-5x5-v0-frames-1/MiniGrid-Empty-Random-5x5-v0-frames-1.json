@@ -1,1 +1,0 @@
-{"device": "cpu", "T_max": 250, "summary_q": [20, 40, 60, 80, 100, 200, 300, 400, 500, 600, 700, 900, 1000], "summary_max_q": 10, "env": "MiniGrid-Empty-Random-5x5-v0", "run": 0, "env_dir": "/Users/geoffreycideron/Documents/SequeL/visual_her/out", "name": "MiniGrid-Empty-Random-5x5-v0-frames-1", "episodes": 500, "save_model": 50}

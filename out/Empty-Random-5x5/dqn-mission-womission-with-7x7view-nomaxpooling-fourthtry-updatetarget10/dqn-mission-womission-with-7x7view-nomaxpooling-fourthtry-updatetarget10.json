@@ -1,0 +1,1 @@
+{"update_target": 10, "frames": 1, "lr": 0.001, "batch_size": 128, "name": "dqn-mission-womission-with-7x7view-nomaxpooling-fourthtry-updatetarget10", "memory_size": 32768, "agent": "dqn-mission", "eps_init": 1, "gamma": 0.99, "T_exploration": 20000.0, "ratio_step_optim": 1, "eps_final": 0.05}

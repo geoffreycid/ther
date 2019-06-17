@@ -1,0 +1,1 @@
+{"frames": 1, "update_target": 50, "memory_size": 16384, "batch_size": 128, "T_exploration": 20000.0, "ratio_step_optim": 1, "double_dqn": 0, "gamma": 0.99, "PER": 1, "use_mission": 1, "lr": 0.001, "eps_final": 0.05, "eps_init": 1, "name": "dqn-per-power-2"}

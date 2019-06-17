@@ -1,24 +1,27 @@
 {
-  "name": "Fetch-5x5-N2-C2",
+  "name": "Fetch-8x8-N2-C6-O6",
   "game_type": "fetch",
-  "size": 5,
-  "numObjs": 2,
-  "manual": 1,
+  "size": 8,
+  "numObjs": 6,
+  "manual": 0,
   "random_target": 1,
   "oneobject": 0,
-
   "COLOR_TO_IDX": {
     "red": 0,
-    "green": 1
-  },
+    "green": 1,
+    "blue": 2,
+    "purple": 3,
+    "yellow": 4,
+    "grey":5
+},
   "TYPE_TO_IDX": {
     "key": 0,
     "ball": 1
   },
   "env_dir": "/home/gcideron/home/gcideron/visual_her/out",
-  "summary_trajectory": [100, 500, 700, 900, 1000, 3000, 4000, 5000, 10000, 15000, 20000, 30000, 40000, 50000],
+  "summary_trajectory": 5000,
   "summary_mean_max_q": 100,
-  "save_model": 10000,
+  "save_model": 100000,
   "smoothing": 1000,
   "T_max": 500,
   "full_idx": {

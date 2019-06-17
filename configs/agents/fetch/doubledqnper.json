@@ -1,19 +1,19 @@
 {
     "name": "double-dqn-per",
     "agent": "double-dqn-per",
-    "seed": [48, 98, 120],
-    "frames":4,
+    "seed": [29, 157],
+    "frames": 4,
     "beta": 0.4,
     "alpha": 0.6,
     "annealing_rate": 0.0001,
     "ratio_step_optim": 1,
     "T_exploration": 1e5,
     "batch_size": 128,
-    "lr": 5e-4,
+    "lr": 1e-4,
     "memory_size": 2e5,
     "gamma": 0.99,
     "eps_init": 1,
     "eps_final": 0.1,
     "update_target": 1000,
-    "max_steps": 500000
+    "max_steps": 300000
 }

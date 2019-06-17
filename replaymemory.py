@@ -14,71 +14,83 @@ import sumtree
 import numpy as np
 
 
-class ReplayMemoryOld(object):
-    def __init__(self, size=1e6):
-        self.transition = collections.namedtuple("Transition",
-                                                 ["curr_state", "action", "reward", "next_state", "terminal"])
-        self.memory = []
-        self.memory_size = size
-
-    def add_transition(self, curr_state, action, reward, next_state, terminal):
-        self.memory.append(self.transition(curr_state, action, reward, next_state, terminal))
-        if len(self.memory) > self.memory_size:
-            self.memory = self.memory[1:]
-
-    def sample(self, batch_size):
-        if batch_size > len(self.memory):
-            return random.sample(self.memory, len(self.memory))
-        else:
-            return random.sample(self.memory, batch_size)
-
-    def __len__(self):
-        return len(self.memory)
-
-
 class ReplayMemory(object):
     def __init__(self, size, seed):
         self.transition = collections.namedtuple("Transition",
                                                  ["curr_state", "action", "reward", "next_state", "terminal",
                                                   "mission"])
-        self.memory = []
         self.stored_transitions = []
-        self.memory_size = size
+        self.memory_size = int(size)
+        self.memory = [None for _ in range(self.memory_size)]
+        self.position = 0
+        self.len = 0
         random.seed(seed)
 
     def add_transition(self, curr_state, action, reward, next_state, terminal, mission):
-        self.memory.append(self.transition(curr_state, action, reward, next_state, terminal, mission))
-        if len(self.memory) > self.memory_size:
-            self.memory = self.memory[1:]
+        self.memory[self.position] = self.transition(curr_state, action, reward, next_state, terminal, mission)
+        # self.memory.append(self.transition(curr_state, action, reward, next_state, terminal, mission))
+        # if len(self.memory) > self.memory_size:
+        #    del self.memory[0]
+
+        # Update the position and the len of the memory size
+        self.position += 1
+        self.len = min(self.memory_size, self.len + 1)
+        if self.position > self.memory_size - 1:
+            self.position = 0
 
     def sample(self, batch_size):
-        if batch_size > len(self.memory):
-            return random.sample(self.memory, len(self.memory))
-        else:
+        if self.len == self.memory_size:
             return random.sample(self.memory, batch_size)
+        else:
+            return random.sample(self.memory[:self.len], batch_size)
 
     def __len__(self):
-        return len(self.memory)
+        return self.len
 
     def store_transition(self, curr_state, action, reward, next_state, terminal, mission):
         self.stored_transitions.append(self.transition(curr_state, action, reward, next_state, terminal, mission))
 
     def add_hindsight_transitions(self, reward, mission):
         # Update the last transition with hindsight replay
-        self.memory.append(self.stored_transitions[-1]._replace(reward=reward, mission=mission))
-        if len(self.memory) > self.memory_size:
-            self.memory = self.memory[1:]
+        self.memory[self.position] = self.stored_transitions[-1]._replace(reward=reward, mission=mission)
+        # Update the position and the len of the memory size
+        self.position += 1
+        self.len = min(self.memory_size, self.len + 1)
+        if self.position > self.memory_size - 1:
+            self.position = 0
         # Update all the transitions of the current episode with hindsight replay
         for transition in self.stored_transitions[:-1]:
-            self.memory.append(transition._replace(mission=mission))
-            if len(self.memory) > self.memory_size:
-                self.memory = self.memory[1:]
+            self.memory[self.position] = transition._replace(mission=mission)
+            # Update the position and the len of the memory size
+            self.position += 1
+            self.len = min(self.memory_size, self.len + 1)
+            if self.position > self.memory_size - 1:
+                self.position = 0
 
         self.erase_stored_transitions()
 
     def erase_stored_transitions(self):
         self.stored_transitions = []
 
+
+class ReplayMemoryIMC(object):
+    def __init__(self, seed):
+        self.imc = collections.namedtuple("ImMis",
+                                                 ["state", "mission", "target"])
+        self.memory = []
+        random.seed(seed)
+
+    def add_data(self, curr_state, mission, target):
+        self.memory.append(self.imc(curr_state, mission, target))
+
+    def sample(self, batch_size):
+        if len(self.memory) < batch_size:
+            return random.sample(self.memory, batch_size)
+        else:
+            return random.sample(self.memory, batch_size)
+
+    def __len__(self):
+        return len(self.memory)
 
 class ReplayMemoryPER(object):
     def __init__(self, size, alpha=0.6, beta=0.4, eps=0.01, annealing_rate=0.001):

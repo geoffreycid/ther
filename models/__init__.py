@@ -5,3 +5,5 @@ from models.doubledqnper import *
 from models.doubledqnher import *
 from models.dqnper import *
 from models.dqncartpole import *
+from models.doubledqnpredher import *
+from models.doubledqnimc import *

@@ -7,7 +7,7 @@ import torch.nn.functional as F
 
 class DoubleDQNPER(nn.Module):
 
-    def __init__(self, h, w, c, n_actions, frames, dim_tokenizer, device):
+    def __init__(self, h, w, c, n_actions, frames, lr, dim_tokenizer, device):
         """
         h: height of the screen
         w: width of the screen
@@ -53,6 +53,8 @@ class DoubleDQNPER(nn.Module):
         #    nn.Linear(in_features=self.embedded_dim, out_features=64)
         )
 
+        self.optimizer = torch.optim.RMSprop(self.parameters(), lr=lr)
+
     def forward(self, state):
         out_conv = self.conv_net(state["image"])
         flatten = out_conv.view(out_conv.shape[0], -1)
@@ -70,7 +72,7 @@ class DoubleDQNPER(nn.Module):
         return action
 
     # Optimize the model
-    def optimize_model(self, memory, target_net, optimizer, dict_agent):
+    def optimize_model(self, memory, target_net, dict_agent):
         if len(memory) < dict_agent["batch_size"]:
             return
         # Sample from the memory replay
@@ -112,11 +114,11 @@ class DoubleDQNPER(nn.Module):
         criterion = F.smooth_l1_loss(predictions, targets, reduction='none') * is_weights
         loss = criterion.mean()
         # Optimization
-        optimizer.zero_grad()
+        self.optimizer.zero_grad()
         loss.backward()
         # Keep the gradient between (-1,1). Works like one uses L1 loss for large gradients (see Huber loss)
         for param in self.parameters():
             param.grad.data.clamp_(-1, 1)
         # Do the gradient descent step
-        optimizer.step()
+        self.optimizer.step()
 

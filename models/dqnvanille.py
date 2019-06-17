@@ -25,7 +25,7 @@ class BaseAgent(nn.Module):
 
 
 class DQNVanille(BaseAgent):
-    def __init__(self, h, w, c, n_actions, frames, device):
+    def __init__(self, h, w, c, n_actions, lr, frames, device):
         """
         dim_tokenizer is not used !
         h: height of the screen
@@ -59,13 +59,15 @@ class DQNVanille(BaseAgent):
             nn.Linear(in_features=64, out_features=n_actions)
         )
 
+        self.optimizer = torch.optim.RMSprop(self.parameters(), lr=lr)
+
     def forward(self, state):
         out = self.net(state["image"])
         flatten = out.view(out.shape[0], -1)
         return self.fc(flatten)
 
     # Optimize the model
-    def optimize_model(self, memory, target_net, optimizer, dict_agent):
+    def optimize_model(self, memory, target_net, dict_agent):
         if len(memory) < dict_agent["batch_size"]:
             return
         # Sample from the memory replay
@@ -96,10 +98,10 @@ class DQNVanille(BaseAgent):
         # Loss
         loss = F.smooth_l1_loss(predictions, targets)
         # Optimization
-        optimizer.zero_grad()
+        self.optimizer.zero_grad()
         loss.backward()
         # Keep the gradient between (-1,1). Works like one uses L1 loss for large gradients (see Huber loss)
         for param in self.parameters():
             param.grad.data.clamp_(-1, 1)
         # Do the gradient descent step
-        optimizer.step()
+        self.optimizer.step()

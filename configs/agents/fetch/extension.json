@@ -1,6 +1,6 @@
 {
-    "seed": [46, 169, 37, 102, 163],
-    "T_exploration": 200000,
-    "memory_size": 400000,
-    "max_steps": 1000000
+    "seed": [46, 169],
+    "T_exploration": 50000,
+    "memory_size": 100000,
+    "max_steps": 300000
 }

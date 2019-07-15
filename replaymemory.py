@@ -74,10 +74,13 @@ class ReplayMemory(object):
 
 
 class ReplayMemoryIMC(object):
-    def __init__(self, seed):
+    def __init__(self, skew_ratio, seed):
         self.imc = collections.namedtuple("ImMis",
                                                  ["state", "mission", "target"])
         self.memory = []
+        self.stored_data = []
+        self.list_of_targets = []
+        self.skew_ratio = skew_ratio
         random.seed(seed)
 
     def add_data(self, curr_state, mission, target):
@@ -87,10 +90,28 @@ class ReplayMemoryIMC(object):
         if len(self.memory) < batch_size:
             return random.sample(self.memory, batch_size)
         else:
-            return random.sample(self.memory, batch_size)
+            np_targets = np.array(self.list_of_targets, dtype=np.float)
+            np_targets[np_targets == 1] = self.skew_ratio / sum(np_targets == 1)
+            np_targets[np_targets == 0] = (1-self.skew_ratio) / sum(np_targets == 0)
+            sampled_idxs = np.random.choice(np.arange(len(np_targets)),
+                                               size=batch_size, replace=False, p=np_targets)
+            op = operator.itemgetter(*sampled_idxs)
+            return op(self.memory)
 
     def __len__(self):
         return len(self.memory)
+
+    def store_data(self, curr_state, mission, target):
+        self.stored_data.append(self.imc(curr_state, mission, target))
+
+    def add_stored_data(self, target, n_keep_correspondence):
+        n = min(len(self.stored_data), n_keep_correspondence)
+        for i in range(n):
+            self.memory.append(self.stored_data[i]._replace(target=target))
+        self.erase_stored_data()
+
+    def erase_stored_data(self):
+        self.stored_data = []
 
 class ReplayMemoryPER(object):
     def __init__(self, size, alpha=0.6, beta=0.4, eps=0.01, annealing_rate=0.001):
@@ -206,7 +227,9 @@ class PrioritizedReplayMemory(object):
             self.position = 0
 
     def sample(self, batch_size):
-        normalized_priorities = self.priorities[:self.len] / self.priorities[:self.len].sum()
+        normalized_priorities = np.power(self.priorities[:self.len], self.alpha) + self.eps
+        normalized_priorities /= normalized_priorities.sum()
+        #normalized_priorities = self.priorities[:self.len] / self.priorities[:self.len].sum()
         transition_idxs = np.random.choice(np.arange(self.len),
                                            size=batch_size, replace=False, p=normalized_priorities)
         self.beta = min(1, self.beta + self.annealing_rate)
@@ -216,7 +239,7 @@ class PrioritizedReplayMemory(object):
         return op(self.memory), is_weights, transition_idxs
 
     def update(self, idxs, errors):
-        errors = np.power(errors, self.alpha) + self.eps
+        #errors = np.power(errors, self.alpha) + self.eps
         self.priorities[idxs] = errors
 
     def __len__(self):

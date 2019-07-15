@@ -7,7 +7,7 @@ import torch.nn.functional as F
 
 class DoubleDQNIMC(nn.Module):
 
-    def __init__(self, h, w, c, n_actions, frames, lr, dict_env, dim_tokenizer, device):
+    def __init__(self, h, w, c, n_actions, frames, lr, lr_imc, dim_tokenizer, device):
         """
         h: height of the screen
         w: width of the screen
@@ -41,30 +41,35 @@ class DoubleDQNIMC(nn.Module):
         size_after_conv = 64 * output_conv_h * output_conv_w
 
         self.fc = nn.Sequential(
-            nn.Linear(in_features=(size_after_conv+64), out_features=64),
+            nn.Linear(in_features=(size_after_conv+self.embedded_dim), out_features=64),
             nn.ReLU(),
             nn.Linear(in_features=64, out_features=n_actions)
         )
 
         self.language_net = nn.Sequential(
-            nn.Linear(in_features=self.dim_tokenizer, out_features=self.embedded_dim),
-            nn.ReLU(),
-            nn.Linear(in_features=self.embedded_dim, out_features=64)
+            nn.Linear(in_features=self.dim_tokenizer, out_features=self.embedded_dim)
         )
 
         self.embedding_image_conv = nn.Sequential(
+            nn.Conv2d(c * frames, 16, (2, 2)),
             nn.ReLU(),
-            nn.Conv2d(32, 64, (2, 2))
+            nn.MaxPool2d((2, 2)),
+            nn.Conv2d(16, 32, (2, 2)),
+            nn.ReLU(),
+            nn.Conv2d(32, 64, (2, 2)),
+            nn.ReLU()
         )
 
         self.embedding_image_fc = nn.Sequential(
-            nn.Linear(in_features=size_after_conv, out_features=64)
+            nn.Linear(in_features=64, out_features=128)
         )
 
         self.embedding_mission_fc = nn.Sequential(
-            nn.Linear(in_features=64, out_features=64)
-
+            nn.Linear(in_features=dim_tokenizer, out_features=64),
+            nn.ReLU(),
+            nn.Linear(in_features=64, out_features=128)
         )
+
 
         self.tiny_fc = nn.Linear(in_features=1, out_features=2)
 
@@ -75,21 +80,27 @@ class DoubleDQNIMC(nn.Module):
                         + list(self.language_net.parameters()) + list(self.fc.parameters())
         self.optimizer_agent = torch.optim.RMSprop(self.params_agent, lr=lr)
 
-        self.params_imc = list(self.conv_net_1.parameters()) + list(self.language_net.parameters()) \
-                          + list(self.embedding_image_conv.parameters()) \
-                          + list(self.embedding_image_fc.parameters()) + list(self.embedding_mission_fc.parameters()) \
+        #self.params_imc = list(self.conv_net_1.parameters()) + list(self.language_net.parameters()) \
+        #                  + list(self.embedding_image_conv.parameters()) \
+        #                  + list(self.embedding_image_fc.parameters()) + list(self.embedding_mission_fc.parameters()) \
+        #                  + list(self.tiny_fc.parameters())
+        self.params_imc = list(self.embedding_image_conv.parameters()) \
+                          + list(self.embedding_image_fc.parameters()) \
+                          + list(self.embedding_mission_fc.parameters()) \
                           + list(self.tiny_fc.parameters())
-        self.optimizer_imc = torch.optim.RMSprop(self.params_imc, lr=lr)
+        self.optimizer_imc = torch.optim.Adam(self.params_imc, lr=lr_imc, weight_decay=1e-6)
 
     def embedding_image(self, batch_state):
-        out_conv = self.embedding_image_conv(self.conv_net_1(batch_state))
+        out_conv = self.embedding_image_conv(batch_state)
         flatten = out_conv.view(out_conv.shape[0], -1)
-        out_fc = self.embedding_image_fc(F.relu(flatten))
+        out_fc = self.embedding_image_fc(flatten)
+        #reshaped = batch_state.view(batch_state.shape[0], -1)
+        #out_fc = self.embedding_image_as_fc(reshaped)
         embedded_image = F.normalize(out_fc, p=2, dim=1)
         return embedded_image
 
     def embedding_mission(self, batch_mission):
-        out = self.embedding_mission_fc(self.language_net(batch_mission))
+        out = self.embedding_mission_fc(batch_mission)
         return F.normalize(out, p=2, dim=1)
 
     def correspondence(self, embedding_image, embedding_mission):
@@ -100,6 +111,14 @@ class DoubleDQNIMC(nn.Module):
         embedded_images = self.embedding_image(batch_state)
         embedded_missions = self.embedding_mission(batch_mission)
         return self.correspondence(embedded_images, embedded_missions)
+
+    def find_best_mission(self, state, missions):
+        # Note: state [1, x] and missions [n, y]
+        embedded_state = self.embedding_image(state.repeat(missions.shape[0], 1, 1, 1)).detach()
+        embedded_missions = self.embedding_mission(missions).detach()
+        distances = F.pairwise_distance(embedded_state, embedded_missions)
+        indices_best_missions = torch.argsort(distances, descending=False)
+        return missions[indices_best_missions[0]]
 
     def pred_correspondence(self, state, mission, target):
         """
@@ -127,19 +146,19 @@ class DoubleDQNIMC(nn.Module):
         return action
 
     def optimize_imc(self, memory_imc, dict_agent):
-        if len(memory_imc) < dict_agent["batch_size"]:
+        if len(memory_imc) < dict_agent["batch_size_imc"]:
             return
 
-        imcs = memory_imc.sample(dict_agent["batch_size"])
+        imcs = memory_imc.sample(dict_agent["batch_size_imc"])
 
         batch_imcs = memory_imc.imc(*zip(*imcs))
         batch_state = torch.cat(batch_imcs.state)
         batch_mission = torch.cat(batch_imcs.mission)
         batch_target = torch.cat(batch_imcs.target)
 
-        similarities = self.image_mission_correspondence(batch_state, batch_mission)
+        batch_predictions = self.image_mission_correspondence(batch_state, batch_mission)
 
-        loss = self.criterion(similarities, batch_target)
+        loss = self.criterion(batch_predictions, batch_target)
         self.optimizer_imc.zero_grad()
         loss.backward()
         self.optimizer_imc.step()

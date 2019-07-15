@@ -1,8 +1,8 @@
 {
-  "name": "Fetch-8x8-N2-C6-O6",
+  "name": "Fetch-5x5-N2-C6-S6-O2-seniority",
   "game_type": "fetch",
-  "size": 8,
-  "numObjs": 6,
+  "size": 5,
+  "numObjs": 2,
   "manual": 0,
   "random_target": 1,
   "oneobject": 0,
@@ -13,10 +13,17 @@
     "purple": 3,
     "yellow": 4,
     "grey":5
-},
+  },
   "TYPE_TO_IDX": {
     "key": 0,
     "ball": 1
+  },
+  "SENIORITY_TO_IDX": {
+    "veryyoung": 0,
+    "young": 1,
+    "normal": 2,
+    "old": 3,
+    "veryold": 4
   },
   "env_dir": "/home/gcideron/home/gcideron/visual_her/out",
   "summary_trajectory": 5000,

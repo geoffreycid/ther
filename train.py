@@ -3,6 +3,7 @@ import os
 import numpy as np
 import gym_minigrid.envs.game as game
 import torch
+import torch.nn.functional as F
 import tensorboardX as tb
 
 import models
@@ -17,8 +18,7 @@ def training(dict_env, dict_agent):
     :type dict_agent: dict of the agent
     ;type dict_env: dict of the environment
     """
-    #dict_env = config["dict_env"]
-    #dict_agent = config["dict_agent"]
+
     # Device to use
     if "device" in dict_env:
         device = dict_env["device"]
@@ -29,10 +29,10 @@ def training(dict_env, dict_agent):
     path_save_model = dict_agent["agent_dir"] + "/model_params"
     if not os.path.exists(path_save_model):
         os.makedirs(path_save_model)
-        #os.mkdir(path_save_model)
+        # os.mkdir(path_save_model)
 
     # Summaries (add run{i} for each run)
-    writer = tb.SummaryWriter(dict_agent["agent_dir"]) # + "/logs")
+    writer = tb.SummaryWriter(dict_agent["agent_dir"])  # + "/logs")
 
     # Create the environment
     env = game.game(dict_env, dict_agent)
@@ -48,20 +48,36 @@ def training(dict_env, dict_agent):
     observation = env.reset()
     # height, width, number of channels
     (h, w, c) = observation['image'].shape
+    # the last channel is close/open
+    c = c-1
     # Number and name of actions
     n_actions = env.action_space.n
     action_names = [a.name for a in env.actions]
 
     # Number of types + colors
-    if "COLOR_TO_IDX" and "TYPE_TO_IDX" in dict_env.keys():
+    if "COLOR_TO_IDX" and "TYPE_TO_IDX"  and "SENIORITY_TO_IDX" in dict_env.keys():
         num_colors = len(dict_env["COLOR_TO_IDX"].keys())
         num_types = len(dict_env["TYPE_TO_IDX"].keys())
-        dim_tokenizer = num_colors + num_types
+        num_seniority = len(dict_env["SENIORITY_TO_IDX"].keys())
+        dim_tokenizer = num_colors + num_types + num_seniority
     else:
         # The mission is not used
         dim_tokenizer = 1
 
-    # By default do not use her
+    # List of all possible missions
+    missions_type = F.one_hot(torch.arange(num_types)) #.repeat(num_types, 1)
+    missions_color = F.one_hot(torch.arange(num_colors)) #.repeat(num_colors, 1)
+    missions_seniority = F.one_hot(torch.arange(num_seniority))
+    #all_possible_missions = torch.cat((missions_type, missions_color), dim=1).to(device).float()
+
+    all_possible_missions = []
+    for i in range(missions_type.shape[0]):
+        for j in range(missions_color.shape[0]):
+            for k in range(missions_seniority.shape[0]):
+                all_possible_missions.append(torch.cat((missions_type[i], missions_color[j], missions_seniority[k])))
+    all_possible_missions = torch.stack(all_possible_missions, dim=0).to(device).float()
+
+    # By default do not use her and imc
     use_her = 0
     use_imc = 0
 
@@ -87,7 +103,8 @@ def training(dict_env, dict_agent):
         use_her = 1
     if dict_agent["agent"] == "double-dqn-imc":
         agent = models.DoubleDQNIMC
-        params = (h, w, c, n_actions, dict_agent["frames"], dict_agent["lr"], dict_env, dim_tokenizer, device)
+        params = (h, w, c, n_actions, dict_agent["frames"], dict_agent["lr"], dict_agent["lr_imc"],
+                  dict_env, dim_tokenizer, device)
         use_imc = 1
 
     policy_net = agent(*params).to(device)
@@ -104,7 +121,7 @@ def training(dict_env, dict_agent):
         memory = replaymemory.ReplayMemory(size=dict_agent["memory_size"], seed=seed)
 
     if use_imc:
-        memory_imc = replaymemory.ReplayMemoryIMC(seed=seed)
+        memory_imc = replaymemory.ReplayMemoryIMC(skew_ratio=dict_agent["skew_ratio"], seed=seed)
 
     # Max steps per episode
     T_MAX = min(dict_env["T_max"], env.max_steps)
@@ -118,6 +135,9 @@ def training(dict_env, dict_agent):
     discounted_reward_smoothing = 0
     episode_done_smoothing = 0
     length_episode_done_smoothing = 0
+    if use_imc:
+        pred_mission_smoothing = 0
+        episode_done_carrying = 0
 
     # Starting of the training procedure
     max_steps_reached = 0
@@ -132,19 +152,24 @@ def training(dict_env, dict_agent):
         # Erase stored transitions (used for HER)
         if use_her:
             memory.erase_stored_transitions()
-        
+        if use_imc:
+            memory_imc.erase_stored_data()
+
         # One hot encoding of the type and the color of the target object
         target = {
             "color": env.targetColor,
-            "type": env.targetType
+            "type": env.targetType,
+            "seniority": env.targetSeniority
         }
-        state["mission"] = utils.mission_tokenizer(dict_env, target, dim_tokenizer).to(device)
+        state["mission"] = utils.mission_tokenizer(dict_env, target).to(device)
 
         # Stacking frames to make a state
+        observation["image"] = observation["image"][:, :, :c]
         state_frames = [observation["image"]] * dict_agent["frames"]
-        state_frames = torch.as_tensor(np.concatenate(state_frames, axis=2).transpose(), dtype=torch.float32)[None, :]
+        state_frames = np.concatenate(state_frames, axis=2).transpose((2, 0, 1))
+        state_frames = torch.as_tensor(state_frames, dtype=torch.float32).unsqueeze(0)
         state["image"] = state_frames.to(device)
-        
+
         for t in range(T_MAX):
             # Update the current state
             curr_state = state.copy()
@@ -160,9 +185,9 @@ def training(dict_env, dict_agent):
             out_step = env.step(action)
             observation, reward, terminal, return_her, is_carrying \
                 = out_step[0], out_step[1], out_step[2], out_step[3], out_step[4]
-
+            observation["image"] = observation["image"][:, :, :c]
             observation_prep \
-                = torch.as_tensor(observation['image'].transpose(), dtype=torch.float32, device=device)[None, :]
+                = torch.as_tensor(observation["image"].transpose((2, 0, 1)), dtype=torch.float32, device=device).unsqueeze(0)
 
             state_frames = torch.cat((curr_state["image"][:, c:], observation_prep), dim=1)
             state["image"] = state_frames
@@ -175,18 +200,20 @@ def training(dict_env, dict_agent):
             if use_her:
                 memory.store_transition(curr_state["image"], action, reward,
                                         state["image"], terminal, curr_state["mission"])
+            if use_imc:
+                memory_imc.store_data(curr_state["image"][:, -6:], curr_state["mission"], 0)
 
             # Optimization
             if steps_done % dict_agent["ratio_step_optim"] == 0:
                 policy_net.optimize_model(memory, target_net, dict_agent)
 
-            if use_imc and steps_done % dict_agent["update_imc"]:
+            if use_imc and steps_done % dict_agent["update_imc"] == 0:
                 policy_net.optimize_imc(memory_imc, dict_agent)
 
             # Update the target network
             if (steps_done + 1) % dict_agent["update_target"] == 0:
                 target_net.load_state_dict(policy_net.state_dict())
-                #writer.add_scalar("time target updated", steps_done + 1, global_step=episode)
+                # writer.add_scalar("time target updated", steps_done + 1, global_step=episode)
 
             # Cumulative reward: attention the env gives a reward = 1- 0.9 * step_count/max_steps
             reward_ep += reward
@@ -226,6 +253,14 @@ def training(dict_env, dict_agent):
                 discounted_reward_smoothing = 0
                 episode_done_smoothing = 0
                 length_episode_done_smoothing = 0
+                if use_imc:
+                    writer.add_scalar("Mean acc of pred per episode during {} steps".format(dict_env["smoothing"]),
+                                      pred_mission_smoothing / episode_done_carrying, global_step=steps_done)
+                    writer.add_scalar("length memory imc", len(memory_imc), global_step=steps_done)
+                    writer.add_scalar("Percentage of positive examples", np.mean(memory_imc.list_of_targets),
+                                      global_step=steps_done)
+                    pred_mission_smoothing = 0
+                    episode_done_carrying = 0
 
             if steps_done > dict_agent["max_steps"] - 1:
                 max_steps_reached = 1
@@ -236,25 +271,35 @@ def training(dict_env, dict_agent):
                 if use_imc and is_carrying:
                     if reward == 0:
                         target_imc = torch.tensor([0], dtype=torch.long).to(device)
+                        memory_imc.list_of_targets += \
+                            [0] * min(len(memory_imc.stored_data), dict_agent["n_keep_correspondence"])
                     else:
                         target_imc = torch.tensor([1], dtype=torch.long).to(device)
-                    memory_imc.add_data(curr_state["image"], curr_state["mission"], target_imc)
-                print("prediction: {}, reward {}"
-                      .format(policy_net.pred_correspondence(curr_state["image"], curr_state["mission"], target_imc).cpu().detach().numpy(), reward))
-
+                        memory_imc.list_of_targets += \
+                            [1] * min(len(memory_imc.stored_data), dict_agent["n_keep_correspondence"])
+                    memory_imc.add_stored_data(target_imc, dict_agent["n_keep_correspondence"])
+                if use_imc:
+                    #print("prediction: {}, reward {}"
+                    #      .format(policy_net.pred_correspondence(curr_state["image"], curr_state["mission"],
+                    #                                             target_imc).cpu().detach().numpy(), reward))
+                    #print("Best found mission", policy_net.find_best_mission(state["image"], all_possible_missions))
+                    #print("Current mission", curr_state["mission"])
+                    pred_mission_smoothing += torch.equal(torch.squeeze(curr_state["mission"], dim=0),
+                                                          policy_net.find_best_mission(state["image"][:, -6:],
+                                                                                       all_possible_missions))
+                    episode_done_carrying += 1
                 if return_her and use_her:
-                    hindsight_reward = out_step[4]
-                    hindsight_target = out_step[5]
-                    mission = utils.mission_tokenizer(dict_env, hindsight_target, dim_tokenizer).to(device)
+                    hindsight_reward = out_step[5]
+                    hindsight_target = out_step[6]
+                    mission = utils.mission_tokenizer(dict_env, hindsight_target).to(device)
                     memory.add_hindsight_transitions(reward=hindsight_reward, mission=mission)
                 break
 
         # Length and reward of an episode
-        #writer.add_scalar("length episode", t, global_step=episode)
-        #writer.add_scalar("Reward per episode", reward_ep, global_step=episode)
+        # writer.add_scalar("length episode", t, global_step=episode)
+        # writer.add_scalar("Reward per episode", reward_ep, global_step=episode)
         episode_done_smoothing += 1
         length_episode_done_smoothing += t
-
 
         # Save policy_net's parameters
         if episode % dict_env["save_model"] == 0:
@@ -270,10 +315,10 @@ def training(dict_env, dict_agent):
 
 # To debug :
 
-#with open('configs/envs/fetchdebug.json', 'r') as myfile:
+#with open('configs/envs/fetch.json', 'r') as myfile:
 #    config_env = myfile.read()
 
-#with open('configs/agents/fetch/doubledqnimc.json', 'r') as myfile:
+#with open('configs/agents/fetch/doubledqnper.json', 'r') as myfile:
 #    config_agent = myfile.read()
 
 #import json

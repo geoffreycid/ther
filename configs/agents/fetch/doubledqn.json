@@ -1,16 +1,17 @@
 {
     "name": "double-dqn",
     "agent": "double-dqn",
-    "seed": [29, 157],
+    "seed": 29,
     "frames": 4,
     "ratio_step_optim": 1,
     "T_exploration": 1e5,
     "batch_size": 128,
-    "lr": 1e-4,
+    "lr": 1e-5,
     "memory_size": 2e5,
     "gamma": 0.99,
     "eps_init": 1,
-    "eps_final": 0.05,
+    "eps_final": 0.1,
     "update_target": 1000,
-    "max_steps": 300000
+    "max_steps": 300000,
+    "use_memory": 1
 }

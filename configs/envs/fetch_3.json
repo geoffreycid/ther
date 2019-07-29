@@ -1,9 +1,8 @@
 {
-  "name": "Fetch-14x14-N2-C6-SE5-SI5-O4-T-max-50-replaybuffer-explo-100K-new-terminal-changed",
+  "name": "Fetch-8x8-N2-C4-SE3-SI3-O6-T-max-40-replaybuffer-explo-80K",
   "game_type": "fetch",
-  "size": 14,
-  "numObjs": 4,
-  "T_max": 50,
+  "size": 8,
+  "numObjs": 6,
   "manual": 0,
   "random_target": 1,
   "oneobject": 0,
@@ -11,9 +10,7 @@
     "red": 0,
     "green": 1,
     "blue": 2,
-    "purple": 3,
-    "yellow": 4,
-    "grey": 5
+    "purple": 3
   },
   "TYPE_TO_IDX": {
     "key": 0,
@@ -22,22 +19,19 @@
   "SENIORITY_TO_IDX": {
     "veryyoung": 0,
     "young": 1,
-    "middle": 2,
-    "old": 3,
-    "veryold": 4
+    "middle": 2
   },
   "SIZE_TO_IDX": {
     "verysmall": 0,
     "small": 1,
-    "average": 2,
-    "big": 3,
-    "verybig": 4
+    "average": 2
   },
   "env_dir": "/home/gcideron/home/gcideron/visual_her/out",
   "summary_trajectory": 5000,
   "summary_mean_max_q": 1000,
   "save_model": 100000,
   "smoothing": 5000,
+  "T_max": 40,
   "full_idx": {
     "red": 0,
     "green": 1,

@@ -50,7 +50,12 @@ class ReplayMemory(object):
     def store_transition(self, curr_state, action, reward, next_state, terminal, mission):
         self.stored_transitions.append(self.transition(curr_state, action, reward, next_state, terminal, mission))
 
-    def add_hindsight_transitions(self, reward, mission):
+    def add_hindsight_transitions(self, reward, mission, keep_last_transitions):
+        # keep_last_transitions = 0 => keep the whole episode
+        if keep_last_transitions == 0:
+            keep = 0
+        elif keep_last_transitions > 1:
+            keep = max(len(self.stored_transitions) - keep_last_transitions, 0)
         # Update the last transition with hindsight replay
         self.memory[self.position] = self.stored_transitions[-1]._replace(reward=reward, mission=mission)
         # Update the position and the len of the memory size
@@ -59,7 +64,7 @@ class ReplayMemory(object):
         if self.position > self.memory_size - 1:
             self.position = 0
         # Update all the transitions of the current episode with hindsight replay
-        for transition in self.stored_transitions[:-1]:
+        for transition in self.stored_transitions[keep:-1]:
             self.memory[self.position] = transition._replace(mission=mission)
             # Update the position and the len of the memory size
             self.position += 1
@@ -191,7 +196,7 @@ class ReplayMemoryPER(object):
 
 
 class PrioritizedReplayMemory(object):
-    def __init__(self, size, seed, alpha, beta, eps=1e-6, annealing_rate=0.0001):
+    def __init__(self, size, seed, alpha, beta, annealing_rate, eps=1e-6):
         self.transition = collections.namedtuple("Transition",
                                                  ["curr_state", "action", "reward", "next_state", "terminal",
                                                   "mission"])
@@ -214,7 +219,7 @@ class PrioritizedReplayMemory(object):
         self.memory[self.position] = \
             self.transition(curr_state=curr_state, action=action, reward=reward, next_state=next_state,
                             terminal=terminal, mission=mission)
-        # Add the maximal reward
+        # Add the maximal priority
         if self.len == 0:
             self.priorities[self.position] = 1
         else:
@@ -227,19 +232,19 @@ class PrioritizedReplayMemory(object):
             self.position = 0
 
     def sample(self, batch_size):
-        normalized_priorities = np.power(self.priorities[:self.len], self.alpha) + self.eps
-        normalized_priorities /= normalized_priorities.sum()
-        #normalized_priorities = self.priorities[:self.len] / self.priorities[:self.len].sum()
+        #normalized_priorities = np.power(self.priorities[:self.len], self.alpha) + self.eps
+        #normalized_priorities /= normalized_priorities.sum()
+        normalized_priorities = self.priorities[:self.len] / self.priorities[:self.len].sum()
         transition_idxs = np.random.choice(np.arange(self.len),
                                            size=batch_size, replace=False, p=normalized_priorities)
         self.beta = min(1, self.beta + self.annealing_rate)
-        is_weights = np.power(self.memory_size * self.priorities[transition_idxs], -self.beta)
+        is_weights = np.power(self.len * self.priorities[transition_idxs], -self.beta)
         is_weights = is_weights / is_weights.max()
         op = operator.itemgetter(*transition_idxs)
         return op(self.memory), is_weights, transition_idxs
 
     def update(self, idxs, errors):
-        #errors = np.power(errors, self.alpha) + self.eps
+        errors = np.power(errors, self.alpha) + self.eps
         self.priorities[idxs] = errors
 
     def __len__(self):

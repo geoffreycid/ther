@@ -23,9 +23,16 @@ dict_env = {
     "SENIORITY_TO_IDX": {
         'veryyoung': 0,
         'young': 1,
-        'normal': 2,
+        'middle': 2,
         'old': 3,
         'veryold': 4,
+    },
+    "SIZE_TO_IDX": {
+        "verysmall": 0,
+        "small": 1,
+        "average": 2,
+        "big": 3,
+        "verybig": 4
     },
     "T_max": 500,
 }

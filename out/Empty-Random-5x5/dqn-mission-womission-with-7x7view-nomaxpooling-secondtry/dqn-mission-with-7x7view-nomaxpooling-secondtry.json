@@ -1,1 +1,0 @@
-{"eps_init": 1, "gamma": 0.99, "frames": 1, "batch_size": 128, "update_target": 50, "T_exploration": 20000.0, "ratio_step_optim": 1, "name": "dqn-mission-with-7x7view-nomaxpooling-secondtry", "memory_size": 16384, "eps_final": 0.05, "agent": "dqn-mission", "lr": 0.001}

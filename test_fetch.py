@@ -11,7 +11,7 @@ env = gym.make("MiniGrid-Fetch-5x5-N2-v0")
 observation = env.reset()
 
 for _ in range(10000):
-
+    env.render()
     action = env.action_space.sample()
     observation, reward, done, info = env.step(action)
     im = observation["image"]

@@ -1,1 +1,0 @@
-{"agent": "dqn-mission", "T_exploration": 20000.0, "batch_size": 128, "memory_size": 16384, "name": "dqn-mission-with-7x7view-nomaxpooling-thirdtry", "eps_final": 0.05, "update_target": 50, "ratio_step_optim": 1, "frames": 1, "eps_init": 1, "lr": 0.001, "gamma": 0.99}

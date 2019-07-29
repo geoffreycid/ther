@@ -1,1 +1,0 @@
-{"summary_max_q": 10, "summary_q": [20, 40, 60, 80, 100, 200, 300, 400, 500, 600, 700, 900, 1000, 1499], "T_max": 250, "save_model": 50, "env": "CartPole-v0", "name": "CartPole", "device": "cpu", "run": 0, "episodes": 1500, "env_dir": "/Users/geoffreycideron/Documents/SequeL/visual_her/out"}

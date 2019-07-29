@@ -5,26 +5,396 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="add15a8a-23b5-42db-be32-4020ad8269cc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/visual_her.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/visual_her.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aggregator" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aggregator/aggregator.py" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator/aggregator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/collect_samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/collect_samples.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configs/agents/fetch/doubledqn.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/agents/fetch/doubledqn.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configs/agents/fetch/doubledqnher.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/agents/fetch/doubledqnher.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configs/agents/fetch/doubledqnimc.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/agents/fetch/doubledqnimc.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configs/agents/fetch/doubledqnper.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/agents/fetch/doubledqnper.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/agents/fetch/doubledqnpredher.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/agents/fetch/doubledqnpredher.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configs/agents/fetch/extension.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/agents/fetch/extension.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configs/agents/fetch/gridsearch.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/agents/fetch/gridsearch.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configs/envs/fetch.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/envs/fetch.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gym_minigrid" beforeDir="false" afterPath="$PROJECT_DIR$/gym_minigrid" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym_minigrid/envs/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gym_minigrid/envs/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym_minigrid/envs/fetchworegister.py" beforeDir="false" afterPath="$PROJECT_DIR$/gym_minigrid/envs/fetchworegister.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py" beforeDir="false" afterPath="$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gym_minigrid/envs/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/gym_minigrid/envs/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gym_minigrid/minigridattrib.py" beforeDir="false" afterPath="$PROJECT_DIR$/gym_minigrid/minigridattrib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/doubledqn.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/doubledqn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/doubledqnher.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/doubledqnher.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/doubledqnimc.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/doubledqnimc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/doubledqnper.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/doubledqnper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/predmissionnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/predmissionnet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/CartPole.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/dqn-baseline-cartpole-explo.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/logs/events.out.tfevents.1558014184.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_1050.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_1100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_1150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_1200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_1250.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_1300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_1350.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_1400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_1450.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_1500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_250.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_350.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_450.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_50.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_550.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_600.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_650.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_700.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_750.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_800.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_850.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_900.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole-explo/model_params/model_ep_950.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/dqn-baseline-cartpole.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/logs/events.out.tfevents.1558013894.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_250.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_350.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_450.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_50.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_550.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_600.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_650.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/CartPole/dqn-baseline-cartpole/model_params/model_ep_700.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/Empty-Random-5x5.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/double-dqn-mission-per-with-7x7view-nomaxpooling-updatetarget10/double-dqn-mission-per-with-7x7view-nomaxpooling-updatetarget10.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/double-dqn-mission-per-with-7x7view-nomaxpooling-updatetarget10/logs/events.out.tfevents.1558537941.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/double-dqn-mission-per-with-7x7view-nomaxpooling-updatetarget10/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/double-dqn-mission-per-with-7x7view-nomaxpooling-updatetarget10/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/double-dqn-womission-per-with-7x7view-nomaxpooling-updatetarget10/double-dqn-womission-per-with-7x7view-nomaxpooling-updatetarget10.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/double-dqn-womission-per-with-7x7view-nomaxpooling-updatetarget10/logs/events.out.tfevents.1558536397.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/double-dqn-womission-per-with-7x7view-nomaxpooling-updatetarget10/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/double-dqn-womission-per-with-7x7view-nomaxpooling-updatetarget10/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-per-with-7x7view-nomaxpooling-updatetarget10/dqn-mission-per-with-7x7view-nomaxpooling-updatetarget10.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-per-with-7x7view-nomaxpooling-updatetarget10/logs/events.out.tfevents.1558530457.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-per-with-7x7view-nomaxpooling-updatetarget10/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-per-with-7x7view-nomaxpooling-updatetarget10/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-with-7x7view-nomaxpooling-thirdtry/dqn-mission-with-7x7view-nomaxpooling-thirdtry.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-with-7x7view-nomaxpooling-thirdtry/logs/events.out.tfevents.1558528169.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-with-7x7view-nomaxpooling-thirdtry/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-with-7x7view-nomaxpooling/dqn-mission-with-7x7view-nomaxpooling.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-with-7x7view-nomaxpooling/logs/events.out.tfevents.1558524878.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-with-7x7view-nomaxpooling/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-womission-with-7x7view-nomaxpooling-fourthtry-updatetarget10/dqn-mission-womission-with-7x7view-nomaxpooling-fourthtry-updatetarget10.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-womission-with-7x7view-nomaxpooling-fourthtry-updatetarget10/logs/events.out.tfevents.1558529909.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-womission-with-7x7view-nomaxpooling-fourthtry-updatetarget10/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-womission-with-7x7view-nomaxpooling-fourthtry-updatetarget10/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-womission-with-7x7view-nomaxpooling-secondtry/dqn-mission-with-7x7view-nomaxpooling-secondtry.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-womission-with-7x7view-nomaxpooling-secondtry/logs/events.out.tfevents.1558527289.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-womission-with-7x7view-nomaxpooling-secondtry/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-womission-with-7x7view-nomaxpooling-secondtry/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-womission-with-7x7view-nomaxpooling/dqn-mission-womission-with-7x7view-nomaxpooling.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-womission-with-7x7view-nomaxpooling/logs/events.out.tfevents.1558525767.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission-womission-with-7x7view-nomaxpooling/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission/dqn-mission.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission/logs/events.out.tfevents.1558516027.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-mission/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/dqn-per-power-2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/logs/events.out.tfevents.1558478996.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_10.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_110.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_120.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_130.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_140.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_160.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_170.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_180.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_190.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_20.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_210.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_220.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_230.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_240.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_250.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_260.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_270.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_280.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_290.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_30.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_310.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_320.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_330.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_340.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_350.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_360.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_370.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_380.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_390.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_40.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_410.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_420.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_430.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_440.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_450.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_460.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_470.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_480.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_490.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_50.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_510.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_520.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_530.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_540.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_550.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_560.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_570.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_580.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_590.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_60.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_600.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_610.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_620.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_630.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_640.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_650.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_660.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_670.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_680.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_690.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_70.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_700.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_710.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_720.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_730.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_740.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_750.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_760.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_770.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_780.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_790.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_80.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_800.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_810.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_820.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_830.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_840.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_850.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_860.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_870.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_880.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_890.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_90.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_900.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_910.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_920.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_930.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_940.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_950.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_960.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_970.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_980.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-per-wrong-is-weights/model_params/model_ep_990.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille-with-7x7view-nomaxpooling-secondtry/dqn-vanille-with-7x7view-nomaxpooling-secondtry.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille-with-7x7view-nomaxpooling-secondtry/logs/events.out.tfevents.1558526902.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille-with-7x7view-nomaxpooling-secondtry/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille-with-7x7view-nomaxpooling-secondtry/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille-with-7x7view-nomaxpooling/dqn-vanille-with-7x7view-nomaxpooling.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille-with-7x7view-nomaxpooling/logs/events.out.tfevents.1558519528.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille-with-7x7view-nomaxpooling/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille-with-7x7view-nomaxpooling/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille-with-capped-view/dqn-vanille-with-capped-view.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille-with-capped-view/logs/events.out.tfevents.1558519111.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille-with-capped-view/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille-with-capped-view/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille/dqn-vanille.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille/logs/events.out.tfevents.1558517519.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-vanille/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-view-agent/dqn-view-agent.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-view-agent/logs/events.out.tfevents.1558346271.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-view-agent/model_params/model_ep_100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-view-agent/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-view-agent/model_params/model_ep_200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-view-agent/model_params/model_ep_300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-view-agent/model_params/model_ep_400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-view-agent/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-view-agent/model_params/model_ep_600.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-view-agent/model_params/model_ep_700.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-view-agent/model_params/model_ep_800.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-view-agent/model_params/model_ep_900.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-wo-mission/dqn-wo-mission.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-wo-mission/logs/events.out.tfevents.1558516714.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-wo-mission/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-womission-per-with-7x7view-nomaxpooling-updatetarget10/dqn-womission-per-with-7x7view-nomaxpooling-updatetarget10.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Empty-Random-5x5/dqn-womission-per-with-7x7view-nomaxpooling-updatetarget10/logs/events.out.tfevents.1558531732.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/dqn-baseline-optim-method.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/logs/events.out.tfevents.1558016701.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_1050.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_1100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_1150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_1200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_1250.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_1300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_1350.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_1400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_1450.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_1500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_250.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_350.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_450.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_50.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_550.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_600.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_650.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_700.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_750.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_800.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_850.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_900.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline-optim-method/model_params/model_ep_950.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/dqn-baseline.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/logs/events.out.tfevents.1557995196.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_1050.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_1100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_1150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_1200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_1250.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_1300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_1350.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_1400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_1450.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_1500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_250.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_350.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_450.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_50.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_550.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_600.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_650.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_700.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_750.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_800.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_850.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_900.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-5x5-v0-frames-1-1500-ep/dqn-baseline/model_params/model_ep_950.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/dqn-baseline-1500-explo-low-lr.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/logs/events.out.tfevents.1558006697.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_1000.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_1050.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_1100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_1150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_1200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_1250.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_1300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_1350.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_1400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_1450.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_1500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_250.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_350.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_450.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_50.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_550.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_600.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_650.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_700.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_750.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_800.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_850.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_900.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500-explo-low-lr/model_params/model_ep_950.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/dqn-baseline-1500.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/logs/events.out.tfevents.1558001647.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_250.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_350.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_450.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_50.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_550.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_600.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_650.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_700.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_750.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-frames-1-1500-ep/dqn-baseline-1500/model_params/model_ep_800.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/MiniGrid-Empty-Random-8x8-v0-vanille.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/dqn-baseline-2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/logs/events.out.tfevents.1557870725.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/logs/events.out.tfevents.1557928887.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/logs/events.out.tfevents.1557930109.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/logs/events.out.tfevents.1557930453.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/logs/events.out.tfevents.1557930754.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/logs/events.out.tfevents.1557930999.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/logs/events.out.tfevents.1557932270.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/logs/events.out.tfevents.1557932563.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/model_params/model_ep_10.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/model_params/model_ep_2.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/model_params/model_ep_4.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/model_params/model_ep_6.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-2/model_params/model_ep_8.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-3/dqn-baseline-3.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-3/logs/events.out.tfevents.1557937835.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-3/model_params/model_ep_100.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-3/model_params/model_ep_150.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-3/model_params/model_ep_200.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-3/model_params/model_ep_250.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-3/model_params/model_ep_300.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-3/model_params/model_ep_350.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-3/model_params/model_ep_400.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-3/model_params/model_ep_450.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-3/model_params/model_ep_50.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline-3/model_params/model_ep_500.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline/dqn-baseline.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/MiniGrid-Empty-Random-8x8-v0-vanille/dqn-baseline/logs/events.out.tfevents.1557867669.MacBook-Pro-de-Geoffrey.local" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/replaymemory.py" beforeDir="false" afterPath="$PROJECT_DIR$/replaymemory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/summaryutils.py" beforeDir="false" afterPath="$PROJECT_DIR$/summaryutils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_fetch.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_fetch.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,79 +406,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/train.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="851">
-              <caret line="329" column="1" selection-start-line="329" selection-start-column="1" selection-end-line="329" selection-end-column="1" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/configs/agents/fetch/doubledqnper.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="27" lean-forward="true" selection-start-line="1" selection-start-column="27" selection-end-line="1" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/models/doubledqnimc.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="161" column="38" lean-forward="true" selection-start-line="161" selection-start-column="38" selection-end-line="161" selection-end-column="38" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/configs/agents/fetch/gridsearch.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/configs/agents/fetch/doubledqnher.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/configs/agents/fetch/doubledqnimc.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/configs/agents/fetch/extension.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/predmissionnet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="64" selection-start-line="64" selection-end-line="102" />
+            <state relative-caret-position="556">
+              <caret line="246" column="39" selection-start-line="246" selection-start-column="39" selection-end-line="246" selection-end-column="39" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -117,19 +418,103 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py">
+        <entry file="file://$PROJECT_DIR$/test_fetch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="825">
-              <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+            <state relative-caret-position="405">
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/configs/envs/fetch.json">
+        <entry file="file://$PROJECT_DIR$/test_2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="4" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
+            <state relative-caret-position="437">
+              <caret line="65" column="22" lean-forward="true" selection-start-line="65" selection-start-column="22" selection-end-line="65" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main_1.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="33" column="33" selection-start-line="33" selection-start-column="33" selection-end-line="33" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main_2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="585">
+              <caret line="43" selection-start-line="43" selection-end-line="44" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/configwrapper.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="25" selection-start-line="25" selection-end-line="26" selection-end-column="40" />
+              <folding>
+                <element signature="e#94#103#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/collect_samples.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="187" column="41" selection-start-line="187" selection-start-column="41" selection-end-line="187" selection-end-column="41" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1695">
+              <caret line="113" column="48" selection-start-line="113" selection-start-column="48" selection-end-line="113" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gym_minigrid/minigridattrib.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="186">
+              <caret line="681" column="14" selection-start-line="681" selection-start-column="8" selection-end-line="681" selection-end-column="14" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="362">
+              <caret line="59" selection-start-line="59" selection-end-line="59" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -140,42 +525,43 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package.json" />
+        <option value="Setup Script" />
         <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>length</find>
-      <find>use_her</find>
-      <find>Ball</find>
-      <find>self.use_her</find>
-      <find>observation</find>
-      <find>COLOR_NAMES</find>
-      <find>TYPE_TO_IDX</find>
-      <find>transpose</find>
-      <find>target_mission</find>
-      <find>c-1</find>
-      <find>mission_token</find>
-      <find>key</find>
-      <find>WorldObj</find>
-      <find>self.mission</find>
-      <find>def encode</find>
-      <find>empty</find>
-      <find>Wall</find>
-      <find>decode</find>
-      <find>ball</find>
-      <find>self.width</find>
-      <find>Grid</find>
-      <find>encode</find>
-      <find>def enco</find>
-      <find>step</find>
-      <find>def step</find>
-      <find>mission</find>
-      <find>SENIORITY_TO_IDX</find>
-      <find>wall</find>
-      <find>seniority=</find>
-      <find>targetSen</find>
+      <find>self.len</find>
+      <find>state</find>
+      <find>select_action</find>
+      <find>policy_net</find>
+      <find>target_net</find>
+      <find>summary_mean</find>
+      <find>self._rew</find>
+      <find>pd.</find>
+      <find>num_types</find>
+      <find>dict_agent</find>
+      <find>skew_ratio</find>
+      <find>smoothing</find>
+      <find>episode_done_ca</find>
+      <find>is_carrying</find>
+      <find>episode_done_smoothin</find>
+      <find>len_test</find>
+      <find>12</find>
+      <find>tuple_data</find>
+      <find>tuple</find>
+      <find>imc</find>
+      <find>len</find>
+      <find>add_scal</find>
+      <find>devi</find>
+      <find>global_</find>
+      <find>loss.ba</find>
+      <find>writer</find>
+      <find>loss</find>
+      <find>device</find>
+      <find>self.actions</find>
+      <find>pickup</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -188,57 +574,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/models/dqnmission.py" />
-        <option value="$PROJECT_DIR$/configenvempty.json" />
-        <option value="$PROJECT_DIR$/configenvfetch.json" />
-        <option value="$PROJECT_DIR$/configs/agents/configdqn.json" />
-        <option value="$PROJECT_DIR$/configs/agents/doubledqnper.json" />
-        <option value="$PROJECT_DIR$/configs/envs/empty.json" />
-        <option value="$PROJECT_DIR$/configs/agents/empty/doubledqnper.json" />
-        <option value="$PROJECT_DIR$/configs/agents/fetch/dqnper.json" />
-        <option value="$PROJECT_DIR$/configs/agents/fetch/dqn.json" />
-        <option value="$PROJECT_DIR$/configs/agents/empty/doubledqn.json" />
-        <option value="$PROJECT_DIR$/evaluate.py" />
-        <option value="$PROJECT_DIR$/gym_minigrid/register.py" />
-        <option value="$PROJECT_DIR$/tensorboard-aggregator/aggregator_old.py" />
         <option value="$PROJECT_DIR$/tensorboard-aggregator/aggregator.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/aggregator/aggregator.py" />
         <option value="$PROJECT_DIR$/configwrapper.py" />
         <option value="$PROJECT_DIR$/models/dqnvanille.py" />
-        <option value="$PROJECT_DIR$/models/doubledqn.py" />
-        <option value="$PROJECT_DIR$/models/doubledqnher.py" />
-        <option value="$PROJECT_DIR$/models/doubledqnper.py" />
         <option value="$PROJECT_DIR$/models/dqnper.py" />
         <option value="$PROJECT_DIR$/models/doubledqnpredher.py" />
         <option value="$PROJECT_DIR$/configs/envs/fetchdebug.json" />
         <option value="$PROJECT_DIR$/train_supervised.py" />
         <option value="$PROJECT_DIR$/models/__init__.py" />
-        <option value="$PROJECT_DIR$/test_fetch.py" />
         <option value="$PROJECT_DIR$/main_train_pred_mission.py" />
         <option value="$PROJECT_DIR$/main_train_pred_mission_onehot.py" />
-        <option value="$PROJECT_DIR$/models/predmissionnet.py" />
         <option value="$PROJECT_DIR$/gym_minigrid/envs/fetchworegister.py" />
-        <option value="$PROJECT_DIR$/collect_samples.py" />
-        <option value="$PROJECT_DIR$/replaymemory.py" />
         <option value="$PROJECT_DIR$/gym_minigrid/envs/minigridattrib.py" />
         <option value="$PROJECT_DIR$/gym_minigrid/envs/__init__.py" />
-        <option value="$PROJECT_DIR$/gym_minigrid/envs/game.py" />
-        <option value="$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py" />
-        <option value="$PROJECT_DIR$/test_2.py" />
-        <option value="$PROJECT_DIR$/summaryutils.py" />
-        <option value="$PROJECT_DIR$/gym_minigrid/minigridattrib.py" />
-        <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/configs/agents/fetch/doubledqnher.json" />
-        <option value="$PROJECT_DIR$/configs/agents/fetch/doubledqnimc.json" />
         <option value="$PROJECT_DIR$/configs/agents/fetch/doubledqnpredher.json" />
+        <option value="$PROJECT_DIR$/configs/agents/fetch/doubledqnimc.json" />
+        <option value="$PROJECT_DIR$/gym_minigrid/envs/game.py" />
+        <option value="$PROJECT_DIR$/gym_minigrid/minigridattrib.py" />
+        <option value="$PROJECT_DIR$/test_2.py" />
+        <option value="$PROJECT_DIR$/trainbettermemory.py" />
+        <option value="$PROJECT_DIR$/models/doubledqnher.py" />
+        <option value="$PROJECT_DIR$/models/doubledqn.py" />
+        <option value="$PROJECT_DIR$/models/doubledqnper.py" />
+        <option value="$PROJECT_DIR$/summaryutils.py" />
         <option value="$PROJECT_DIR$/configs/agents/fetch/doubledqn.json" />
+        <option value="$PROJECT_DIR$/main_2.py" />
+        <option value="$PROJECT_DIR$/main_3.py" />
+        <option value="$PROJECT_DIR$/main_all.py" />
+        <option value="$PROJECT_DIR$/configs/envs/fetch_2.json" />
+        <option value="$PROJECT_DIR$/configs/envs/fetch_3.json" />
+        <option value="$PROJECT_DIR$/configs/agents/fetch/extension_1.json" />
+        <option value="$PROJECT_DIR$/configs/agents/fetch/extension_2.json" />
+        <option value="$PROJECT_DIR$/configs/agents/fetch/extension_3.json" />
+        <option value="$PROJECT_DIR$/replaymemory.py" />
+        <option value="$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py" />
+        <option value="$PROJECT_DIR$/train.py" />
+        <option value="$PROJECT_DIR$/configs/agents/fetch/doubledqnher.json" />
+        <option value="$PROJECT_DIR$/configs/agents/fetch/gridsearch.json" />
+        <option value="$PROJECT_DIR$/models/doubledqnimc.py" />
+        <option value="$PROJECT_DIR$/main_1.py" />
+        <option value="$PROJECT_DIR$/configs/agents/fetch/doubledqnper.json" />
+        <option value="$PROJECT_DIR$/configs/envs/fetch_1.json" />
         <option value="$PROJECT_DIR$/configs/envs/fetch.json" />
         <option value="$PROJECT_DIR$/configs/agents/fetch/extension.json" />
-        <option value="$PROJECT_DIR$/configs/agents/fetch/doubledqnper.json" />
-        <option value="$PROJECT_DIR$/configs/agents/fetch/gridsearch.json" />
-        <option value="$PROJECT_DIR$/train.py" />
-        <option value="$PROJECT_DIR$/models/doubledqnimc.py" />
+        <option value="$PROJECT_DIR$/train_pred.py" />
+        <option value="$PROJECT_DIR$/main_pred.py" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/models/predmissionnet.py" />
+        <option value="$PROJECT_DIR$/test_fetch.py" />
+        <option value="$PROJECT_DIR$/collect_samples.py" />
       </list>
     </option>
   </component>
@@ -253,6 +639,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -304,7 +691,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -316,24 +702,24 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/gym_minigrid/envs" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/gym_minigrid" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/gym_minigrid/envs" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/configs/agents/fetch" />
-      <recent name="$PROJECT_DIR$/models" />
       <recent name="$PROJECT_DIR$/configs/envs" />
+      <recent name="$PROJECT_DIR$/gym_minigrid/envs" />
+      <recent name="$PROJECT_DIR$/models" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -348,7 +734,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.train">
+  <component name="RunManager" selected="Python.test_2">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="visual_her" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -371,17 +757,21 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="collect_samples" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="visual_her" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="CUDA_VISIBLE_DEVICES" value="2" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/collect_samples.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -390,7 +780,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main_train_pred_mission" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="main_pred" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="visual_her" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -403,7 +793,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_train_pred_mission.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_pred.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -460,6 +850,9 @@
       <module name="visual_her" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -476,19 +869,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.collect_samples" />
-      <item itemvalue="Python.main_train_pred_mission" />
-      <item itemvalue="Python.test_2" />
       <item itemvalue="Python.test_fetch" />
       <item itemvalue="Python.train" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.main_pred" />
+      <item itemvalue="Python.test_2" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.train" />
         <item itemvalue="Python.test_2" />
-        <item itemvalue="Python.collect_samples" />
         <item itemvalue="Python.test_fetch" />
-        <item itemvalue="Python.main_train_pred_mission" />
+        <item itemvalue="Python.main_pred" />
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.train" />
       </list>
     </recent_temporary>
   </component>
@@ -520,12 +913,15 @@
       <workItem from="1558602091365" duration="99110000" />
       <workItem from="1559490882436" duration="92084000" />
       <workItem from="1560947388406" duration="23583000" />
-      <workItem from="1561220731290" duration="83667000" />
+      <workItem from="1561220731290" duration="102221000" />
+      <workItem from="1563213935086" duration="26726000" />
+      <workItem from="1563460816512" duration="74487000" />
+      <workItem from="1564391543897" duration="4451000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="439851000" />
+    <option name="totallyTimeSpent" value="564069000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -540,13 +936,13 @@
     <frame x="-1920" y="0" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6212575" visible="true" weight="0.19635417" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6212575" visible="true" weight="0.18020834" />
       <window_info id="Structure" order="1" sideWeight="0.37874252" side_tool="true" weight="0.15340315" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.40134227" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32786885" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6067708" weight="0.40252182" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6067708" visible="true" weight="0.38506305" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49928468" weight="0.32872927" />
@@ -555,17 +951,17 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.39322916" side_tool="true" weight="0.28806984" />
       <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.5665236" weight="0.24919786" />
-      <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.6764706" weight="0.27497062" />
+      <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.6764706" weight="0.22679201" />
       <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.32953367" />
-      <window_info anchor="bottom" id="File Transfer" order="14" sideWeight="0.65661764" weight="0.18448883" />
+      <window_info anchor="bottom" id="File Transfer" order="14" sideWeight="0.65661764" weight="0.22308439" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" weight="0.33541667" />
-      <window_info anchor="right" x="0" y="0" width="300" height="574" id="Documentation" order="4" side_tool="true" weight="0.17944622" />
+      <window_info anchor="right" x="0" y="0" width="300" height="574" id="Documentation" order="4" side_tool="true" weight="0.17916666" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info anchor="right" id="Coverage" order="6" side_tool="true" />
-      <window_info anchor="right" id="Remote Host" order="7" weight="0.11661342" />
+      <window_info anchor="right" id="Remote Host" order="7" weight="0.116145834" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -585,19 +981,33 @@
           <option name="timeStamp" value="151" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/models/doubledqnimc.py</url>
+          <line>203</line>
+          <option name="timeStamp" value="305" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test_2.py</url>
+          <line>51</line>
+          <option name="timeStamp" value="306" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test_2.py</url>
+          <line>61</line>
+          <option name="timeStamp" value="307" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main_all.py</url>
+          <option name="timeStamp" value="310" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/train.py</url>
+          <line>199</line>
+          <option name="timeStamp" value="313" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test_fetch.py</url>
-          <line>22</line>
-          <option name="timeStamp" value="254" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test_2.py</url>
-          <line>44</line>
-          <option name="timeStamp" value="291" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test_2.py</url>
-          <line>54</line>
-          <option name="timeStamp" value="292" />
+          <line>15</line>
+          <option name="timeStamp" value="314" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -612,249 +1022,22 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/visual_her$main_train_pred_mission.coverage" NAME="main_train_pred_mission Coverage Results" MODIFIED="1561711219449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$game.coverage" NAME="game Coverage Results" MODIFIED="1558086405057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gym_minigrid/envs" />
+    <SUITE FILE_PATH="coverage/visual_her$main_pred.coverage" NAME="main_pred Coverage Results" MODIFIED="1564334720121" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$sumtree.coverage" NAME="sumtree Coverage Results" MODIFIED="1558603461736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$test.coverage" NAME="test Coverage Results" MODIFIED="1559639653297" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$collect_samples.coverage" NAME="collect_samples Coverage Results" MODIFIED="1562613995621" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/visual_her$test_fetch.coverage" NAME="test_fetch Coverage Results" MODIFIED="1562176946757" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/visual_her$trainbettermemory.coverage" NAME="trainbettermemory Coverage Results" MODIFIED="1563456449531" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/visual_her$test_fetch.coverage" NAME="test_fetch Coverage Results" MODIFIED="1564406252421" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$model.coverage" NAME="model Coverage Results" MODIFIED="1558030835094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$testfetch.coverage" NAME="testfetch Coverage Results" MODIFIED="1558022058253" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$train_with_config.coverage" NAME="train_with_config Coverage Results" MODIFIED="1558013642356" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/visual_her$test_2.coverage" NAME="test_2 Coverage Results" MODIFIED="1562966620254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/visual_her$train.coverage" NAME="train Coverage Results" MODIFIED="1563041138800" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/visual_her$test_2.coverage" NAME="test_2 Coverage Results" MODIFIED="1564406303622" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/visual_her$train.coverage" NAME="train Coverage Results" MODIFIED="1564064735274" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$main.coverage" NAME="main Coverage Results" MODIFIED="1559551443741" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$test_cartpole.coverage" NAME="test_cartpole Coverage Results" MODIFIED="1558013177996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/visual_her$main_all.coverage" NAME="main_all Coverage Results" MODIFIED="1563919011005" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="108" lean-forward="true" selection-start-line="2" selection-start-column="108" selection-end-line="2" selection-end-column="108" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/fetchworegisteroneobj.py" />
-    <entry file="file://$PROJECT_DIR$/aggregator/aggregator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="856">
-          <caret line="149" column="3" lean-forward="true" selection-start-line="149" selection-start-column="3" selection-end-line="149" selection-end-column="3" />
-          <folding>
-            <element signature="e#249#259#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/dqnper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="73" column="47" selection-start-line="73" selection-start-column="47" selection-end-line="73" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/doubledqn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="938">
-          <caret line="121" column="19" lean-forward="true" selection-start-line="121" selection-start-column="19" selection-end-line="121" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/dqnvanille.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1545">
-          <caret line="103" column="22" lean-forward="true" selection-start-line="103" selection-start-column="22" selection-end-line="103" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/213846842/1846490132/torch/nn/modules/module.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="538" selection-start-line="538" selection-end-line="538" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/envs/fetchdebug.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="20" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/train_supervised.py" />
-    <entry file="file://$PROJECT_DIR$/models/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="31" selection-start-column="31" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/213846842/964053808/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="308" selection-start-line="308" selection-end-line="308" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/trainold.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configwrapper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="58" column="81" selection-start-line="58" selection-start-column="81" selection-end-line="58" selection-end-column="81" />
-          <folding>
-            <element signature="e#94#103#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/register.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#58#82#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/rendering.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="118" selection-start-line="118" selection-end-line="118" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_train_pred_mission_onehot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="932">
-          <caret line="77" column="14" selection-start-line="77" selection-start-column="14" selection-end-line="77" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/minigrid.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4023">
-          <caret line="1279" selection-start-line="1279" selection-end-line="1279" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/blockedunlockpickup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_train_pred_mission.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="11" lean-forward="true" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/doubledqnher.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-630">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/collect_samples.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="198" column="23" selection-start-line="198" selection-start-column="23" selection-end-line="198" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/213846842/1846490132/gym/utils/seeding.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/minigrid_4_actions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8475">
-          <caret line="565" column="46" selection-start-line="565" selection-start-column="46" selection-end-line="565" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/fetchworegister.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
-          <caret line="72" column="27" selection-start-line="72" selection-start-column="27" selection-end-line="72" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="40" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="1757" selection-start-line="1757" selection-end-line="1757" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_fetch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="11" selection-start-line="26" selection-start-column="11" selection-end-line="26" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda/lib/python3.5/site-packages/gym/envs/registration.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="88" selection-start-line="88" selection-end-line="88" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/ide/ide-scripting.groovy">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -868,136 +1051,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/game.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
-          <folding>
-            <element signature="e#37#79#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/summaryutils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="79" selection-start-line="79" selection-end-line="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/minigridattrib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="209" column="47" selection-start-line="209" selection-start-column="37" selection-end-line="209" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="46" selection-start-line="46" selection-end-line="46" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11">
-          <caret line="46" selection-start-line="46" selection-end-line="46" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/doubledqnper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="112" selection-start-line="112" selection-end-line="112" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/replaymemory.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-75">
-          <caret line="209" column="20" lean-forward="true" selection-start-line="209" selection-start-column="20" selection-end-line="209" selection-end-column="20" />
-          <folding>
-            <element signature="e#118#136#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/configs/agents/fetch/doubledqnpredher.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/doubledqn.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/doubledqnher.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/gridsearch.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="1" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/envs/fetch.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="4" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/extension.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="851">
-          <caret line="329" column="1" selection-start-line="329" selection-start-column="1" selection-end-line="329" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/doubledqnimc.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -1011,29 +1068,405 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/doubledqnper.json">
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/213846842/964053808/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="27" lean-forward="true" selection-start-line="1" selection-start-column="27" selection-end-line="1" selection-end-column="27" />
+        <state relative-caret-position="244">
+          <caret line="310" selection-start-line="310" selection-end-line="310" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/predmissionnet.py">
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/213846842/1846490132/gym/envs/registration.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="64" selection-start-line="64" selection-end-line="102" />
+        <state relative-caret-position="341">
+          <caret line="72" selection-start-line="72" selection-end-line="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/213846842/1846490132/torch/nn/modules/module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="516">
+          <caret line="512" selection-start-line="512" selection-end-line="512" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/213846842/1846490132/torch/tensor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="457" selection-start-line="457" selection-end-line="457" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/trainbettermemory.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4860">
+          <caret line="324" lean-forward="true" selection-start-line="324" selection-end-line="324" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/unlockpickup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="436">
+          <caret line="45" column="8" selection-start-line="45" selection-start-column="8" selection-end-line="45" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Script.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/doubledqnper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2070">
+          <caret line="138" column="14" lean-forward="true" selection-start-line="138" selection-start-column="14" selection-end-line="138" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/doubledqn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="976">
+          <caret line="119" column="9" selection-start-line="119" selection-start-column="9" selection-end-line="119" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/doubledqnimc.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="1" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/doubledqn.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/summaryutils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2010">
+          <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="44" column="18" selection-start-line="44" selection-start-column="18" selection-end-line="44" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/aggregator/aggregator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1485">
+          <caret line="99" column="12" selection-start-line="99" selection-start-column="9" selection-end-line="99" selection-end-column="12" />
+          <folding>
+            <element signature="e#249#259#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/extension_2.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/extension_3.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/envs/fetch_2.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/envs/fetch_3.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/game.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-36">
+          <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+          <folding>
+            <element signature="e#37#79#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/replaymemory.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6">
+          <caret line="39" selection-start-line="39" selection-end-line="39" />
+          <folding>
+            <element signature="e#118#136#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/doubledqnher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="347">
+          <caret line="66" column="47" selection-start-line="66" selection-start-column="47" selection-end-line="66" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/doubledqnper.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/extension_1.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/envs/fetch_1.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="14" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train_putnear.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="31" column="35" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/putnear.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="106" column="52" selection-start-line="106" selection-start-column="52" selection-end-line="106" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/memory.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/doubledqnimc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="161" column="38" lean-forward="true" selection-start-line="161" selection-start-column="38" selection-end-line="161" selection-end-column="38" />
+        <state relative-caret-position="585">
+          <caret line="39" selection-start-line="39" selection-end-line="39" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/gridsearch.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/extension.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_train_pred_mission.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="11" lean-forward="true" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/doubledqnher.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="30" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/envs/fetch.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="42" selection-start-line="42" selection-end-line="45" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train_pred.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1830">
+          <caret line="129" column="51" selection-start-line="129" selection-start-column="51" selection-end-line="129" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_pred.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1065">
+          <caret line="77" column="13" selection-start-line="77" selection-start-column="13" selection-end-line="77" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_all.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1485">
+          <caret line="103" column="122" selection-start-line="103" selection-start-column="67" selection-end-line="103" selection-end-column="122" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="33" column="33" selection-start-line="33" selection-start-column="33" selection-end-line="33" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="43" selection-start-line="43" selection-end-line="44" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configwrapper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="25" selection-start-line="25" selection-end-line="26" selection-end-column="40" />
+          <folding>
+            <element signature="e#94#103#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/predmissionnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="556">
+          <caret line="246" column="39" selection-start-line="246" selection-start-column="39" selection-end-line="246" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_fetch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="65" column="22" lean-forward="true" selection-start-line="65" selection-start-column="22" selection-end-line="65" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1695">
+          <caret line="113" column="48" selection-start-line="113" selection-start-column="48" selection-end-line="113" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gym_minigrid/minigridattrib.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="681" column="14" selection-start-line="681" selection-start-column="8" selection-end-line="681" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/collect_samples.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="187" column="41" selection-start-line="187" selection-start-column="41" selection-end-line="187" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>

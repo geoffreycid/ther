@@ -1,4 +1,7 @@
 import random
+from copy import deepcopy as copy
+import operator
+import numpy as np
 
 import torch
 import torch.nn as nn
@@ -18,7 +21,7 @@ class DoubleDQNIMC(nn.Module):
 
         self.n_actions = n_actions
         self.mission = True
-        self.embedded_dim = 16
+        self.embedded_dim = 32
         self.device = device
         self.dim_tokenizer = dim_tokenizer
 
@@ -51,7 +54,7 @@ class DoubleDQNIMC(nn.Module):
         )
 
         self.embedding_image_conv = nn.Sequential(
-            nn.Conv2d(c * frames, 16, (2, 2)),
+            nn.Conv2d(c * 1, 16, (2, 2)),
             nn.ReLU(),
             nn.MaxPool2d((2, 2)),
             nn.Conv2d(16, 32, (2, 2)),
@@ -69,7 +72,6 @@ class DoubleDQNIMC(nn.Module):
             nn.ReLU(),
             nn.Linear(in_features=64, out_features=128)
         )
-
 
         self.tiny_fc = nn.Linear(in_features=1, out_features=2)
 
@@ -112,13 +114,25 @@ class DoubleDQNIMC(nn.Module):
         embedded_missions = self.embedding_mission(batch_mission)
         return self.correspondence(embedded_images, embedded_missions)
 
-    def find_best_mission(self, state, missions):
+    def find_best_mission_one_state(self, state, missions):
         # Note: state [1, x] and missions [n, y]
         embedded_state = self.embedding_image(state.repeat(missions.shape[0], 1, 1, 1)).detach()
         embedded_missions = self.embedding_mission(missions).detach()
         distances = F.pairwise_distance(embedded_state, embedded_missions)
         indices_best_missions = torch.argsort(distances, descending=False)
         return missions[indices_best_missions[0]]
+
+    def find_best_mission(self, states, missions):
+        # Calculate the opposite of the dot product which has the same order as
+        # the L2 distance but is can be computed only with a matrix product
+        # Note: state [m, x] and missions [n, y]
+
+        with torch.no_grad():
+            embedded_states = self.embedding_image(states)
+            embedded_missions = self.embedding_mission(missions)
+        similarities = torch.mm(embedded_states, embedded_missions.t())
+        indices_best_missions = similarities.argmax(dim=1)
+        return torch.stack([missions[ind] for ind in indices_best_missions])
 
     def pred_correspondence(self, state, mission, target):
         """
@@ -145,23 +159,53 @@ class DoubleDQNIMC(nn.Module):
 
         return action
 
-    def optimize_imc(self, memory_imc, dict_agent):
-        if len(memory_imc) < dict_agent["batch_size_imc"]:
+    def optimize_imc(self, memory_imc, dict_agent, all_possible_missions):
+        len_memory = len(memory_imc)
+
+        if len_memory < dict_agent["batch_size_imc"] or len_memory < dict_agent["min_len_imc"]:
             return
 
-        imcs = memory_imc.sample(dict_agent["batch_size_imc"])
+        memory = copy(memory_imc.memory)
+        random.shuffle(memory)
+        train_memory = memory[:int(0.9*len_memory)]
+        test_memory = memory[int(0.9*len_memory):]
 
-        batch_imcs = memory_imc.imc(*zip(*imcs))
-        batch_state = torch.cat(batch_imcs.state)
-        batch_mission = torch.cat(batch_imcs.mission)
-        batch_target = torch.cat(batch_imcs.target)
+        # Subset of test with only good correspondence
+        batch_imcs_test = memory_imc.imc(*zip(*test_memory))
+        batch_targets_test = torch.cat(batch_imcs_test.target).cpu().numpy()
+        inds_good_correspondence = np.argwhere(batch_targets_test == 1).reshape(-1)
+        op = operator.itemgetter(*inds_good_correspondence)
+        test_memory_good_correspondence = op(test_memory)
 
-        batch_predictions = self.image_mission_correspondence(batch_state, batch_mission)
+        batch_imcs_test_good_correspondence = memory_imc.imc(*zip(*test_memory_good_correspondence))
+        batch_states_test_good_correspondence = torch.cat(batch_imcs_test_good_correspondence.state)[:, 9:]
+        batch_missions_test_good_correspondence = torch.cat(batch_imcs_test_good_correspondence.mission)
 
-        loss = self.criterion(batch_predictions, batch_target)
-        self.optimizer_imc.zero_grad()
-        loss.backward()
-        self.optimizer_imc.step()
+        for _ in range(dict_agent["n_epochs_imc"]):
+            beg_ind = 0
+            end_ind = dict_agent["batch_size_imc"]
+            for i in range(len_memory//dict_agent["batch_size_imc"]):
+                imcs = train_memory[beg_ind:end_ind]
+                batch_imcs = memory_imc.imc(*zip(*imcs))
+                # Keep only the last frame
+                batch_states = torch.cat(batch_imcs.state)[:, 9:]
+                batch_missions = torch.cat(batch_imcs.mission)
+                batch_predictions = self.image_mission_correspondence(batch_states, batch_missions)
+
+                batch_targets = torch.cat(batch_imcs.target)
+
+                loss = self.criterion(batch_predictions, batch_targets)
+                self.optimizer_imc.zero_grad()
+                loss.backward()
+                self.optimizer_imc.step()
+            # Test the net
+            batch_predictions_test = self.find_best_mission(batch_states_test_good_correspondence,
+                                                            all_possible_missions)
+            accuracy = torch.all(torch.eq(batch_predictions_test, batch_missions_test_good_correspondence), dim=1)
+            accuracy = accuracy.float().mean()
+            print("accuracy", accuracy)
+            if accuracy > 0.95:
+                break
 
     # Optimize the model
     def optimize_model(self, memory, target_net, dict_agent):

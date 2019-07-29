@@ -1,1 +1,0 @@
-{"batch_size": 128, "ratio_step_optim": 1, "eps_final": 0.05, "gamma": 0.99, "T_exploration": 20000.0, "eps_init": 1, "frames": 1, "update_target": 10, "name": "dqn-womission-per-with-7x7view-nomaxpooling-updatetarget10", "memory_size": 32768, "lr": 0.001, "agent": "dqn-mission-per"}

@@ -1,1 +1,0 @@
-{"update_target": 50, "frames": 1, "memory_size": 10000.0, "eps_init": 1, "name": "dqn-view-agent", "T_exploration": 20000.0, "double_dqn": 0, "use_mission": 0, "eps_final": 0.05, "lr": 0.001, "batch_size": 128, "gamma": 0.99}

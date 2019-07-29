@@ -1,1 +1,0 @@
-{"batch_size": 128, "update_target": 50, "frames": 1, "gamma": 0.99, "memory_size": 16384, "eps_init": 1, "ratio_step_optim": 1, "T_exploration": 20000.0, "name": "dqn-vanille-with-7x7view-nomaxpooling", "lr": 0.001, "agent": "dqn-vanille", "eps_final": 0.05}

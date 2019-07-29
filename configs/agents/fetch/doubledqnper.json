@@ -15,5 +15,6 @@
     "eps_init": 1,
     "eps_final": 0.1,
     "update_target": 1000,
-    "max_steps": 300000
+    "max_steps": 300000,
+    "use_memory": 1
 }

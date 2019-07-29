@@ -1,1 +1,0 @@
-{"lr": 0.0005, "ratio_step_optim": 1, "batch_size": 128, "eps_final": 0.05, "name": "double-dqn-mission-per-with-7x7view-nomaxpooling-updatetarget10", "T_exploration": 20000.0, "memory_size": 32768, "update_target": 10, "frames": 1, "gamma": 0.99, "agent": "double-dqn-mission-per", "eps_init": 1}

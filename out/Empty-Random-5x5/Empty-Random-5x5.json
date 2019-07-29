@@ -1,1 +1,0 @@
-{"random": 1, "T_max": 100, "size": 5, "summary_max_q": 100, "summary_q": [500, 800, 1000], "save_model": 500, "game_type": "empty", "episodes": 1000, "env_dir": "/Users/geoffreycideron/Documents/SequeL/visual_her/out", "name": "Empty-Random-5x5"}

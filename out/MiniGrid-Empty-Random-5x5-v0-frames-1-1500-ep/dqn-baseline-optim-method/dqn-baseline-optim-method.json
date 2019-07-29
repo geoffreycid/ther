@@ -1,1 +1,0 @@
-{"name": "dqn-baseline-optim-method", "memory_size": 10000.0, "gamma": 0.99, "update_target": 40, "frames": 1, "eps_init": 1, "T_exploration": 10000.0, "lr": 0.001, "batch_size": 128, "eps_final": 0.05}

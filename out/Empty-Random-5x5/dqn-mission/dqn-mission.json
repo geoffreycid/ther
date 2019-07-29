@@ -1,1 +1,0 @@
-{"eps_final": 0.05, "ratio_step_optim": 1, "T_exploration": 20000.0, "update_target": 40, "gamma": 0.99, "name": "dqn-mission", "agent": "dqn-mission", "batch_size": 128, "eps_init": 1, "frames": 1, "memory_size": 16384, "lr": 0.001}

@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-class PredMissionNet(nn.Module):
+class PredMissionImc(nn.Module):
 
     def __init__(self, h, w, c, frames, lr_imc, dim_tokenizer, weight_decay):
         """
@@ -12,7 +12,7 @@ class PredMissionNet(nn.Module):
         n_actions: number of actions
         """
 
-        super(PredMissionNet, self).__init__()
+        super(PredMissionImc, self).__init__()
 
         self.embedded_dim = 32
         self.dim_tokenizer = dim_tokenizer
@@ -141,6 +141,11 @@ class PredMissionOneHot(nn.Module):
         """
         super(PredMissionOneHot, self).__init__()
 
+        self.n_type = n_type
+        self.n_color = n_color
+        self.n_seniority = n_seniority
+        self.n_size = n_size
+
         self.conv_net = nn.Sequential(
             nn.Conv2d(c * frames, 16, (2, 2)),
             nn.ReLU(),
@@ -189,6 +194,16 @@ class PredMissionOneHot(nn.Module):
             pred_type, pred_color, pred_seniority, pred_size = self.forward(state)
             return pred_type.max(1)[1], pred_color.max(1)[1], pred_seniority.max(1)[1], pred_size.max(1)[1]
 
+    def prediction_mission(self, state):
+        pred_type, pred_color, pred_seniority, pred_size = self.prediction(state)
+
+        type_onehot = torch.eye(self.n_type)[pred_type]
+        color_onehot = torch.eye(self.n_color)[pred_color]
+        seniority_onehot = torch.eye(self.n_seniority)[pred_seniority]
+        size_onehot = torch.eye(self.n_size)[pred_size]
+
+        mission = (type_onehot, color_onehot, seniority_onehot, size_onehot)
+        return torch.cat(mission, dim=1)
 
 class PredMissionOneHotDense(nn.Module):
     def __init__(self, c, frames, n_type, n_color, n_seniority, n_size, lr):
@@ -233,15 +248,15 @@ class PredMissionOneHotDense(nn.Module):
         )
 
         self.dense_fc = nn.Sequential(
-            #nn.Linear(in_features=64, out_features=64),
-            #nn.ReLU(),
+            nn.Linear(in_features=64, out_features=64),
+            nn.ReLU(),
             nn.Linear(in_features=64, out_features=2)
         )
 
         self.optimizer = torch.optim.RMSprop(self.parameters(), lr=lr, weight_decay=0)
 
         self.criterion = nn.CrossEntropyLoss()
-        self.criterion_dense = nn.CrossEntropyLoss(weight=torch.tensor([0.3, 0.7]))
+        self.criterion_dense = nn.CrossEntropyLoss(weight=torch.tensor([0.07, 0.93]))
 
     def forward(self, state):
         out_conv = self.conv_net(state)
@@ -254,7 +269,7 @@ class PredMissionOneHotDense(nn.Module):
     def forward_dense(self, state):
         out_conv = self.conv_net(state)
         flatten = out_conv.view(out_conv.shape[0], -1)
-        return self.dense_fc(self.shared_fc(flatten))
+        return self.dense_fc(flatten)
 
     def prediction(self, state):
         with torch.no_grad():
@@ -266,3 +281,13 @@ class PredMissionOneHotDense(nn.Module):
         pred_dense = self.forward_dense(state)
         return pred_dense.max(1)[1]
 
+    def prediction_mission(self, state):
+        pred_type, pred_color, pred_seniority, pred_size = self.prediction(state)
+
+        type_onehot = torch.eye(self.n_type)[pred_type]
+        color_onehot = torch.eye(self.n_color)[pred_color]
+        seniority_onehot = torch.eye(self.n_seniority)[pred_seniority]
+        size_onehot = torch.eye(self.n_size)[pred_size]
+
+        mission = (type_onehot, color_onehot, seniority_onehot, size_onehot)
+        return torch.cat(mission, dim=1)

@@ -25,7 +25,7 @@ class CollectSampleMemory(object):
         self.list_of_targets = []
         self.skew_ratio = skew_ratio
         self.episodes_done = 0
-        self.memory_dense = [None for _ in range(self.memory_size * 3)]
+        self.memory_dense = [None for _ in range(self.memory_size * 5)]
         self.position_dense = 0
         self.imc_dense = collections.namedtuple("dense", ["state", "target"])
         self.stored_dense_data = []
@@ -40,7 +40,7 @@ class CollectSampleMemory(object):
             self.position = 0
 
     def add_data_dense(self, curr_state, target):
-        if self.position_dense > self.memory_size * 3 - 1:
+        if self.position_dense > self.memory_size * 5 - 1:
             return
         self.memory_dense[self.position_dense] = self.imc_dense(curr_state, target)
         self.position_dense += 1
@@ -155,20 +155,18 @@ def collect_samples(dict_env, dict_agent, use_her, use_imc, use_dense=0):
         state["mission"] = utils.mission_tokenizer(dict_env, target).to(device)
 
         # Stacking frames to make a state
-        # Only keep the first 4 channels, the fiveth one is a flag for open/closed door
+        # Only keep the first 4 channels, the fifth one is a flag for open/closed door
         observation["image"] = observation["image"][:, :, :4]
         state_frames = [observation["image"]] * dict_agent["frames"]
         state_frames = np.concatenate(state_frames, axis=2).transpose((2, 0, 1))
         state_frames = torch.as_tensor(state_frames, dtype=torch.float32).unsqueeze(0)
         state["image"] = state_frames.to(device)
-        if use_dense:
-            memory_collectsample.add_data_dense(curr_state=state["image"],
-                                                target=torch.tensor([0], dtype=torch.long).to(device))
 
         for t in range(T_MAX):
             if steps_done % 50000 == 0:
-                print("steps: {}, time: {}, len memory: {}"
-                      .format(steps_done, round(time.time()-init_time, 2), len(memory_collectsample)))
+                print("steps: {}, time: {}, len memory: {}, len memory dense {}"
+                      .format(steps_done, round(time.time()-init_time, 2), len(memory_collectsample),
+                              memory_collectsample.position_dense))
             # Update the current state
             curr_state = state.copy()
 
@@ -187,14 +185,18 @@ def collect_samples(dict_env, dict_agent, use_her, use_imc, use_dense=0):
             state_frames = torch.cat((curr_state["image"][:, 4:], observation_prep), dim=1)
             state["image"] = state_frames
 
+            # If pickup action does not change the state => no object in front of the agent
+            if use_dense and action == 3 and torch.equal(curr_state["image"][:, 12:], state["image"][:, 12:]):
+                memory_collectsample.add_data_dense(curr_state=curr_state["image"],
+                                                    target=torch.tensor([0], dtype=torch.long).to(device))
+
+
             # Update the number of steps
             steps_done += 1
 
             # Add transition
-            #if curr_state["image"][0, 6, 3, 6] != 1:
-            #    print("error")
             memory_collectsample.store_data(curr_state["image"], curr_state["mission"], 0)
-            memory_collectsample.store_dense_data(curr_state["image"], torch.tensor([0], dtype=torch.long).to(device))
+            #memory_collectsample.store_dense_data(curr_state["image"], torch.tensor([0], dtype=torch.long).to(device))
 
             if len(memory_collectsample) == memory_collectsample.memory_size:
                 max_steps_reached = 1
@@ -203,17 +205,14 @@ def collect_samples(dict_env, dict_agent, use_her, use_imc, use_dense=0):
             if terminal:
                 if is_carrying:
                     if use_dense:
-                        memory_collectsample.add_stored_dense_data(
-                            target=torch.tensor([1], dtype=torch.long).to(device))
+                        memory_collectsample.add_data_dense(curr_state=curr_state["image"],
+                                                            target=torch.tensor([1], dtype=torch.long).to(device))
                     if use_imc:
                         if reward == 0:
                             target_imc = torch.tensor([0], dtype=torch.long).to(device)
-                            #memory_collectsample.list_of_targets += \
-                            #    [0] * min(len(memory_collectsample.stored_data), dict_agent["n_keep_correspondence"])
                         else:
                             target_imc = torch.tensor([1], dtype=torch.long).to(device)
-                            #memory_collectsample.list_of_targets += \
-                            #    [1] * min(len(memory_collectsample.stored_data), dict_agent["n_keep_correspondence"])
+
                         memory_collectsample.add_stored_data(target_imc, dict_agent["n_keep_correspondence"])
 
                     elif use_her:
@@ -284,16 +283,17 @@ if __name__ == "__main__":
         "frames": 4,
         "n_keep_correspondence": 1,
         "skew_ratio": 0.5,
-        "memory_size": 110000
+        "memory_size": 1100,
+        "use_her": 1,
     }
 
-    if "her" in dict_agent["agent"]:
+    if dict_agent["use_her"]:
         use_her = 1
         use_imc = 0
     else:
         use_her = 0
         use_imc = 1
-    mem = collect_samples(dict_env, dict_agent, use_her=use_her, use_imc=use_imc, use_dense=0)
+    mem = collect_samples(dict_env, dict_agent, use_her=use_her, use_imc=use_imc, use_dense=1)
 
-    with open("collect_samples_{}_memory_size_{}_frames_{}_missions_imc_cpu.pkl".format(int(dict_agent["memory_size"]), dict_agent["frames"], 300), 'wb') as output:
+    with open("/home/gcideron/visual_her/datasets/collect_samples_{}_memory_size_{}_frames_{}_missions_her_cpu_dense.pkl".format(int(dict_agent["memory_size"]), dict_agent["frames"], 300), 'wb') as output:
         dill.dump(mem, output, dill.HIGHEST_PROTOCOL)

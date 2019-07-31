@@ -19,5 +19,6 @@
     "n_keep_correspondence": 1,
     "skew_ratio": 0.5,
     "min_len_imc": 20000,
-    "n_epochs_imc": 200
+    "n_epochs_imc": 200,
+    "use_per": 0
 }

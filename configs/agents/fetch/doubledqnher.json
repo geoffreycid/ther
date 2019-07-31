@@ -14,5 +14,6 @@
     "update_target": 1000,
     "max_steps": 2000000,
     "use_memory": 1,
-    "keep_last_transitions": 0
+    "keep_last_transitions": 0,
+    "use_per": 0
 }

@@ -79,9 +79,6 @@ class DoubleDQNHER(nn.Module):
         return self.fc(concat)
 
     def select_action(self, state, epsilon):
-        #copy_state = state.copy()
-        #copy_state["image"] = torch.from_numpy(state["image"]).to(self.device).float()
-        #copy_state["mission"] = torch.from_numpy(state["mission"]).to(self.device).float()
         if random.random() < epsilon:
             action = random.choice(range(self.n_actions))
         else:
@@ -104,13 +101,6 @@ class DoubleDQNHER(nn.Module):
         batch_terminal = torch.as_tensor(batch_transitions.terminal, dtype=torch.int32)
         batch_action = torch.as_tensor(batch_transitions.action, dtype=torch.long, device=self.device).reshape(-1, 1)
         batch_mission = torch.cat(batch_transitions.mission)
-
-        #batch_transitions = memory.transition(*zip(*transitions))
-        #batch_curr_state = torch.from_numpy(np.concatenate(batch_transitions.curr_state)).to(self.device).float()
-        #batch_next_state = torch.from_numpy(np.concatenate(batch_transitions.next_state)).to(self.device).float()
-        #batch_terminal = torch.as_tensor(batch_transitions.terminal, dtype=torch.int32)
-        #batch_action = torch.as_tensor(batch_transitions.action, dtype=torch.long, device=self.device).reshape(-1, 1)
-        #batch_mission = torch.from_numpy(np.concatenate(batch_transitions.mission)).to(self.device).float()
 
         # Compute targets according to the Bellman eq
         batch_next_state_non_terminal_dict = {
@@ -142,7 +132,7 @@ class DoubleDQNHER(nn.Module):
         # Optimization
         self.optimizer.zero_grad()
         loss.backward()
-        # Keep the gradient between (-1,1). Works like one uses L1 loss for large gradients (see Huber loss)
+        # Keep the gradient between (-1, 1). Works like one uses L1 loss for large gradients (see Huber loss)
         for param in self.parameters():
             param.grad.data.clamp_(-1, 1)
         # Do the gradient descent step

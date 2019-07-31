@@ -13,7 +13,7 @@ import summaryutils as utils
 """training procedure"""
 
 
-def training(dict_env, dict_agent):
+def training(dict_env, dict_agent, dict_expert):
     """
     :type dict_agent: dict of the agent
     ;type dict_env: dict of the environment
@@ -29,13 +29,12 @@ def training(dict_env, dict_agent):
     path_save_model = dict_agent["agent_dir"] + "/model_params"
     if not os.path.exists(path_save_model):
         os.makedirs(path_save_model)
-        # os.mkdir(path_save_model)
 
     # Summaries (add run{i} for each run)
     writer = tb.SummaryWriter(dict_agent["agent_dir"])  # + "/logs")
 
     # Create the environment
-    env = game.game(dict_env, dict_agent)
+    env = game.game(dict_env, dict_expert)
 
     # Fix all seeds
     seed = dict_agent["seed"]
@@ -50,6 +49,9 @@ def training(dict_env, dict_agent):
     (h, w, c) = observation['image'].shape
     # the last channel is close/open
     c = c-1
+    frames = dict_agent["frames"]
+    # The network that predicts the mission only use the last frame
+    keep_frames = frames * (c-1)
     # Number and name of actions
     n_actions = env.action_space.n
     action_names = [a.name for a in env.actions]
@@ -66,11 +68,10 @@ def training(dict_env, dict_agent):
         dim_tokenizer = 1
 
     # List of all possible missions
-    missions_type = F.one_hot(torch.arange(num_types)) #.repeat(num_types, 1)
-    missions_color = F.one_hot(torch.arange(num_colors)) #.repeat(num_colors, 1)
+    missions_type = F.one_hot(torch.arange(num_types))
+    missions_color = F.one_hot(torch.arange(num_colors))
     missions_seniority = F.one_hot(torch.arange(num_seniority))
     missions_size = F.one_hot(torch.arange(num_size))
-    #all_possible_missions = torch.cat((missions_type, missions_color), dim=1).to(device).float()
 
     all_possible_missions = []
     for i in range(missions_type.shape[0]):
@@ -81,34 +82,40 @@ def training(dict_env, dict_agent):
     all_possible_missions = torch.stack(all_possible_missions, dim=0).to(device).float()
 
     # By default do not use her and imc
-    use_her = 0
     use_imc = 0
 
+    # Type of expert to use
+    use_her = dict_expert["use_her"]
+    use_learned_expert = dict_expert["learned_expert"]
+    use_noisy_her = dict_expert["noisy_her"]
+    use_dense = dict_expert["use_dense"]
+
+    # Load the model for the learned expert
+    if use_learned_expert:
+        if dict_expert["learned_expert_type"] == "onehot":
+            net_learned_expert = models.PredMissionOneHot(c=c, frames=1, n_type=num_types, n_color=num_colors,
+                                                          n_seniority=num_seniority, n_size=num_size, lr=dict_agent["lr"])
+        if dict_expert["learned_expert_type"] == "dense":
+            net_learned_expert = models.PredMissionOneHotDense(c=c, frames=1, n_type=num_types,
+                                                               n_color=num_colors, n_seniority=num_seniority,
+                                                               n_size=num_size, lr=dict_agent["lr"])
+
+        net_learned_expert.load_state_dict(torch.load(dict_expert["expert_weights_path"]))
+        net_learned_expert.to(device)
+
     # Define the agent
-    if dict_agent["agent"] == "dqn-vanille":
-        agent = models.DQNVanille
-        params = (h, w, c, n_actions, dict_agent["frames"], dict_agent["lr"], device)
-    if dict_agent["agent"] == "dqn":
-        agent = models.DQN
-        params = (h, w, c, n_actions, dict_agent["frames"], dict_agent["lr"], dim_tokenizer, device)
-    if dict_agent["agent"] == "double-dqn":
-        agent = models.DoubleDQN
-        params = (h, w, c, n_actions, dict_agent["frames"], dict_agent["lr"], dim_tokenizer, device, dict_agent["use_memory"])
-    if dict_agent["agent"] == "dqn-per":
-        agent = models.DQNPER
-        params = (h, w, c, n_actions, dict_agent["frames"], dict_agent["lr"], dim_tokenizer, device)
-    if dict_agent["agent"] == "double-dqn-per":
+    if dict_agent["use_per"]:
         agent = models.DoubleDQNPER
-        params = (h, w, c, n_actions, dict_agent["frames"], dict_agent["lr"], dim_tokenizer, device, dict_agent["use_memory"])
-    if dict_agent["agent"] == "double-dqn-her":
-        agent = models.DoubleDQNHER
-        params = (h, w, c, n_actions, dict_agent["frames"], dict_agent["lr"], dim_tokenizer, device, dict_agent["use_memory"])
-        use_her = 1
-    if dict_agent["agent"] == "double-dqn-imc":
-        agent = models.DoubleDQNIMC
-        params = (h, w, c, n_actions, dict_agent["frames"], dict_agent["lr"], dict_agent["lr_imc"],
-                  dim_tokenizer, device)
-        use_imc = 1
+    else:
+        agent = models.DoubleDQN
+    params = (h, w, c, n_actions, frames,
+              dict_agent["lr"], dim_tokenizer, device, dict_agent["use_memory"])
+
+    #if dict_agent["agent"] == "double-dqn-imc":
+    #    agent = models.DoubleDQNIMC
+    #    params = (h, w, c, n_actions, dict_agent["frames"], dict_agent["lr"], dict_agent["lr_imc"],
+    #              dim_tokenizer, device)
+    #    use_imc = 1
 
     policy_net = agent(*params).to(device)
     target_net = agent(*params).to(device)
@@ -116,7 +123,7 @@ def training(dict_env, dict_agent):
     target_net.eval()
 
     # Replay memory
-    if dict_agent["agent"] == "dqn-per" or dict_agent["agent"] == "double-dqn-per":
+    if dict_agent["use_per"]:
         memory = replaymemory.PrioritizedReplayMemory(size=dict_agent["memory_size"],
                                                       seed=seed, alpha=dict_agent["alpha"], beta=dict_agent["beta"],
                                                       annealing_rate=dict_agent["annealing_rate"])
@@ -158,7 +165,7 @@ def training(dict_env, dict_agent):
         # Reward per episode
         reward_ep = 0
         # Erase stored transitions (used for HER)
-        if use_her:
+        if use_her or use_dense:
             memory.erase_stored_transitions()
         if use_imc:
             memory_imc.erase_stored_data()
@@ -174,7 +181,7 @@ def training(dict_env, dict_agent):
 
         # Stacking frames to make a state
         observation["image"] = observation["image"][:, :, :c]
-        state_frames = [observation["image"]] * dict_agent["frames"]
+        state_frames = [observation["image"]] * frames
         state_frames = np.concatenate(state_frames, axis=2).transpose((2, 0, 1))
         state_frames = torch.as_tensor(state_frames, dtype=torch.float32).unsqueeze(0)
         state["image"] = state_frames.to(device)
@@ -210,13 +217,19 @@ def training(dict_env, dict_agent):
             # Update the number of steps
             steps_done += 1
 
-            # Add transition
+            # Add a transition
             memory.add_transition(curr_state["image"], action, reward, state["image"], terminal, curr_state["mission"])
-            if use_her:
+            if use_her or use_learned_expert:
                 memory.store_transition(curr_state["image"], action, reward,
                                         state["image"], terminal, curr_state["mission"])
             if use_imc:
                 memory_imc.store_data(curr_state["image"], curr_state["mission"], 0)
+
+            if use_dense:
+                if net_learned_expert.prediction_dense(curr_state) == 1:
+                    pred_mission = net_learned_expert.prediction_mission(curr_state["image"][frames*c:])
+                    memory.add_dense_transitions(reward=1, mission=pred_mission, action=3, terminal=True,
+                                                 keep_last_transitions_dense=dict_expert["keep_last_transitions_dense"])
 
             # Optimization
             if steps_done % dict_agent["ratio_step_optim"] == 0:
@@ -228,9 +241,8 @@ def training(dict_env, dict_agent):
             # Update the target network
             if (steps_done + 1) % dict_agent["update_target"] == 0:
                 target_net.load_state_dict(policy_net.state_dict())
-                # writer.add_scalar("time target updated", steps_done + 1, global_step=episode)
 
-            # Cumulative reward: attention the env gives a reward = 1- 0.9 * step_count/max_steps
+            # Cumulative reward
             reward_ep += reward
             reward_smoothing += reward
             discounted_reward_smoothing += dict_agent["gamma"] ** t * reward
@@ -250,7 +262,6 @@ def training(dict_env, dict_agent):
                 length_episode_done_smoothing += t
                 timeout_smoothing += 1 - is_carrying
                 object_picked_smoothing += is_carrying
-
 
             if steps_done % dict_env["smoothing"] == 0:
 
@@ -293,6 +304,7 @@ def training(dict_env, dict_agent):
 
             # Terminate the episode if terminal state
             if terminal:
+
                 if use_imc and is_carrying:
                     if reward == 0:
                         target_imc = torch.tensor([0], dtype=torch.long).to(device)
@@ -316,9 +328,17 @@ def training(dict_env, dict_agent):
                 if return_her and use_her:
                     hindsight_reward = out_step[5]
                     hindsight_target = out_step[6]
+                    if use_noisy_her:
+                        hindsight_target = utils.noisy_mission(hindsight_target, dict_expert)
                     mission = utils.mission_tokenizer(dict_env, hindsight_target).to(device)
                     memory.add_hindsight_transitions(reward=hindsight_reward, mission=mission,
-                                                     keep_last_transitions=dict_agent["keep_last_transitions"])
+                                                     keep_last_transitions=dict_expert["keep_last_transitions"])
+                if is_carrying and use_learned_expert:
+                    expert_reward = 1
+                    expert_mission = net_learned_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(device)
+                    memory.add_hindsight_transitions(reward=expert_reward, mission=expert_mission,
+                                                     keep_last_transitions=dict_expert["keep_last_transitions"])
+
                 break
 
         # Save policy_net's parameters
@@ -335,16 +355,19 @@ def training(dict_env, dict_agent):
 
 # To debug :
 
-#with open('configs/envs/fetch.json', 'r') as myfile:
-#    config_env = myfile.read()
+with open('configs/envs/fetch.json', 'r') as myfile:
+    config_env = myfile.read()
 
-#with open('configs/agents/fetch/doubledqnher.json', 'r') as myfile:
-#    config_agent = myfile.read()
+with open('configs/agents/fetch/doubledqn.json', 'r') as myfile:
+    config_agent = myfile.read()
 
-#import json
+with open('configs/experts/learned_expert.json', 'r') as myfile:
+    config_expert = myfile.read()
+import json
 
-#dict_env = json.loads(config_env)
-#dict_agent = json.loads(config_agent)
-#dict_agent["agent_dir"] = dict_env["env_dir"] + "/" + dict_env["name"] + "/" + dict_agent["name"]
-#print("Training in progress")
-#training(dict_env, dict_agent)
+dict_env = json.loads(config_env)
+dict_agent = json.loads(config_agent)
+dict_agent["agent_dir"] = dict_env["env_dir"] + "/" + dict_env["name"] + "/" + dict_agent["name"]
+dict_expert = json.loads(config_expert)
+print("Training in progress")
+training(dict_env, dict_agent, dict_expert)

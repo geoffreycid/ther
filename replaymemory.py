@@ -9,7 +9,7 @@ Created on Mon May  6 14:55:52 2019
 import collections
 import operator
 import random
-import sumtree
+from old import sumtree
 
 import numpy as np
 
@@ -77,6 +77,28 @@ class ReplayMemory(object):
     def erase_stored_transitions(self):
         self.stored_transitions = []
 
+    def add_dense_transitions(self, reward, mission, action, keep_last_transitions_dense):
+        # keep_last_transitions = 0 => keep the whole episode
+        if keep_last_transitions_dense == 0:
+            keep = 0
+        elif keep_last_transitions_dense > 1:
+            keep = max(len(self.stored_transitions) - keep_last_transitions_dense, 0)
+        # Update the last transition with hindsight replay
+        self.memory[self.position] = self.stored_transitions[-1]._replace(reward=reward, mission=mission,
+                                                                          action=action, terminal=True)
+        # Update the position and the len of the memory size
+        self.position += 1
+        self.len = min(self.memory_size, self.len + 1)
+        if self.position > self.memory_size - 1:
+            self.position = 0
+        # Update all the transitions of the current episode with hindsight replay
+        for transition in self.stored_transitions[keep:-1]:
+            self.memory[self.position] = transition._replace(mission=mission)
+            # Update the position and the len of the memory size
+            self.position += 1
+            self.len = min(self.memory_size, self.len + 1)
+            if self.position > self.memory_size - 1:
+                self.position = 0
 
 class ReplayMemoryIMC(object):
     def __init__(self, skew_ratio, seed):

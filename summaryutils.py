@@ -134,6 +134,14 @@ def mission_tokenizer(dict_env, target):
     return torch.cat((mission_type_onehot, mission_color_onehot, mission_seniority_onehot, mission_size_onehot)).unsqueeze(0)
 
 
+def noisy_misison(mission, dict_expert):
+    parameters = dict_expert["noisy_her_parameters"]
+    if parameters["mask"] > 0:
+
+        pass
+    pass
+
+
 def mission_tokenizer_numpy(dict_env, target):
 
     num_colors = len(dict_env["COLOR_TO_IDX"].keys())
@@ -184,17 +192,3 @@ def mission_tokenizer_separate(dict_env, target):
     return mission_type_onehot.unsqueeze(0), mission_color_onehot.unsqueeze(0)
 
 
-def target_tokenizer(dict_env, target, device):
-
-        # num_colors = len(dict_env["COLOR_TO_IDX"].keys())
-        # num_types = len(dict_env["TYPE_TO_IDX"].keys())
-
-        mission_color = torch.tensor([dict_env["COLOR_TO_IDX"][target["color"]]], dtype=torch.long).to(device)
-        mission_type = torch.tensor([dict_env["TYPE_TO_IDX"][target["type"]]], dtype=torch.long).to(device)
-
-        target_dict = {
-            "type": mission_type,
-            "color": mission_color
-        }
-
-        return target_dict

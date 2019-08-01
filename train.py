@@ -85,23 +85,48 @@ def training(dict_env, dict_agent, dict_expert):
     use_imc = 0
 
     # Type of expert to use
-    use_her = dict_expert["use_her"]
-    use_learned_expert = dict_expert["learned_expert"]
-    use_noisy_her = dict_expert["noisy_her"]
-    use_dense = dict_expert["use_dense"]
+    use_her = 0
+    use_learned_expert = 0
+    use_noisy_her = 0
+    use_dense = 0
+    use_expert_to_learn = 0
+
+    if dict_expert["name"] == "her":
+        use_her = 1
+    elif dict_expert["name"] == "learned-expert":
+        use_learned_expert = 1
+        start_use_expert = 1
+    elif dict_expert["name"] == "learned-dense-expert":
+        use_learned_expert = 1
+        use_use = 1
+        start_use_expert = 1
+    elif dict_expert["name"] == "expert-to-learn":
+        use_expert_to_learn = 1
+        start_use_expert = 0
+    elif dict_expert["name"] == "expert-dense-to-learn":
+        use_expert_to_learn = 1
+        use_dense = 1
+        start_use_expert = 0
+    elif dict_expert["name"] == "noisy-her":
+        use_noisy_her = 1
+    else:
+        raise Exception("Expert {} not implemented".format(dict_expert["name"]))
 
     # Load the model for the learned expert
-    if use_learned_expert:
+    if use_learned_expert or use_expert_to_learn:
         if dict_expert["learned_expert_type"] == "onehot":
-            net_learned_expert = models.PredMissionOneHot(c=c, frames=1, n_type=num_types, n_color=num_colors,
+            net_expert = models.PredMissionOneHot(c=c, frames=1, n_type=num_types, n_color=num_colors,
                                                           n_seniority=num_seniority, n_size=num_size, lr=dict_agent["lr"])
         if dict_expert["learned_expert_type"] == "dense":
-            net_learned_expert = models.PredMissionOneHotDense(c=c, frames=1, n_type=num_types,
+            net_expert = models.PredMissionOneHotDense(c=c, frames=1, n_type=num_types,
                                                                n_color=num_colors, n_seniority=num_seniority,
                                                                n_size=num_size, lr=dict_agent["lr"])
 
-        net_learned_expert.load_state_dict(torch.load(dict_expert["expert_weights_path"]))
-        net_learned_expert.to(device)
+    if use_learned_expert:
+        net_expert.load_state_dict(torch.load(dict_expert["expert_weights_path"]))
+        net_expert.eval()
+
+    net_expert.to(device)
 
     # Define the agent
     if dict_agent["use_per"]:
@@ -110,12 +135,6 @@ def training(dict_env, dict_agent, dict_expert):
         agent = models.DoubleDQN
     params = (h, w, c, n_actions, frames,
               dict_agent["lr"], dim_tokenizer, device, dict_agent["use_memory"])
-
-    #if dict_agent["agent"] == "double-dqn-imc":
-    #    agent = models.DoubleDQNIMC
-    #    params = (h, w, c, n_actions, dict_agent["frames"], dict_agent["lr"], dict_agent["lr_imc"],
-    #              dim_tokenizer, device)
-    #    use_imc = 1
 
     policy_net = agent(*params).to(device)
     target_net = agent(*params).to(device)
@@ -130,8 +149,8 @@ def training(dict_env, dict_agent, dict_expert):
     else:
         memory = replaymemory.ReplayMemory(size=dict_agent["memory_size"], seed=seed)
 
-    if use_imc:
-        memory_imc = replaymemory.ReplayMemoryIMC(skew_ratio=dict_agent["skew_ratio"], seed=seed)
+    if use_expert_to_learn:
+        memory_expert = replaymemory.ReplayMemoryExpert(size=dict_agent["size"], seed=seed)
 
     # Max steps per episode
     T_MAX = min(dict_env["T_max"], env.max_steps)
@@ -165,10 +184,8 @@ def training(dict_env, dict_agent, dict_expert):
         # Reward per episode
         reward_ep = 0
         # Erase stored transitions (used for HER)
-        if use_her or use_dense:
+        if use_her or use_learned_expert:
             memory.erase_stored_transitions()
-        if use_imc:
-            memory_imc.erase_stored_data()
 
         # One hot encoding of the type and the color of the target object
         target = {
@@ -222,21 +239,25 @@ def training(dict_env, dict_agent, dict_expert):
             if use_her or use_learned_expert:
                 memory.store_transition(curr_state["image"], action, reward,
                                         state["image"], terminal, curr_state["mission"])
-            if use_imc:
-                memory_imc.store_data(curr_state["image"], curr_state["mission"], 0)
 
-            if use_dense:
-                if net_learned_expert.prediction_dense(curr_state) == 1:
-                    pred_mission = net_learned_expert.prediction_mission(curr_state["image"][frames*c:])
-                    memory.add_dense_transitions(reward=1, mission=pred_mission, action=3, terminal=True,
+            if use_expert_to_learn and use_dense and action == 3 and torch.equal(curr_state["image"][:, keep_frames:], state["image"][:, keep_frames:]):
+                memory_expert.add_data_dense(curr_state=curr_state["image"],
+                                                    target=torch.tensor([0], dtype=torch.long).to(device))
+
+            if use_dense and start_use_expert:
+                if net_expert.prediction_dense(curr_state["image"][:, keep_frames:]) == 1 and reward == 0:
+                    with torch.no_grad():
+                        pred_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(device)
+                    # Note: terminal is changed to true
+                    memory.add_dense_transitions(reward=1, mission=pred_mission, action=3,
                                                  keep_last_transitions_dense=dict_expert["keep_last_transitions_dense"])
 
             # Optimization
             if steps_done % dict_agent["ratio_step_optim"] == 0:
                 policy_net.optimize_model(memory, target_net, dict_agent)
 
-            if use_imc and steps_done % dict_agent["update_imc"] == 0:
-                policy_net.optimize_imc(memory_imc, dict_agent, all_possible_missions)
+            if use_expert_to_learn and len(memory_expert) % dict_expert["update_network"] == 0:
+                start_use_expert = net_expert.optimize_model()
 
             # Update the target network
             if (steps_done + 1) % dict_agent["update_target"] == 0:
@@ -262,6 +283,11 @@ def training(dict_env, dict_agent, dict_expert):
                 length_episode_done_smoothing += t
                 timeout_smoothing += 1 - is_carrying
                 object_picked_smoothing += is_carrying
+                # Monitor the accuracy of the expert
+                if is_carrying:
+                    expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:])
+                    pred_mission_smoothing += torch.equal(expert_mission, curr_state["mission"])
+                    episode_done_carrying += 1
 
             if steps_done % dict_env["smoothing"] == 0:
 
@@ -281,6 +307,9 @@ def training(dict_env, dict_agent, dict_expert):
                 writer.add_scalar("length memory", len(memory), global_step=steps_done)
                 writer.add_scalar("epsilon", epsilon, global_step=steps_done)
 
+                # Start to use the expert (TO DO: make it a mean)
+                start_use_expert = (pred_mission_smoothing / episode_done_carrying) > dict_expert["min_acc"]
+
                 # Re-init to 0
                 reward_smoothing = 0
                 discounted_reward_smoothing = 0
@@ -289,12 +318,13 @@ def training(dict_env, dict_agent, dict_expert):
                 timeout_smoothing = 0
                 object_picked_smoothing = 0
 
-                if use_imc:
+                if use_expert_to_learn:
                     writer.add_scalar("Mean acc of pred per episode during {} steps".format(dict_env["smoothing"]),
                                       pred_mission_smoothing / episode_done_carrying, global_step=steps_done)
-                    writer.add_scalar("length memory imc", len(memory_imc), global_step=steps_done)
-                    writer.add_scalar("Percentage of positive examples", np.mean(memory_imc.list_of_targets),
-                                      global_step=steps_done)
+                    writer.add_scalar("length memory expert", len(memory_expert.memory), global_step=steps_done)
+                    if use_dense:
+                        writer.add_scalar("length memory expert dense", len(memory_expert.memory_dense),
+                                          global_step=steps_done)
                     pred_mission_smoothing = 0
                     episode_done_carrying = 0
 
@@ -305,26 +335,25 @@ def training(dict_env, dict_agent, dict_expert):
             # Terminate the episode if terminal state
             if terminal:
 
-                if use_imc and is_carrying:
-                    if reward == 0:
-                        target_imc = torch.tensor([0], dtype=torch.long).to(device)
-                        memory_imc.list_of_targets += \
-                            [0] * min(len(memory_imc.stored_data), dict_agent["n_keep_correspondence"])
-                    else:
-                        target_imc = torch.tensor([1], dtype=torch.long).to(device)
-                        memory_imc.list_of_targets += \
-                            [1] * min(len(memory_imc.stored_data), dict_agent["n_keep_correspondence"])
-                    memory_imc.add_stored_data(target_imc, dict_agent["n_keep_correspondence"])
-                #if use_imc:
-                    #print("prediction: {}, reward {}"
-                    #      .format(policy_net.pred_correspondence(curr_state["image"], curr_state["mission"],
-                    #                                             target_imc).cpu().detach().numpy(), reward))
-                    #print("Best found mission", policy_net.find_best_mission(state["image"], all_possible_missions))
-                    #print("Current mission", curr_state["mission"])
-                    #pred_mission_smoothing += torch.equal(torch.squeeze(curr_state["mission"], dim=0),
-                    #                                      policy_net.find_best_mission(state["image"][:, -6:],
-                    #                                                                   all_possible_missions))
-                #    episode_done_carrying += 1
+                # Fill the dataset to train the expert
+                if use_expert_to_learn:
+                    if is_carrying:
+
+                        if use_dense:
+                            memory_expert.add_data_dense(curr_state=curr_state["image"][:, keep_frames:],
+                                                         target=torch.tensor([1], dtype=torch.long).to(device))
+                        if dict_expert["learned_expert_type"] == "imc":
+                            if reward == 0:
+                                target_imc = torch.tensor([0], dtype=torch.long).to(device)
+                            else:
+                                target_imc = torch.tensor([1], dtype=torch.long).to(device)
+
+                            memory_expert.add_data(curr_state=curr_state["image"][:, keep_frames:], mission=target_imc)
+
+                        if dict_expert["learned_expert_type"] in "onehot" + "dense" and reward > 0:
+                            memory_expert.add_data(curr_state=curr_state["image"][:, keep_frames:],
+                                                   mission=curr_state["mission"])
+
                 if return_her and use_her:
                     hindsight_reward = out_step[5]
                     hindsight_target = out_step[6]
@@ -333,9 +362,11 @@ def training(dict_env, dict_agent, dict_expert):
                     mission = utils.mission_tokenizer(dict_env, hindsight_target).to(device)
                     memory.add_hindsight_transitions(reward=hindsight_reward, mission=mission,
                                                      keep_last_transitions=dict_expert["keep_last_transitions"])
-                if is_carrying and use_learned_expert:
+
+                if reward == 0 and is_carrying and use_learned_expert and start_use_expert:
                     expert_reward = 1
-                    expert_mission = net_learned_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(device)
+                    with torch.no_grad():
+                        expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(device)
                     memory.add_hindsight_transitions(reward=expert_reward, mission=expert_mission,
                                                      keep_last_transitions=dict_expert["keep_last_transitions"])
 
@@ -355,19 +386,19 @@ def training(dict_env, dict_agent, dict_expert):
 
 # To debug :
 
-with open('configs/envs/fetch.json', 'r') as myfile:
-    config_env = myfile.read()
+#with open('configs/envs/fetch.json', 'r') as myfile:
+#    config_env = myfile.read()
 
-with open('configs/agents/fetch/doubledqn.json', 'r') as myfile:
-    config_agent = myfile.read()
+#with open('configs/agents/fetch/doubledqn.json', 'r') as myfile:
+#    config_agent = myfile.read()
 
-with open('configs/experts/learned_expert.json', 'r') as myfile:
-    config_expert = myfile.read()
-import json
+#with open('configs/experts/learned_dense_expert.json', 'r') as myfile:
+#    config_expert = myfile.read()
+#import json
 
-dict_env = json.loads(config_env)
-dict_agent = json.loads(config_agent)
-dict_agent["agent_dir"] = dict_env["env_dir"] + "/" + dict_env["name"] + "/" + dict_agent["name"]
-dict_expert = json.loads(config_expert)
-print("Training in progress")
-training(dict_env, dict_agent, dict_expert)
+#dict_env = json.loads(config_env)
+#dict_agent = json.loads(config_agent)
+#dict_agent["agent_dir"] = dict_env["env_dir"] + "/" + dict_env["name"] + "/" + dict_agent["name"]
+#dict_expert = json.loads(config_expert)
+#print("Training in progress")
+#training(dict_env, dict_agent, dict_expert)

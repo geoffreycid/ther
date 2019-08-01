@@ -1,0 +1,14 @@
+{
+    "name": "learned-expert",
+    "use_her": 0,
+    "keep_last_transitions": 0,
+    "expert_to_learn": 0,
+    "learned_expert": 1,
+    "use_dense": 0,
+    "keep_last_transitions_dense": 2,
+    "learned_expert_type": "onehot",
+    "expert_weights_path": "/home/gcideron/visual_her/out_preds/new/saved_model/onehot/len_train_50000/100000_steps_0.9087_acc.pt",
+    "noisy_her": 0,
+    "noisy_her_parameters": 0
+
+}

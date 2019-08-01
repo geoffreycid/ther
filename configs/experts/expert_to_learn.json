@@ -1,0 +1,17 @@
+{
+    "name": "expert-to-learn",
+    "keep_last_transitions": 0,
+    "keep_last_transitions_dense": 2,
+    "learned_expert_type": "onehot",
+    "min_acc": 0.8,
+    "update_network": 500,
+    "config_optimize_net": {
+        "log_every": 100,
+        "earlystopping": 100,
+        "iterations_before_earlystopping": 100,
+        "n_iterations": 1e5,
+        "batch_size": 128,
+        "device": "cuda",
+        "ratio_dense_onehot": 0.1
+}
+}

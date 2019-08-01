@@ -1,8 +1,8 @@
 {
-  "name": "Fetch-14x14-N2-C6-SE5-SI5-O4-T-max-50-replaybuffer-explo-100K-new-terminal-changed",
+  "name": "Fetch-12x12-N2-C6-SE5-SI5-O10-T-max-50-replaybuffer-explo-100K",
   "game_type": "fetch",
-  "size": 14,
-  "numObjs": 4,
+  "size": 12,
+  "numObjs": 10,
   "T_max": 50,
   "manual": 0,
   "random_target": 1,

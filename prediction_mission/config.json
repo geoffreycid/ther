@@ -1,0 +1,19 @@
+{
+  "n_iterations": 6e5,
+  "save_every": 1e5,
+  "log_every": 1000,
+  "batch_size": 128,
+  "seed": 32,
+  "frames": 4,
+  "channels": 4,
+  "num_types": 2,
+  "num_colors": 6,
+  "num_seniority": 5,
+  "num_size": 5,
+  "lr": 1e-5,
+  "weight_decay": 0,
+  "dir": "/home/gcideron/visual_her/out_preds/new",
+  "earlystopping": 1000,
+  "iterations_before_earlystopping": 1000
+}
+

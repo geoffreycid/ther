@@ -1,0 +1,27 @@
+{
+    "name": "expert-dense-to-learn",
+    "T_exploration": 8e5,
+    "keep_last_transitions": 3,
+    "keep_last_transitions_dense": 1,
+    "expert_type": "dense",
+    "update_network": [1000, 2000, 5000, 10000],
+    "update_network_dense": [20000, 50000],
+    "config_optimize_net": {
+      "log_every": 100,
+      "earlystopping": 100,
+      "iterations_before_earlystopping": 1e6,
+      "n_iterations": 2e6,
+      "batch_size": 128,
+      "device": "cuda",
+      "acc_min": 0.75
+    },
+    "config_optimize_net_dense": {
+      "log_every": 100,
+      "earlystopping": 100,
+      "iterations_before_earlystopping": 2e5,
+      "n_iterations": 1e6,
+      "batch_size": 128,
+      "device": "cuda",
+      "f1_min": 0.98
+    }
+}

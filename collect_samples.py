@@ -190,7 +190,6 @@ def collect_samples(dict_env, dict_agent, use_her, use_imc, use_dense=0):
                 memory_collectsample.add_data_dense(curr_state=curr_state["image"],
                                                     target=torch.tensor([0], dtype=torch.long).to(device))
 
-
             # Update the number of steps
             steps_done += 1
 

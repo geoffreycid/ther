@@ -1,5 +1,5 @@
 {
-  "name": "Fetch-12x12-N2-C6-SE5-SI5-O10-T-max-50-replaybuffer-explo-100K",
+  "name": "fixed-Fetch-12x12-N2-C6-SE5-SI5-O10-T-max-50-replaybuffer-50K-T-explo-variable-experts-to-learn",
   "game_type": "fetch",
   "size": 12,
   "numObjs": 10,

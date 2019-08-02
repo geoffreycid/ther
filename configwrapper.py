@@ -14,7 +14,7 @@ import ray
 import train
 
 
-def wrapper(dict_env, dict_agent, grid_search, extension):
+def wrapper(dict_env, dict_agent, dict_expert, grid_search, extension):
     """
     - Create & check files and folders
     - Call the training procedure
@@ -26,7 +26,7 @@ def wrapper(dict_env, dict_agent, grid_search, extension):
     if not os.path.exists(dict_env["env_dir"]):
         os.makedirs(dict_env["env_dir"])
     env_dir = dict_env["env_dir"] + "/" + dict_env["name"]
-    agent_dir = env_dir + "/" + dict_agent["name"]
+    agent_dir = env_dir + "/" + dict_agent["name"] + "-" + dict_expert["name"]
     # Check if the experience has already been done
     # Make the needed folders
     if os.path.exists(env_dir):
@@ -61,6 +61,9 @@ def wrapper(dict_env, dict_agent, grid_search, extension):
 
     with open(agent_dir + '/gridsearch.json', 'w') as outfile:
         json.dump(grid_search, outfile)
+
+    with open(agent_dir + '/expert.json', 'w') as outfile:
+        json.dump(dict_expert, outfile)
     
     dict_agent["agent_dir"] = agent_dir
     # Train the model

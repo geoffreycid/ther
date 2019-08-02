@@ -1,6 +1,4 @@
 {
     "seed": [43],
-    "T_exploration": 100000,
-    "memory_size": 100000,
     "max_steps": 4000000
 }

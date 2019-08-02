@@ -10,7 +10,7 @@
     "T_exploration": 1e5,
     "batch_size": 128,
     "lr": 1e-5,
-    "memory_size": 1000,
+    "memory_size": 50000,
     "gamma": 0.99,
     "eps_init": 1,
     "eps_final": 0.1,

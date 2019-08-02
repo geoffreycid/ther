@@ -1,10 +1,9 @@
 {
     "name": "learned-dense-expert",
     "keep_last_transitions": 0,
+    "T_exploration": 8e5,
     "keep_last_transitions_dense": 1,
-    "learned_expert_type": "dense",
-    "expert_weights_path": "/home/gcideron/visual_her/out_preds/new/saved_model/dense/len_train_50000_len_dense_250000/600000_steps_0.9638_acc.pt",
-    "noisy_her": 0,
-    "noisy_her_parameters": 0
+    "expert_type": "dense",
+    "expert_weights_path": "/home/gcideron/visual_her/out_preds/new/saved_model/dense/len_train_50000_len_dense_250000/600000_steps_0.9638_acc.pt"
 
 }

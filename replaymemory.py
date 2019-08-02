@@ -100,45 +100,41 @@ class ReplayMemory(object):
             if self.position > self.memory_size - 1:
                 self.position = 0
 
-class ReplayMemoryIMC(object):
-    def __init__(self, skew_ratio, seed):
-        self.imc = collections.namedtuple("ImMis",
-                                                 ["state", "mission", "target"])
-        self.memory = []
+
+class ReplayMemoryExpert(object):
+    def __init__(self, size, seed):
+        self.imc = collections.namedtuple("imc", ["state", "target"])
+        self.memory_size = int(size)
+        self.position = 0
+        self.len = 0
+        self.memory = [None for _ in range(self.memory_size)]
         self.stored_data = []
         self.list_of_targets = []
-        self.skew_ratio = skew_ratio
+        self.episodes_done = 0
+        self.memory_dense_size = self.memory_size * 7
+        self.memory_dense = [None for _ in range(self.memory_size * 7)]
+        self.position_dense = 0
+        self.imc_dense = collections.namedtuple("dense", ["state", "target"])
+        self.len_dense = 0
+        self.stored_dense_data = []
         random.seed(seed)
+        np.random.seed(seed)
 
-    def add_data(self, curr_state, mission, target):
-        self.memory.append(self.imc(curr_state, mission, target))
+    def add_data(self, curr_state, target):
+        self.memory[self.position] = self.imc(curr_state, target)
+        # Update the position and the len of the memory size
+        self.position += 1
+        self.len = min(self.memory_dense_size, self.len + 1)
+        if self.position > self.memory_size - 1:
+            self.position = 0
 
-    def sample(self, batch_size):
-        if len(self.memory) < batch_size:
-            return random.sample(self.memory, batch_size)
-        else:
-            np_targets = np.array(self.list_of_targets, dtype=np.float)
-            np_targets[np_targets == 1] = self.skew_ratio / sum(np_targets == 1)
-            np_targets[np_targets == 0] = (1-self.skew_ratio) / sum(np_targets == 0)
-            sampled_idxs = np.random.choice(np.arange(len(np_targets)),
-                                               size=batch_size, replace=False, p=np_targets)
-            op = operator.itemgetter(*sampled_idxs)
-            return op(self.memory)
+    def add_data_dense(self, curr_state, target):
+        self.memory_dense[self.position_dense] = self.imc_dense(curr_state, target)
+        self.position_dense += 1
+        self.len_dense = min(self.memory_dense_size, self.len_dense + 1)
+        if self.position_dense > self.memory_size * 10 - 1:
+            self.position_dense = 0
 
-    def __len__(self):
-        return len(self.memory)
-
-    def store_data(self, curr_state, mission, target):
-        self.stored_data.append(self.imc(curr_state, mission, target))
-
-    def add_stored_data(self, target, n_keep_correspondence):
-        n = min(len(self.stored_data), n_keep_correspondence)
-        for i in range(n):
-            self.memory.append(self.stored_data[i]._replace(target=target))
-        self.erase_stored_data()
-
-    def erase_stored_data(self):
-        self.stored_data = []
 
 class ReplayMemoryPER(object):
     def __init__(self, size, alpha=0.6, beta=0.4, eps=0.01, annealing_rate=0.001):
@@ -236,6 +232,7 @@ class PrioritizedReplayMemory(object):
         self.annealing_rate = annealing_rate
         self.len = 0
         random.seed(seed)
+        np.random.seed(seed)
 
     def add_transition(self, curr_state, action, reward, next_state, terminal, mission):
         self.memory[self.position] = \

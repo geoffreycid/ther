@@ -1,0 +1,10 @@
+{
+    "name": "noisy-her",
+    "keep_last_transitions": 3,
+    "T_exploration": 1e5,
+    "parameters-noisy-her": {
+        "proba-noisy": 0.5,
+        "noisy-type": "mask",
+        "attrib": "color"
+    }
+}

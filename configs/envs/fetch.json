@@ -1,9 +1,11 @@
 {
-  "name": "fixed-Fetch-12x12-N2-C6-SE5-SI5-O10-T-max-50-replaybuffer-50K-T-explo-variable-experts-to-learn",
+  "name": "Fetch-8x8-N2-C6-SE5-SI5-O5-experts-to-learn-reward-neg-0-5-fixed-obs-terminal-false",
   "game_type": "fetch",
-  "size": 12,
-  "numObjs": 10,
+  "size": 8,
+  "numObjs": 5,
   "T_max": 50,
+  "wrong_object_terminal": 0,
+  "reward_neg": 1,
   "manual": 0,
   "random_target": 1,
   "oneobject": 0,
@@ -36,7 +38,7 @@
   "env_dir": "/home/gcideron/visual_her/out",
   "summary_trajectory": 5000,
   "summary_mean_max_q": 1000,
-  "save_model": 100000,
+  "save_model": 1000000,
   "smoothing": 5000,
   "full_idx": {
     "red": 0,

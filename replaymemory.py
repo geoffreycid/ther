@@ -54,7 +54,7 @@ class ReplayMemory(object):
         # keep_last_transitions = 0 => keep the whole episode
         if keep_last_transitions == 0:
             keep = 0
-        elif keep_last_transitions > 1:
+        elif keep_last_transitions > 0:
             keep = max(len(self.stored_transitions) - keep_last_transitions, 0)
         # Update the last transition with hindsight replay
         self.memory[self.position] = self.stored_transitions[-1]._replace(reward=reward, mission=mission)
@@ -81,7 +81,7 @@ class ReplayMemory(object):
         # keep_last_transitions = 0 => keep the whole episode
         if keep_last_transitions_dense == 0:
             keep = 0
-        elif keep_last_transitions_dense > 1:
+        elif keep_last_transitions_dense > 0:
             keep = max(len(self.stored_transitions) - keep_last_transitions_dense, 0)
         # Update the last transition with hindsight replay
         self.memory[self.position] = self.stored_transitions[-1]._replace(reward=reward, mission=mission,
@@ -111,8 +111,8 @@ class ReplayMemoryExpert(object):
         self.stored_data = []
         self.list_of_targets = []
         self.episodes_done = 0
-        self.memory_dense_size = self.memory_size * 7
-        self.memory_dense = [None for _ in range(self.memory_size * 7)]
+        self.memory_dense_size = self.memory_size * 10
+        self.memory_dense = [None for _ in range(self.memory_dense_size)]
         self.position_dense = 0
         self.imc_dense = collections.namedtuple("dense", ["state", "target"])
         self.len_dense = 0
@@ -263,7 +263,7 @@ class PrioritizedReplayMemory(object):
         return op(self.memory), is_weights, transition_idxs
 
     def update(self, idxs, errors):
-        errors = np.power(errors, self.alpha) + self.eps
+        errors = np.power(errors + self.eps, self.alpha)
         self.priorities[idxs] = errors
 
     def __len__(self):

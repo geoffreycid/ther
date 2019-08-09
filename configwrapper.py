@@ -64,6 +64,8 @@ def wrapper(dict_env, dict_agent, dict_expert, grid_search, extension):
 
     with open(agent_dir + '/expert.json', 'w') as outfile:
         json.dump(dict_expert, outfile)
+
+
     
     dict_agent["agent_dir"] = agent_dir
     # Train the model

@@ -9,6 +9,8 @@ dict_env = {
     "numObjs": 2,
     "manual": 0,
     "random_target": 1,
+    "wrong_object_terminal": 0,
+    "reward_neg": 1,
     "oneobject": 0,
     "COLOR_TO_IDX": {
         "red": 0,
@@ -47,7 +49,7 @@ dict_agent = {
     "memory_size": 1e5
 }
 
-env = game.game(dict_env, dict_agent)
+env = game.game(dict_env, use_her=1)
 
 observation = env.reset()
 
@@ -59,11 +61,10 @@ for _ in range(1000):
     observation = out[0]
     done = out[2]
     im = observation["image"]
-    image = env.render("rgb_array")
+    #image = env.render("rgb_array")
+    env.render()
     #plt.imshow(image)
     #plt.show()
-    if im[3, 6, 0] != 1 and not done:
-        print("error")
     if done:
         observation = env.reset()
 

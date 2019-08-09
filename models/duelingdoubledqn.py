@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-class DoubleDQN(nn.Module):
+class DuelingDoubleDQN(nn.Module):
 
     def __init__(self, h, w, c, n_actions, frames, lr, dim_tokenizer, device, use_memory):
         """
@@ -14,7 +14,7 @@ class DoubleDQN(nn.Module):
         frames: last observations to make a state
         n_actions: number of actions
         """
-        super(DoubleDQN, self).__init__()
+        super(DuelingDoubleDQN, self).__init__()
 
         self.n_actions = n_actions
         self.mission = True
@@ -47,8 +47,14 @@ class DoubleDQN(nn.Module):
             nn.ReLU()
         )
 
-        self.fc = nn.Sequential(
-            nn.Linear(in_features=(self.size_after_conv+self.embedded_dim), out_features=64),
+        self.value_fc = nn.Sequential(
+            nn.Linear(in_features=self.size_after_conv+self.embedded_dim, out_features=64),
+            nn.ReLU(),
+            nn.Linear(in_features=64, out_features=1)
+        )
+
+        self.advantage_fc = nn.Sequential(
+            nn.Linear(in_features=self.size_after_conv+self.embedded_dim, out_features=64),
             nn.ReLU(),
             nn.Linear(in_features=64, out_features=n_actions)
         )
@@ -58,12 +64,6 @@ class DoubleDQN(nn.Module):
         #    nn.ReLU(),
         #    nn.Linear(in_features=self.embedded_dim, out_features=64)
         )
-
-        #self.fcwo = nn.Sequential(
-        #    nn.Linear(in_features=size_after_conv, out_features=64),
-        #    nn.ReLU(),
-        #    nn.Linear(in_features=64, out_features=n_actions)
-        #)
 
         self.optimizer = torch.optim.RMSprop(self.parameters(), lr=lr)
 
@@ -80,9 +80,16 @@ class DoubleDQN(nn.Module):
             out_conv = self.conv_net(state["image"])
             flatten = out_conv.view(out_conv.shape[0], -1)
 
+        # Language part
         out_language = self.language_net(state["mission"])
+        # Concatenation between language and image
         concat = torch.cat((flatten, out_language), dim=1)
-        return self.fc(concat)
+        # Dueling part
+        value = self.value_fc(concat)
+        advantage = self.advantage_fc(concat)
+        advantage = advantage - torch.mean(advantage, dim=1, keepdim=True)
+        combined = value + advantage
+        return combined
 
     def select_action(self, state, epsilon):
         if random.random() < epsilon:
@@ -108,13 +115,6 @@ class DoubleDQN(nn.Module):
         batch_terminal = torch.as_tensor(batch_transitions.terminal, dtype=torch.int32)
         batch_action = torch.as_tensor(batch_transitions.action, dtype=torch.long, device=self.device).reshape(-1, 1)
         batch_mission = torch.cat(batch_transitions.mission)
-
-        #batch_transitions = memory.transition(*zip(*transitions))
-        #batch_curr_state = torch.from_numpy(np.concatenate(batch_transitions.curr_state)).to(self.device).float()
-        #batch_next_state = torch.from_numpy(np.concatenate(batch_transitions.next_state)).to(self.device).float()
-        #batch_terminal = torch.as_tensor(batch_transitions.terminal, dtype=torch.int32)
-        #batch_action = torch.as_tensor(batch_transitions.action, dtype=torch.long, device=self.device).reshape(-1, 1)
-        #batch_mission = torch.from_numpy(np.concatenate(batch_transitions.mission)).to(self.device).float()
 
         # Compute targets according to the Bellman eq
         batch_next_state_non_terminal_dict = {

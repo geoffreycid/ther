@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import torch
+import random
 import numpy as np
 
 
@@ -134,12 +135,78 @@ def mission_tokenizer(dict_env, target):
     return torch.cat((mission_type_onehot, mission_color_onehot, mission_seniority_onehot, mission_size_onehot)).unsqueeze(0)
 
 
-def noisy_misison(mission, dict_expert):
-    parameters = dict_expert["noisy_her_parameters"]
-    if parameters["mask"] > 0:
+def noisy_mission(target, dict_env, config):
 
-        pass
-    pass
+    num_colors = len(dict_env["COLOR_TO_IDX"].keys())
+    num_types = len(dict_env["TYPE_TO_IDX"].keys())
+    num_seniority = len(dict_env["SENIORITY_TO_IDX"].keys())
+    num_size = len(dict_env["SIZE_TO_IDX"].keys())
+
+    mission_color_onehot = torch.zeros(num_colors)
+    if num_colors > 1:
+        mission_color_onehot[dict_env["COLOR_TO_IDX"][target["color"]]] = 1
+
+    mission_type_onehot = torch.zeros(num_types)
+    mission_type_onehot[dict_env["TYPE_TO_IDX"][target["type"]]] = 1
+
+    mission_seniority_onehot = torch.zeros(num_seniority)
+    mission_seniority_onehot[dict_env["SENIORITY_TO_IDX"][target["seniority"]]] = 1
+
+    mission_size_onehot = torch.zeros(num_size)
+    mission_size_onehot[dict_env["SIZE_TO_IDX"][target["size"]]] = 1
+
+    proba = random.random()
+    if proba < config["proba-noisy"]:
+
+        if "mask" in config["noisy-type"]:
+            if "color" in config["attrib"]:
+                mission_color_onehot = torch.zeros(num_colors)
+            if "type" in config["attrib"]:
+                mission_type_onehot = torch.zeros(num_types)
+            if "seniority" in config["attrib"]:
+                mission_seniority_onehot = torch.zeros(num_seniority)
+            if "size" in config["attrib"]:
+                mission_size_onehot = torch.zeros(num_size)
+            if "random" in config["attrib"]:
+                attrib = random.randint(0, 3)
+                if attrib == 0:
+                    mission_color_onehot = torch.zeros(num_colors)
+                elif attrib == 1:
+                    mission_type_onehot = torch.zeros(num_types)
+                elif attrib == 2:
+                    mission_seniority_onehot = torch.zeros(num_seniority)
+                elif attrib == 3:
+                    mission_size_onehot = torch.zeros(num_size)
+
+        if "noise" in config["noisy-type"]:
+            if "color" in config["attrib"]:
+                idx = random.randint(0, num_colors - 1)
+                mission_color_onehot[idx] = 1
+            if "type" in config["attrib"]:
+                idx = random.randint(0, num_types - 1)
+                mission_type_onehot[idx] = 1
+            if "seniority" in config["attrib"]:
+                idx = random.randint(0, num_seniority - 1)
+                mission_seniority_onehot[idx] = 1
+            if "size" in config["attrib"]:
+                idx = random.randint(0, num_size - 1)
+                mission_size_onehot[idx] = 1
+            if "random" in config["attrib"]:
+                attrib = random.randint(0, 3)
+                if attrib == 0:
+                    idx = random.randint(0, num_colors - 1)
+                    mission_color_onehot[idx] = 1
+                elif attrib == 1:
+                    idx = random.randint(0, num_types - 1)
+                    mission_type_onehot[idx] = 1
+                elif attrib == 2:
+                    idx = random.randint(0, num_seniority - 1)
+                    mission_seniority_onehot[idx] = 1
+                elif attrib == 3:
+                    idx = random.randint(0, num_size - 1)
+                    mission_size_onehot[idx] = 1
+
+    return torch.cat((mission_type_onehot, mission_color_onehot, mission_seniority_onehot, mission_size_onehot)).unsqueeze(0)
 
 
 def mission_tokenizer_numpy(dict_env, target):

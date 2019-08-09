@@ -35,13 +35,6 @@ class PredMissionImc(nn.Module):
             nn.ReLU()
         )
 
-        #self.embedding_image_as_fc = nn.Sequential(
-        #    nn.Linear(in_features=98, out_features=32),
-        #    nn.ReLU(),
-        #    nn.Linear(in_features=32, out_features=64),
-        #    nn.ReLU(),
-        #    nn.Linear(in_features=64, out_features=128),
-        #)
         self.embedding_image_fc = nn.Sequential(
             nn.Linear(in_features=64, out_features=128)
 
@@ -216,7 +209,7 @@ class PredMissionOneHot(nn.Module):
 
         # Create the train and the test set
         len_memory = memory.len
-        len_memory_train = int(len_memory * 0.9)
+        len_memory_train = int(len_memory * 0.95)
         len_test = len_memory - len_memory_train
         train_memory = memory.memory[:len_memory_train]
         test_memory = memory.memory[len_memory_train:len_memory]
@@ -302,37 +295,22 @@ class PredMissionOneHot(nn.Module):
 
                 # Targets
                 batch_targets = torch.cat(batch_imcs.target)
-                batch_type_targets = batch_targets[:, :self.n_type]
-                batch_type_targets = batch_type_targets.argmax(1)
-
-                batch_color_targets = batch_targets[:, self.n_type: self.n_type + self.n_color]
-                batch_color_targets = batch_color_targets.argmax(1)
-
-                batch_seniority_targets = batch_targets[:,
-                                          self.n_type + self.n_color:self.n_type + self.n_color + self.n_seniority]
-                batch_seniority_targets = batch_seniority_targets.argmax(1)
-
-                batch_size_targets = batch_targets[:, self.n_type + self.n_color + self.n_seniority:]
-                batch_size_targets = batch_size_targets.argmax(1)
 
                 # Compute accuracies
-                acc_type = float(torch.eq(batch_type_predictions, batch_type_targets).sum()) / len_test
-                acc_color = float(torch.eq(batch_color_predictions, batch_color_targets).sum()) / len_test
-                acc_seniority = float(torch.eq(batch_seniority_predictions, batch_seniority_targets).sum()) / len_test
-                acc_size = float(torch.eq(batch_size_predictions, batch_size_targets).sum()) / len_test
                 acc_total = float(torch.all(torch.eq(batch_mission_predictions, batch_targets), dim=1).sum()) / len_test
 
                 test_accs = np.append(test_accs, acc_total)
                 # Early stopping
-                if steps_done > iterations_before_early_stopping \
-                        and np.sum(test_accs[-earlystopping] < test_accs[-earlystopping:]) == 0:
-                    print("Early stopping with accuracy {}".format(acc_total))
-                    break
+                if steps_done > iterations_before_early_stopping and test_accs.size > earlystopping - 1:
+                    if np.sum(test_accs[-earlystopping] < test_accs[-earlystopping:]) == 0:
+                        print("Early stopping with accuracy {}".format(acc_total))
+                        break
 
             if steps_done > n_iterations:
                 break
-        #print("accuracies", test_accs[-100:])
-        return test_accs[-1] > config["acc_min"]
+        print("accuracies", test_accs[-5:])
+        # return test_accs[-1] > config["acc_min"], test_accs[-1]
+        return 1, test_accs[-1]
 
 
 class PredMissionOneHotDense(PredMissionOneHot):
@@ -366,8 +344,8 @@ class PredMissionOneHotDense(PredMissionOneHot):
         )
 
         params_dense = list(self.dense_conv.parameters()) + list(self.dense_fc.parameters())
+
         self.optimizer_dense = torch.optim.RMSprop(params_dense, lr=lr)
-        self.criterion_dense = nn.CrossEntropyLoss(weight=torch.tensor([0.07, 0.93]))
 
     def forward_dense(self, state):
         out_conv = self.dense_conv(state)
@@ -382,7 +360,7 @@ class PredMissionOneHotDense(PredMissionOneHot):
 
         len_memory_dense = memory.len_dense
         len_memory_train_dense = int(len_memory_dense * 0.9)
-        len_test_dense = len_memory_dense - len_memory_train_dense
+        # len_test_dense = len_memory_dense - len_memory_train_dense
 
         train_memory_dense = memory.memory_dense[:len_memory_train_dense]
         test_memory_dense = memory.memory_dense[len_memory_train_dense:len_memory_dense]
@@ -444,17 +422,18 @@ class PredMissionOneHotDense(PredMissionOneHot):
                 batch_states_dense = torch.cat(batch_imcs_dense.state)
                 batch_dense_predictions = self.prediction_dense(batch_states_dense).to(device)
                 batch_dense_targets = torch.cat(batch_imcs_dense.target)
-                acc_dense = float(torch.eq(batch_dense_predictions, batch_dense_targets).sum()) / len_test_dense
+                # acc_dense = float(torch.eq(batch_dense_predictions, batch_dense_targets).sum()) / len_test_dense
                 f1 = f1_score(batch_dense_targets.cpu().numpy(), batch_dense_predictions.cpu().numpy())
 
                 test_f1s = np.append(test_f1s, f1)
                 # Early stopping
-                if steps_done > iterations_before_early_stopping \
-                        and np.sum(test_f1s[-earlystopping] < test_f1s[-earlystopping:]) == 0:
-                    print("Early stopping with f1 score {}".format(f1))
-                    break
+                if steps_done > iterations_before_early_stopping and test_f1s.size > earlystopping - 1:
+                    if np.sum(test_f1s[-earlystopping] < test_f1s[-earlystopping:]) == 0:
+                        print("Early stopping with f1 score {}".format(f1))
+                        break
 
             if steps_done > n_iterations:
                 break
-        #print("test f1s", test_f1s[-100:])
-        return test_f1s[-1] > config["f1_min"]
+        print("test f1s", test_f1s[-5:])
+        # return test_f1s[-1] > config["f1_min"], test_f1s[-1]
+        return 1, test_f1s[-1]

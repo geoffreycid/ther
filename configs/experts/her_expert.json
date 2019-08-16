@@ -1,5 +1,5 @@
 {
     "name": "her",
-    "keep_last_transitions": 3,
-    "T_exploration": 1e5
+    "keep_last_transitions": 0,
+    "T_exploration": 5e5
 }

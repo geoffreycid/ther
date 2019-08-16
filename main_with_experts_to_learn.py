@@ -7,7 +7,7 @@ import json
 
 if __name__ == '__main__':
 
-    @ray.remote(num_gpus=0.33, max_calls=1)
+    @ray.remote(num_gpus=0.5, max_calls=1)
     def training(dict_env, dict_agent, dict_expert):
         return train.training(dict_env=dict_env, dict_agent=dict_agent, dict_expert=dict_expert)
 
@@ -67,11 +67,11 @@ if __name__ == '__main__':
                                                 dict_expert=dict_her_expert, grid_search=grid_search,
                                                 extension=extension)
 
-    #dict_dqn_expert_to_learn, dicts_dqn_expert_to_learn = configwrapper.wrapper(dict_env=dict_fetch,
-    #                                                                                dict_agent=dict_agent_simple,
-    #                                                                                dict_expert=dict_expert_to_learn,
-    #                                                                                grid_search=grid_search,
-    #                                                                                extension=extension)
+    dict_dqn_expert_to_learn, dicts_dqn_expert_to_learn = configwrapper.wrapper(dict_env=dict_fetch,
+                                                                                    dict_agent=dict_agent_simple,
+                                                                                    dict_expert=dict_expert_to_learn,
+                                                                                    grid_search=grid_search,
+                                                                                    extension=extension)
 
     dict_dqn_expert_to_learn_dense, dicts_dqn_expert_to_learn_dense = configwrapper.wrapper(dict_env=dict_fetch,
                                                                                     dict_agent=dict_agent_simple,
@@ -79,14 +79,14 @@ if __name__ == '__main__':
                                                                                     grid_search=grid_search,
                                                                                     extension=extension)
 
-    dicts_to_train = dicts_dqn_expert_to_learn_dense + dicts_dqn_her + dicts_dqn_no_expert #+ dicts_dqn_expert_to_learn
+    dicts_to_train = dicts_dqn_expert_to_learn_dense + dicts_dqn_her + dicts_dqn_no_expert + dicts_dqn_expert_to_learn
 
     nb_seed = len(dicts_dqn_no_expert)
     #dicts_expert = [dict_expert_to_learn_dense] * nb_seed + [dict_expert_to_learn] * nb_seed + [
     #    dict_her_expert] * nb_seed + [dict_no_expert] * nb_seed
 
     dicts_expert = [dict_expert_to_learn_dense] * nb_seed + [dict_her_expert] * nb_seed + [dict_no_expert] * nb_seed \
-                  # + [dict_expert_to_learn] * nb_seed
+                    + [dict_expert_to_learn] * nb_seed
 
     # Use Ray to do the allocation of resources
     ray.get([training.remote(dict_env=dict_fetch, dict_agent=agent, dict_expert=expert)

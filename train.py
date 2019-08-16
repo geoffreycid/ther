@@ -14,10 +14,6 @@ import summaryutils as utils
 
 
 def training(dict_env, dict_agent, dict_expert):
-    """
-    :type dict_agent: dict of the agent
-    ;type dict_env: dict of the environment
-    """
 
     # Type of expert to use
     use_her = 0
@@ -66,7 +62,7 @@ def training(dict_env, dict_agent, dict_expert):
     writer = tb.SummaryWriter(dict_agent["agent_dir"])  # + "/logs")
 
     # Create the environment
-    env = game.game(dict_env, use_her)
+    env = game.game(dict_env)
 
     # Fix all seeds
     seed = dict_agent["seed"]
@@ -298,7 +294,7 @@ def training(dict_env, dict_agent, dict_expert):
                     writer.add_scalar("F1 score", f1, global_step=memory_expert.len_dense)
 
             # Update the target network
-            if (steps_done + 1) % dict_agent["update_target"] == 0:
+            if steps_done % dict_agent["update_target"] == 0:
                 target_net.load_state_dict(policy_net.state_dict())
 
             # Cumulative reward
@@ -385,94 +381,49 @@ def training(dict_env, dict_agent, dict_expert):
                 max_steps_reached = 1
                 break
 
-            # Terminate the episode if terminal state
-            if dict_env["wrong_object_terminal"]:
+            if is_carrying:
 
-                if terminal:
+                # Fill the dataset to train the expert
+                if use_expert_to_learn:
 
-                    # Fill the dataset to train the expert
-                    if use_expert_to_learn:
-                        if is_carrying:
-
-                            if use_dense:
-                                memory_expert.add_data_dense(curr_state=curr_state["image"][:, keep_frames:],
-                                                             target=torch.tensor([1], dtype=torch.long).to(device))
-                            if dict_expert["expert_type"] == "imc":
-                                if reward == 0:
-                                    target_imc = torch.tensor([0], dtype=torch.long).to(device)
-                                else:
-                                    target_imc = torch.tensor([1], dtype=torch.long).to(device)
-
-                                memory_expert.add_data(curr_state=curr_state["image"][:, keep_frames:], mission=target_imc)
-
-                            if dict_expert["expert_type"] in "onehot" + "dense" and reward > 0:
-                                memory_expert.add_data(curr_state=curr_state["image"][:, keep_frames:],
-                                                       target=curr_state["mission"])
-
-                    if return_her and use_her:
-                        hindsight_reward = out_step[5]
-                        hindsight_target = out_step[6]
-                        if use_noisy_her:
-                            mission = utils.noisy_mission(hindsight_target,
-                                                          dict_env, dict_expert["parameters-noisy-her"]).to(device)
+                    if use_dense:
+                        memory_expert.add_data_dense(curr_state=curr_state["image"][:, keep_frames:],
+                                                     target=torch.tensor([1], dtype=torch.long).to(device))
+                    if dict_expert["expert_type"] == "imc":
+                        if reward == 0:
+                            target_imc = torch.tensor([0], dtype=torch.long).to(device)
                         else:
-                            mission = utils.mission_tokenizer(dict_env, hindsight_target).to(device)
-                        memory.add_hindsight_transitions(reward=hindsight_reward, mission=mission,
-                                                         keep_last_transitions=dict_expert["keep_last_transitions"])
+                            target_imc = torch.tensor([1], dtype=torch.long).to(device)
 
-                    if reward == 0 and is_carrying and start_use_expert:
-                        expert_reward = 1
-                        with torch.no_grad():
-                            expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(device)
-                        memory.add_hindsight_transitions(reward=expert_reward, mission=expert_mission,
-                                                         keep_last_transitions=dict_expert["keep_last_transitions"])
+                        memory_expert.add_data(curr_state=curr_state["image"][:, keep_frames:],
+                                               mission=target_imc)
 
-                    break
+                    if dict_expert["expert_type"] in "onehot" + "dense" and reward > 0:
+                        memory_expert.add_data(curr_state=curr_state["image"][:, keep_frames:],
+                                               target=curr_state["mission"])
 
-            if not dict_env["wrong_object_terminal"]:
+                if reward < 1 and start_use_expert:
+                    expert_reward = 1
+                    with torch.no_grad():
+                        expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(
+                            device)
+                    memory.add_hindsight_transitions(reward=expert_reward, mission=expert_mission,
+                                                     keep_last_transitions=dict_expert["keep_last_transitions"])
 
-                if is_carrying:
+            if return_her and use_her:
+                hindsight_reward = out_step[5]
+                hindsight_target = out_step[6]
+                if use_noisy_her:
+                    mission = utils.noisy_mission(hindsight_target,
+                                                  dict_env, dict_expert["parameters-noisy-her"]).to(device)
+                else:
+                    mission = utils.mission_tokenizer(dict_env, hindsight_target).to(device)
 
-                    # Fill the dataset to train the expert
-                    if use_expert_to_learn:
+                memory.add_hindsight_transitions(reward=hindsight_reward, mission=mission,
+                                                 keep_last_transitions=dict_expert["keep_last_transitions"])
 
-                        if use_dense:
-                            memory_expert.add_data_dense(curr_state=curr_state["image"][:, keep_frames:],
-                                                         target=torch.tensor([1], dtype=torch.long).to(device))
-                        if dict_expert["expert_type"] == "imc":
-                            if reward == 0:
-                                target_imc = torch.tensor([0], dtype=torch.long).to(device)
-                            else:
-                                target_imc = torch.tensor([1], dtype=torch.long).to(device)
-
-                            memory_expert.add_data(curr_state=curr_state["image"][:, keep_frames:],
-                                                   mission=target_imc)
-
-                        if dict_expert["expert_type"] in "onehot" + "dense" and reward > 0:
-                            memory_expert.add_data(curr_state=curr_state["image"][:, keep_frames:],
-                                                   target=curr_state["mission"])
-
-                    if return_her and use_her:
-                        hindsight_reward = out_step[5]
-                        hindsight_target = out_step[6]
-                        if use_noisy_her:
-                            mission = utils.noisy_mission(hindsight_target,
-                                                          dict_env, dict_expert["parameters-noisy-her"]).to(device)
-                        else:
-                            mission = utils.mission_tokenizer(dict_env, hindsight_target).to(device)
-                        memory.add_hindsight_transitions(reward=hindsight_reward, mission=mission,
-                                                         keep_last_transitions=dict_expert["keep_last_transitions"])
-
-                    if reward < 1 and start_use_expert:
-                        expert_reward = 1
-                        with torch.no_grad():
-                            expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(
-                                device)
-                        memory.add_hindsight_transitions(reward=expert_reward, mission=expert_mission,
-                                                         keep_last_transitions=dict_expert["keep_last_transitions"])
-
-                    break
-
+            if terminal:
+                break
 
         # Save policy_net's parameters
         if steps_done % dict_env["save_model"] == 0:

@@ -437,3 +437,275 @@ class PredMissionOneHotDense(PredMissionOneHot):
         print("test f1s", test_f1s[-5:])
         # return test_f1s[-1] > config["f1_min"], test_f1s[-1]
         return 1, test_f1s[-1]
+
+
+class PredMissionMultiLabel(nn.Module):
+    def __init__(self, c, frames, n_type, n_color, n_seniority, n_size, lr):
+        """
+        h: height of the screen
+        w: width of the screen
+        frames: last observations to make a state
+        n_actions: number of actions
+        """
+        super(PredMissionMultiLabel, self).__init__()
+
+        self.n_type = n_type
+        self.n_color = n_color
+        self.n_seniority = n_seniority
+        self.n_size = n_size
+
+        self.dim_tokenizer = n_type + n_color + n_seniority + n_size
+
+        self.conv_net = nn.Sequential(
+            nn.Conv2d(c * frames, 16, (2, 2)),
+            nn.ReLU(),
+            nn.MaxPool2d((2, 2)),
+            nn.Conv2d(16, 32, (2, 2)),
+            nn.ReLU(),
+            nn.Conv2d(32, 64, (2, 2)),
+            nn.ReLU()
+        )
+
+        self.fc = nn.Sequential(
+            nn.Linear(in_features=64, out_features=64),
+            nn.ReLU(),
+            nn.Linear(in_features=64, out_features=self.dim_tokenizer)
+        )
+
+        self.optimizer = torch.optim.RMSprop(self.parameters(), lr=lr)
+
+        self.criterion = nn.BCEWithLogitsLoss()
+
+    def forward(self, state):
+        out_conv = self.conv_net(state)
+        flatten = out_conv.view(out_conv.shape[0], -1)
+
+        return self.fc(flatten)
+
+    def prediction(self, state):
+        with torch.no_grad():
+            logits = self.forward(state)
+            normalized = F.sigmoid(logits)
+        return (normalized > 0.5).float()
+
+    def optimize_model(self, memory, config):
+
+        # Create the train and the test set
+        len_memory = memory.len
+        len_memory_train = int(len_memory * 0.95)
+        len_test = len_memory - len_memory_train
+        train_memory = memory.memory[:len_memory_train]
+        test_memory = memory.memory[len_memory_train:len_memory]
+
+        # Config
+        n_iterations = config["n_iterations"]
+        batch_size = config["batch_size"]
+
+        if len_memory < batch_size:
+            return 0
+
+        # Early stopping parameters
+        earlystopping = config["earlystopping"]
+        iterations_before_early_stopping = config["iterations_before_earlystopping"]
+
+        # Optimization steps
+        steps_done = 0
+
+        test_accs = np.array([])
+
+        while True:
+
+            imcs = random.sample(train_memory, batch_size)
+
+            batch_imcs = memory.imc(*zip(*imcs))
+            batch_states = torch.cat(batch_imcs.state)
+
+            # Divide the target for each attribute
+            batch_targets = torch.cat(batch_imcs.target)
+
+            # Compute the predictions
+            batch_predictions = self(batch_states)
+
+            self.optimizer.zero_grad()
+
+            loss = self.criterion(batch_predictions, batch_targets)
+            loss.backward()
+            self.optimizer.step()
+
+            steps_done += 1
+
+            if steps_done % config["log_every"] == 0:
+
+                batch_imcs = memory.imc(*zip(*test_memory))
+                batch_states = torch.cat(batch_imcs.state)
+
+                # Predictions
+                batch_predictions = self.prediction(batch_states)
+
+                # Targets
+                batch_targets = torch.cat(batch_imcs.target)
+
+                # Compute accuracies
+                acc_total = float(torch.all(torch.eq(batch_predictions, batch_targets), dim=1).sum()) / len_test
+
+                test_accs = np.append(test_accs, acc_total)
+                # Early stopping
+                if steps_done > iterations_before_early_stopping and test_accs.size > earlystopping - 1:
+                    if np.sum(test_accs[-earlystopping] < test_accs[-earlystopping:]) == 0:
+                        print("Early stopping with accuracy {}".format(acc_total))
+                        break
+
+            if steps_done > n_iterations:
+                break
+        print("accuracies", test_accs[-5:])
+        # return test_accs[-1] > config["acc_min"], test_accs[-1]
+        return 1, test_accs[-1]
+
+
+class PredMissionRNN(nn.Module):
+    def __init__(self, c, frames, n_type, n_color, n_seniority, n_size, lr):
+        """
+        h: height of the screen
+        w: width of the screen
+        frames: last observations to make a state
+        n_actions: number of actions
+        """
+        super(PredMissionRNN, self).__init__()
+
+        self.device = "cuda"
+
+        self.n_type = n_type
+        self.n_color = n_color
+        self.n_seniority = n_seniority
+        self.n_size = n_size
+        self.dim_tokenizer = n_type + n_color + n_seniority + n_size
+
+        self.conv_net = nn.Sequential(
+            nn.Conv2d(c * frames, 16, (2, 2)),
+            nn.ReLU(),
+            nn.MaxPool2d((2, 2)),
+            nn.Conv2d(16, 32, (2, 2)),
+            nn.ReLU(),
+            nn.Conv2d(32, 64, (2, 2)),
+            nn.ReLU()
+        )
+
+        self.hidden_size = 64
+        self.rnn = torch.nn.RNN(input_size=self.dim_tokenizer, hidden_size=self.hidden_size)
+
+        self.out = nn.Linear(self.hidden_size, self.dim_tokenizer)
+
+        self.optimizer = torch.optim.Adam(self.parameters(), lr=lr)
+
+        self.criterion = nn.BCEWithLogitsLoss()
+
+    def forward(self, state):
+        out_conv = self.conv_net(state)
+        batch_size = out_conv.shape[0]
+        # First hidden state
+        decoder_hidden = out_conv.view(batch_size, -1)
+        decoder_hidden = decoder_hidden.unsqueeze(0)
+        # First input to the rnn is 0
+        output = torch.zeros(1, batch_size, self.dim_tokenizer).to(self.device)
+        # Aggregate all outputs
+        cum_output = torch.zeros(batch_size, self.dim_tokenizer).to(self.device)
+        # RNN to predict all 4 words
+        for _ in range(4):
+            output, decoder_hidden = self.rnn(output, decoder_hidden)
+            output = self.out(output[0])
+            cum_output = cum_output + output
+            output = output.unsqueeze(0)
+        return cum_output
+
+    def prediction(self, state):
+        with torch.no_grad():
+            out_conv = self.conv_net(state)
+            batch_size = out_conv.shape[0]
+            # First hidden state
+            decoder_hidden = out_conv.view(batch_size, -1)
+            decoder_hidden = decoder_hidden.unsqueeze(0)
+            # First input to the rnn is 0, dim = (seq_len, batch, input size)
+            output = torch.zeros(1, batch_size, self.dim_tokenizer).to(self.device)
+            # Predictions
+            prediction = torch.zeros(batch_size, self.dim_tokenizer)
+            for _ in range(4):
+                output, decoder_hidden = self.rnn(output, decoder_hidden)
+                output = self.out(output[0])
+                idx = torch.argmax(output, dim=1)
+                j = torch.arange(batch_size).long()
+                prediction[j, idx] = 1
+                output = output.unsqueeze(0)
+        return prediction.to(self.device)
+
+    def optimize_model(self, memory, config):
+
+        # Create the train and the test set
+        len_memory = memory.len
+        len_memory_train = int(len_memory * 0.95)
+        len_test = len_memory - len_memory_train
+        train_memory = memory.memory[:len_memory_train]
+        test_memory = memory.memory[len_memory_train:len_memory]
+
+        # Config
+        n_iterations = config["n_iterations"]
+        batch_size = config["batch_size"]
+
+        if len_memory < batch_size:
+            return 0
+
+        # Early stopping parameters
+        earlystopping = config["earlystopping"]
+        iterations_before_early_stopping = config["iterations_before_earlystopping"]
+
+        # Optimization steps
+        steps_done = 0
+
+        test_accs = np.array([])
+
+        while True:
+
+            imcs = random.sample(train_memory, batch_size)
+
+            batch_imcs = memory.imc(*zip(*imcs))
+            batch_states = torch.cat(batch_imcs.state)
+
+            # Divide the target for each attribute
+            batch_targets = torch.cat(batch_imcs.target)
+
+            # Compute the predictions
+            batch_predictions = self(batch_states)
+
+            self.optimizer.zero_grad()
+
+            loss = self.criterion(batch_predictions, batch_targets)
+            loss.backward()
+            self.optimizer.step()
+
+            steps_done += 1
+
+            if steps_done % config["log_every"] == 0:
+
+                batch_imcs = memory.imc(*zip(*test_memory))
+                batch_states = torch.cat(batch_imcs.state)
+
+                # Predictions
+                batch_predictions = self.prediction(batch_states)
+
+                # Targets
+                batch_targets = torch.cat(batch_imcs.target)
+
+                # Compute accuracies
+                acc_total = float(torch.all(torch.eq(batch_predictions, batch_targets), dim=1).sum()) / len_test
+
+                test_accs = np.append(test_accs, acc_total)
+                # Early stopping
+                if steps_done > iterations_before_early_stopping and test_accs.size > earlystopping - 1:
+                    if np.sum(test_accs[-earlystopping] < test_accs[-earlystopping:]) == 0:
+                        print("Early stopping with accuracy {}".format(acc_total))
+                        break
+
+            if steps_done > n_iterations:
+                break
+        print("accuracies", test_accs[-5:])
+        # return test_accs[-1] > config["acc_min"], test_accs[-1]
+        return 1, test_accs[-1]

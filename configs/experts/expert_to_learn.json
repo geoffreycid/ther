@@ -3,7 +3,7 @@
     "T_exploration": 5e5,
     "keep_last_transitions": 3,
     "expert_type": "onehot",
-    "update_network": [750, 1000, 1500, 2000, 3000, 5000, 7000, 10000, 15000, 20000],
+    "update_network": [750, 1000, 1500, 2000, 3000, 5000, 7000, 10000, 15000],
     "config_optimize_net": {
       "log_every": 100,
       "earlystopping": 20,

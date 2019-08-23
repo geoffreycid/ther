@@ -61,8 +61,6 @@ class DuelingDoubleDQN(nn.Module):
 
         self.language_net = nn.Sequential(
             nn.Linear(in_features=self.dim_tokenizer, out_features=self.embedded_dim)
-        #    nn.ReLU(),
-        #    nn.Linear(in_features=self.embedded_dim, out_features=64)
         )
 
         self.optimizer = torch.optim.RMSprop(self.parameters(), lr=lr)

@@ -5,19 +5,13 @@ Created on Mon May 13 09:54:22 2019
 
 @author: geoffreycideron
 """
-import json
 
 """
 Evaluation procedure
 """
 import torch
-import model
-import gym_minigrid
-import gym
-import argparse
 import numpy as np
 import collections
-import random
 import time
 import json
 import models

@@ -135,6 +135,14 @@ def mission_tokenizer(dict_env, target):
     return torch.cat((mission_type_onehot, mission_color_onehot, mission_seniority_onehot, mission_size_onehot)).unsqueeze(0)
 
 
+def indexes_from_sentences(mission, word2idx):
+    words = mission.split()
+    indexes = []
+    for word in words:
+        indexes.append(word2idx[word])
+    return torch.LongTensor(indexes)
+
+
 def noisy_mission(target, dict_env, config):
 
     num_colors = len(dict_env["COLOR_TO_IDX"].keys())

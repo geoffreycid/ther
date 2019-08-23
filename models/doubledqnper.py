@@ -3,91 +3,19 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from models.doubledqn import DoubleDQN
 
 
-class DoubleDQNPER(nn.Module):
+class DoubleDQNPER(DoubleDQN):
 
-    def __init__(self, h, w, c, n_actions, frames, lr, dim_tokenizer, device, use_memory):
+    def __init__(self, h, w, c, n_actions, frames, lr, dim_tokenizer, device, use_memory, use_text):
         """
         h: height of the screen
         w: width of the screen
         frames: last observations to make a state
         n_actions: number of actions
         """
-        super(DoubleDQNPER, self).__init__()
-
-        self.n_actions = n_actions
-        self.mission = True
-        self.embedded_dim = 32
-        self.device = device
-        self.dim_tokenizer = dim_tokenizer
-        self.use_memory = use_memory
-        self.frames = frames
-        self.c = c
-        self.h = h
-        self.w = w
-
-        output_conv_h = ((h - 1) // 2 - 2)  # h-3 without maxpooling
-        output_conv_w = ((w - 1) // 2 - 2)  # w-3 without maxpooling
-
-        self.size_after_conv = 64 * output_conv_h * output_conv_w
-
-        if self.use_memory:
-            self.memory_rnn = nn.LSTM(self.size_after_conv, self.size_after_conv, batch_first=True)
-
-        frames_conv_net = 1 if use_memory else self.frames
-
-        self.conv_net = nn.Sequential(
-            nn.Conv2d(c * frames_conv_net, 16, (2, 2)),
-            nn.ReLU(),
-            nn.MaxPool2d((2, 2)),
-            nn.Conv2d(16, 32, (2, 2)),
-            nn.ReLU(),
-            nn.Conv2d(32, 64, (2, 2)),
-            nn.ReLU()
-        )
-
-        self.fc = nn.Sequential(
-            nn.Linear(in_features=(self.size_after_conv+self.embedded_dim), out_features=64),
-            nn.ReLU(),
-            nn.Linear(in_features=64, out_features=n_actions)
-        )
-
-        self.language_net = nn.Sequential(
-            nn.Linear(in_features=self.dim_tokenizer, out_features=self.embedded_dim)
-        #    nn.ReLU(),
-        #    nn.Linear(in_features=self.embedded_dim, out_features=64)
-        )
-
-        self.optimizer = torch.optim.RMSprop(self.parameters(), lr=lr)
-
-    def forward(self, state):
-
-        if self.use_memory:
-            batch_dim = state["image"].shape[0]
-            out_conv = self.conv_net(state["image"].reshape(-1, self.c, self.h, self.w))
-            out_conv = out_conv.reshape(batch_dim, self.frames, -1)
-            hiddens = self.memory_rnn(out_conv)
-            # hiddens = (outputs, (h_t, c_t))
-            flatten = hiddens[1][0][0]
-        else:
-            out_conv = self.conv_net(state["image"])
-            flatten = out_conv.view(out_conv.shape[0], -1)
-
-        out_language = self.language_net(state["mission"])
-        concat = torch.cat((flatten, out_language), dim=1)
-
-        return self.fc(concat)
-
-    def select_action(self, state, epsilon):
-
-        if random.random() < epsilon:
-            action = random.choice(range(self.n_actions))
-        else:
-            # max(1) for the dim, [1] for the indice, [0] for the value
-            action = int(self.forward(state).max(1)[1].detach())
-
-        return action
+        super(DoubleDQNPER, self).__init__(h, w, c, n_actions, frames, lr, dim_tokenizer, device, use_memory, use_text)
 
     # Optimize the model
     def optimize_model(self, memory, target_net, dict_agent):

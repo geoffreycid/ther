@@ -1,0 +1,19 @@
+{
+    "name": "expert-to-learn-rnn",
+    "T_exploration": 5e5,
+    "keep_last_transitions": 3,
+    "expert_type": "rnn",
+    "word_embedding_size": 64,
+    "hidden_size": 256,
+    "lr": 1e-4
+    "update_network": [1000, 1500, 2000, 3000, 5000, 7000, 10000, 15000],
+    "config_optimize_net": {
+      "log_every": 100,
+      "earlystopping": 20,
+      "iterations_before_earlystopping": 1e5,
+      "n_iterations": 2e5,
+      "batch_size": 128,
+      "device": "cuda",
+      "acc_min": 0.65
+    }
+}

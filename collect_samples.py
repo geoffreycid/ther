@@ -93,7 +93,33 @@ class CollectSampleMemory(object):
         self.stored_data = []
 
 
-def collect_samples(dict_env, dict_agent, use_her, use_imc, use_dense=0):
+def rnn_mission(target, dict_env):
+
+    if dict_env["shuffle_attrib"]:
+        attrib = [target["size"], target["seniority"], target["color"]]
+        random.shuffle(attrib)
+        miss = tuple(attrib) + (target["type"],)
+        descStr = '%s %s %s %s' % miss
+    else:
+        descStr = '%s %s %s %s' % (target["size"], target["seniority"], target["color"], target["type"])
+
+    # Generate the mission string
+    idx = random.randint(0, 4)
+    if idx == 0:
+        mission = 'get a %s .' % descStr
+    elif idx == 1:
+        mission = 'go get a %s .' % descStr
+    elif idx == 2:
+        mission = 'fetch a %s .' % descStr
+    elif idx == 3:
+        mission = 'go fetch a %s .' % descStr
+    elif idx == 4:
+        mission = 'you must fetch a %s .' % descStr
+
+    return mission
+
+
+def collect_samples(dict_env, dict_agent, use_her, use_imc, use_dense=0, use_rnn=0):
 
     assert use_her != use_imc, "Can't use both use_her and use_imc!"
 
@@ -104,7 +130,7 @@ def collect_samples(dict_env, dict_agent, use_her, use_imc, use_dense=0):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Create the environment
-    env = game.game(dict_env, dict_agent)
+    env = game.game(dict_env)
 
     # Fix all seeds
     seed = dict_agent["seed"]
@@ -219,11 +245,24 @@ def collect_samples(dict_env, dict_agent, use_her, use_imc, use_dense=0):
                             if return_her:
                                 hindsight_reward = out_step[5]
                                 hindsight_target = out_step[6]
-                                target_mission = utils.mission_tokenizer(dict_env, hindsight_target).to(device)
+                                if use_rnn:
+                                    target_mission = utils.indexes_from_sentences(rnn_mission(hindsight_target, dict_env),
+                                                                                  dict_env["word2idx"])
+                                else:
+                                    target_mission = utils.mission_tokenizer(dict_env, hindsight_target).to(device)
+
                                 memory_collectsample.add_stored_data(target_mission,
                                                                      dict_agent["n_keep_correspondence"])
                         else:
-                            memory_collectsample.add_stored_data(state["mission"], dict_agent["n_keep_correspondence"])
+                            if use_rnn:
+                                target_mission = utils.indexes_from_sentences(rnn_mission(target, dict_env),
+                                                                              dict_env["word2idx"])
+                                memory_collectsample.add_stored_data(target_mission,
+                                                                     dict_agent["n_keep_correspondence"])
+
+                            else:
+                                memory_collectsample.add_stored_data(state["mission"],
+                                                                     dict_agent["n_keep_correspondence"])
                 break
 
         if max_steps_reached:
@@ -241,6 +280,10 @@ if __name__ == "__main__":
         "name": "10x10-C4-N2-O8",
         "device": "cpu",
         "game_type": "fetch",
+        "wrong_object_terminal": 1,
+        "reward_if_wrong_object": 0,
+        "use_held_out_mission": 0,
+        "shuffle_attrib": 1,
         "size": 10,
         "numObjs": 8,
         "manual": 0,
@@ -273,6 +316,36 @@ if __name__ == "__main__":
             "verybig": 4
         },
         "T_max": 50,
+
+        "word2idx": {
+            "pad": 0,
+            "get": 1,
+            "a": 2,
+            "go": 3,
+            "fetch": 4,
+            "you": 5,
+            "must": 6,
+            "red": 7,
+            "green": 8,
+            "blue": 9,
+            "purple": 10,
+            "yellow": 11,
+            "grey": 12,
+            "key": 13,
+            "ball": 14,
+            "veryyoung": 15,
+            "young": 16,
+            "middle": 17,
+            "old": 18,
+            "veryold": 19,
+            "verysmall": 20,
+            "small": 21,
+            "average": 22,
+            "big": 23,
+            "verybig": 24,
+            "start": 25,
+            ".": 26
+        }
     }
 
     dict_agent = {
@@ -282,7 +355,7 @@ if __name__ == "__main__":
         "frames": 4,
         "n_keep_correspondence": 1,
         "skew_ratio": 0.5,
-        "memory_size": 1100,
+        "memory_size": 110000,
         "use_her": 1,
     }
 
@@ -292,7 +365,8 @@ if __name__ == "__main__":
     else:
         use_her = 0
         use_imc = 1
-    mem = collect_samples(dict_env, dict_agent, use_her=use_her, use_imc=use_imc, use_dense=1)
+    mem = collect_samples(dict_env, dict_agent, use_her=use_her, use_imc=use_imc, use_dense=0, use_rnn=1)
 
-    with open("/home/gcideron/visual_her/datasets/collect_samples_{}_memory_size_{}_frames_{}_missions_her_cpu_dense.pkl".format(int(dict_agent["memory_size"]), dict_agent["frames"], 300), 'wb') as output:
+    with open("/home/gcideron/datasets/collect_samples_{}_memory_size_{}_frames_{}_missions_her_cpu_rnn_shuffle_attrib.pkl"
+                      .format(int(dict_agent["memory_size"]), dict_agent["frames"], 300), 'wb') as output:
         dill.dump(mem, output, dill.HIGHEST_PROTOCOL)

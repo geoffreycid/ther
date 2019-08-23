@@ -472,7 +472,7 @@ class PredMissionMultiLabel(nn.Module):
             nn.Linear(in_features=64, out_features=self.dim_tokenizer)
         )
 
-        self.optimizer = torch.optim.RMSprop(self.parameters(), lr=lr)
+        self.optimizer = torch.optim.RMSprop(self.parameters(), lr=lr, weight_decay=1e-7)
 
         self.criterion = nn.BCEWithLogitsLoss()
 
@@ -562,7 +562,7 @@ class PredMissionMultiLabel(nn.Module):
         return 1, test_accs[-1]
 
 
-class PredMissionRNN(nn.Module):
+class PredMissionRNNSum(nn.Module):
     def __init__(self, c, frames, n_type, n_color, n_seniority, n_size, lr):
         """
         h: height of the screen
@@ -570,7 +570,7 @@ class PredMissionRNN(nn.Module):
         frames: last observations to make a state
         n_actions: number of actions
         """
-        super(PredMissionRNN, self).__init__()
+        super(PredMissionRNNSum, self).__init__()
 
         self.device = "cuda"
 
@@ -678,6 +678,183 @@ class PredMissionRNN(nn.Module):
             self.optimizer.zero_grad()
 
             loss = self.criterion(batch_predictions, batch_targets)
+            loss.backward()
+            self.optimizer.step()
+
+            steps_done += 1
+
+            if steps_done % config["log_every"] == 0:
+
+                batch_imcs = memory.imc(*zip(*test_memory))
+                batch_states = torch.cat(batch_imcs.state)
+
+                # Predictions
+                batch_predictions = self.prediction(batch_states)
+
+                # Targets
+                batch_targets = torch.cat(batch_imcs.target)
+
+                # Compute accuracies
+                acc_total = float(torch.all(torch.eq(batch_predictions, batch_targets), dim=1).sum()) / len_test
+
+                test_accs = np.append(test_accs, acc_total)
+                # Early stopping
+                if steps_done > iterations_before_early_stopping and test_accs.size > earlystopping - 1:
+                    if np.sum(test_accs[-earlystopping] < test_accs[-earlystopping:]) == 0:
+                        print("Early stopping with accuracy {}".format(acc_total))
+                        break
+
+            if steps_done > n_iterations:
+                break
+        print("accuracies", test_accs[-5:])
+        # return test_accs[-1] > config["acc_min"], test_accs[-1]
+        return 1, test_accs[-1]
+
+
+class PredMissionRNN(nn.Module):
+    def __init__(self, c, frames, n_words, word_embedding_size, hidden_size, teacher_forcing_ratio, lr):
+        """
+        h: height of the screen
+        w: width of the screen
+        frames: last observations to make a state
+        n_actions: number of actions
+        """
+        super(PredMissionRNN, self).__init__()
+
+        self.device = "cuda"
+
+        self.n_words = n_words
+        self.word_embedding_size = word_embedding_size
+        self.hidden_size = hidden_size
+
+        self.max_mission_length = 9
+        self.teacher_forcing_ratio = teacher_forcing_ratio
+
+        self.conv_net = nn.Sequential(
+            nn.Conv2d(c * frames, 16, (2, 2)),
+            nn.ReLU(),
+            nn.MaxPool2d((2, 2)),
+            nn.Conv2d(16, 32, (2, 2)),
+            nn.ReLU(),
+            nn.Conv2d(32, self.hidden_size, (2, 2)),
+            nn.ReLU()
+        )
+
+        self.word_embedding = nn.Embedding(self.n_words, self.word_embedding_size, padding_idx=0)
+
+        self.decoder = nn.GRU(self.word_embedding_size, self.hidden_size, batch_first=False)
+
+        self.out = nn.Linear(self.hidden_size, self.n_words)
+        self.softmax = nn.LogSoftmax(dim=1)
+
+        self.optimizer = torch.optim.Adam(self.parameters(), lr=lr)
+
+        self.criterion = nn.CrossEntropyLoss(reduction="none")
+
+    def forward(self, state, mission):
+        # mission: dim (seq_len, batch)
+        # mission without start but with end
+        # 0: idx for padding
+        mask = mission == 0
+        mask = mask.float().to(self.device)
+        # Encode the image in a fix length vector
+        out_conv = self.conv_net(state)
+        batch_size = out_conv.shape[0]
+        # First hidden state
+        image_encoding = out_conv.view(batch_size, -1)
+        # Encoding become the first hidden state of the decoder
+        decoder_hidden = image_encoding.unsqueeze(0)
+
+        # Convert word indexes to embeddings
+        embedded = self.word_embedding(mission)
+        # First input to the decoder: the start token
+        decoder_input = self.word_embedding(torch.LongTensor([25] * batch_size).to(self.device)).unsqueeze(0)
+
+        # Teacher forcing: the true sentence is used to train the decoder
+        loss = 0
+        for t in range(self.max_mission_length):
+            output, decoder_hidden = self.decoder(decoder_input, decoder_hidden)
+            output = self.out(output[0])
+            loss += torch.mean(self.criterion(output, mission[t]) * (1-mask[t]))
+            idxs = torch.argmax(output, dim=1)
+            # Next input to the decoder
+            if random.random() < self.teacher_forcing_ratio:
+                decoder_input = embedded[t, :].unsqueeze(0)
+            else:
+                decoder_input = self.word_embedding(idxs).unsqueeze(0)
+
+        return loss
+
+    def prediction(self, state):
+
+        with torch.no_grad():
+            # mission: dim (seq_len, batch)
+            out_conv = self.conv_net(state)
+            batch_size = out_conv.shape[0]
+            # First hidden state
+            image_encoding = out_conv.view(batch_size, -1)
+            # Encoding become the first hidden state of the decoder
+            decoder_hidden = image_encoding.unsqueeze(0)
+            # First input to the decoder: the start token
+            decoder_input = self.word_embedding(torch.LongTensor([25]*batch_size).to(self.device)).unsqueeze(0)
+
+            predicted_sentences = torch.zeros(batch_size, self.max_mission_length)
+            for t in range(self.max_mission_length):
+
+                output, decoder_hidden = self.decoder(decoder_input, decoder_hidden)
+                output = self.out(output[0])
+                idxs = torch.argmax(output, dim=1)
+                decoder_input = self.word_embedding(idxs).unsqueeze(0)
+                predicted_sentences[:, t] = idxs
+
+        pred_sentences = []
+        for i in range(batch_size):
+            idxs = predicted_sentences[i]
+            sentence = []
+            for idx in idxs:
+                sentence += [idx.item()]
+                if idx == word2idx["."]:
+                    break
+            pred_sentences.append(sentence)
+        return predicted_sentences.long()
+
+    def optimize_model(self, memory, config):
+
+        # Create the train and the test set
+        len_memory = memory.len
+        len_memory_train = int(len_memory * 0.95)
+        len_test = len_memory - len_memory_train
+        train_memory = memory.memory[:len_memory_train]
+        test_memory = memory.memory[len_memory_train:len_memory]
+
+        # Config
+        n_iterations = config["n_iterations"]
+        batch_size = config["batch_size"]
+
+        if len_memory < batch_size:
+            return 0
+
+        # Early stopping parameters
+        earlystopping = config["earlystopping"]
+        iterations_before_early_stopping = config["iterations_before_earlystopping"]
+
+        # Optimization steps
+        steps_done = 0
+
+        test_accs = np.array([])
+
+        while True:
+
+            imcs = random.sample(train_memory, batch_size)
+
+            batch_imcs = memory.imc(*zip(*imcs))
+            batch_states = torch.cat(batch_imcs.state)
+
+            # Targets
+            batch_targets = nn.utils.rnn.pad_sequence(batch_imcs.target)
+
+            self.optimizer.zero_grad()
+            loss = self(batch_states, batch_targets)
             loss.backward()
             self.optimizer.step()
 

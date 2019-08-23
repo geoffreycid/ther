@@ -1,15 +1,11 @@
-import random
 import os
 
-import numpy as np
-import matplotlib.pyplot as plt
 import gym
-import gym_minigrid
 import torch
 import torch.nn.functional as F
 import tensorboardX as tb
 
-import model
+from old import model
 import replaymemory
 
 

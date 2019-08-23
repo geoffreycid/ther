@@ -9,7 +9,9 @@ dict_env = {
     "numObjs": 2,
     "manual": 0,
     "random_target": 1,
-    "wrong_object_terminal": 0,
+    "wrong_object_terminal": 1,
+    "reward_if_wrong_object": 0,
+    "use_held_out_mission": 0,
     "reward_neg": 1,
     "oneobject": 0,
     "COLOR_TO_IDX": {
@@ -49,7 +51,7 @@ dict_agent = {
     "memory_size": 1e5
 }
 
-env = game.game(dict_env, use_her=1)
+env = game.game(dict_env)
 
 observation = env.reset()
 
@@ -69,3 +71,32 @@ for _ in range(1000):
         observation = env.reset()
 
 env.close()
+
+dict_words = {
+    "start": 0,
+    "get": 1,
+    "a": 2,
+    "go": 3,
+    "fetch": 4,
+    "you": 5,
+    "must": 6,
+    "red": 7,
+    "green": 8,
+    "blue": 9,
+    "purple": 10,
+    "yellow": 11,
+    "grey": 12,
+    "key": 13,
+    "ball": 14,
+    "veryyoung": 15,
+    "young": 16,
+    "middle": 17,
+    "old": 18,
+    "veryold": 19,
+    "verysmall": 20,
+    "small": 21,
+    "average": 22,
+    "big": 23,
+    "verybig": 24,
+    ".": 25
+}

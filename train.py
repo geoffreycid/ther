@@ -26,17 +26,17 @@ def training(dict_env, dict_agent, dict_expert):
 
     if dict_expert["name"] == "her":
         use_her = 1
-    elif dict_expert["name"] == "learned-expert":
+    elif "learned-expert" in dict_expert["name"]:
         use_learned_expert = 1
         start_use_expert = 1
-    elif dict_expert["name"] == "learned-dense-expert":
+    elif "learned-dense-expert" in dict_expert["name"]:
         use_learned_expert = 1
         use_dense = 1
         start_use_expert = 1
         start_use_dense_expert = 1
-    elif dict_expert["name"] == "expert-to-learn":
+    elif "expert-to-learn" in dict_expert["name"]:
         use_expert_to_learn = 1
-    elif dict_expert["name"] == "expert-dense-to-learn":
+    elif "expert-dense-to-learn" in dict_expert["name"]:
         use_expert_to_learn = 1
         use_dense = 1
     elif "noisy-her" in dict_expert["name"]:
@@ -95,20 +95,6 @@ def training(dict_env, dict_agent, dict_expert):
         # The mission is not used
         dim_tokenizer = 1
 
-    # List of all possible missions
-    missions_type = F.one_hot(torch.arange(num_types))
-    missions_color = F.one_hot(torch.arange(num_colors))
-    missions_seniority = F.one_hot(torch.arange(num_seniority))
-    missions_size = F.one_hot(torch.arange(num_size))
-
-    all_possible_missions = []
-    for i in range(missions_type.shape[0]):
-        for j in range(missions_color.shape[0]):
-            for k in range(missions_seniority.shape[0]):
-                for l in range(missions_size.shape[0]):
-                    all_possible_missions.append(torch.cat((missions_type[i], missions_color[j], missions_seniority[k], missions_size[l])))
-    all_possible_missions = torch.stack(all_possible_missions, dim=0).to(device).float()
-
     # By default do not use her and imc
     use_imc = 0
     # F1 score of the dense network
@@ -124,7 +110,12 @@ def training(dict_env, dict_agent, dict_expert):
                                                                n_size=num_size, lr=dict_agent["lr"])
             # F1 score of the dense network
             f1 = 0
-
+        if dict_expert["expert_type"] == "rnn":
+            net_expert = models.PredMissionRNN(c=c, frames=1, n_words=27,
+                                               word_embedding_size=dict_expert["word_embedding_size"],
+                                               hidden_size=dict_expert["hidden_size"],
+                                               teacher_forcing_ratio=dict_expert["teacher_forcing_ratio"],
+                                               lr=dict_expert["lr"])
         net_expert.to(device)
 
     if use_learned_expert:
@@ -140,7 +131,7 @@ def training(dict_env, dict_agent, dict_expert):
         agent = models.DoubleDQN
 
     params = (h, w, c, n_actions, frames,
-              dict_agent["lr"], dim_tokenizer, device, dict_agent["use_memory"])
+              dict_agent["lr"], dim_tokenizer, device, dict_agent["use_memory"], dict_agent["use_text"])
 
     policy_net = agent(*params).to(device)
     target_net = agent(*params).to(device)
@@ -206,7 +197,11 @@ def training(dict_env, dict_agent, dict_expert):
             "seniority": env.targetSeniority,
             "size": env.targetSize
         }
-        state["mission"] = utils.mission_tokenizer(dict_env, target).to(device)
+        if dict_agent["use_text"]:
+            state["mission"] = utils.indexes_from_sentences(observation["mission"], dict_env["word2idx"])
+            #state["text_length"] = len(observation["mission"].split())
+        else:
+            state["mission"] = utils.mission_tokenizer(dict_env, target).to(device)
 
         # Stacking frames to make a state
         observation["image"] = observation["image"][:, :, :c]
@@ -417,7 +412,11 @@ def training(dict_env, dict_agent, dict_expert):
                     mission = utils.noisy_mission(hindsight_target,
                                                   dict_env, dict_expert["parameters-noisy-her"]).to(device)
                 else:
-                    mission = utils.mission_tokenizer(dict_env, hindsight_target).to(device)
+                    if dict_agent["use_text"]:
+                        mission = utils.indexes_from_sentences(observation["mission"],
+                                                                        dict_env["word2idx"]).to(device)
+                    else:
+                        mission = utils.mission_tokenizer(dict_env, target).to(device)
 
                 memory.add_hindsight_transitions(reward=hindsight_reward, mission=mission,
                                                  keep_last_transitions=dict_expert["keep_last_transitions"])
@@ -439,19 +438,19 @@ def training(dict_env, dict_agent, dict_expert):
 
 # To debug :
 
-#with open('configs/envs/fetch.json', 'r') as myfile:
-#    config_env = myfile.read()
+with open('configs/envs/fetch.json', 'r') as myfile:
+    config_env = myfile.read()
 
-#with open('configs/agents/fetch/doubledqn.json', 'r') as myfile:
-#    config_agent = myfile.read()
+with open('configs/agents/fetch/doubledqn.json', 'r') as myfile:
+    config_agent = myfile.read()
 
-#with open('configs/experts/noisy_her_expert.json', 'r') as myfile:
-#    config_expert = myfile.read()
-#import json
+with open('configs/experts/her_expert.json', 'r') as myfile:
+    config_expert = myfile.read()
+import json
 
-#dict_env = json.loads(config_env)
-#dict_agent = json.loads(config_agent)
-#dict_agent["agent_dir"] = dict_env["env_dir"] + "/" + dict_env["name"] + "/" + dict_agent["name"]
-#dict_expert = json.loads(config_expert)
-#print("Training in progress")
-#training(dict_env, dict_agent, dict_expert)
+dict_env = json.loads(config_env)
+dict_agent = json.loads(config_agent)
+dict_agent["agent_dir"] = dict_env["env_dir"] + "/" + dict_env["name"] + "/" + dict_agent["name"]
+dict_expert = json.loads(config_expert)
+print("Training in progress")
+training(dict_env, dict_agent, dict_expert)

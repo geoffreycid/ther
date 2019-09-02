@@ -111,11 +111,18 @@ def training(dict_env, dict_agent, dict_expert):
             # F1 score of the dense network
             f1 = 0
         if dict_expert["expert_type"] == "rnn":
-            net_expert = models.PredMissionRNN(c=c, frames=1, n_words=27,
+            idx2word = {}
+            for key, ind in dict_env["word2idx"].items():
+                idx2word[ind] = key
+
+            net_expert = models.PredMissionRNN(c=c, frames=1, n_words=dict_expert["n_words"],
                                                word_embedding_size=dict_expert["word_embedding_size"],
                                                hidden_size=dict_expert["hidden_size"],
                                                teacher_forcing_ratio=dict_expert["teacher_forcing_ratio"],
-                                               lr=dict_expert["lr"])
+                                               word2idx=dict_env["word2idx"],
+                                               idx2word=idx2word,
+                                               lr=dict_expert["lr"],
+                                               weight_decay=dict_expert["weight_decay"])
         net_expert.to(device)
 
     if use_learned_expert:
@@ -198,7 +205,7 @@ def training(dict_env, dict_agent, dict_expert):
             "size": env.targetSize
         }
         if dict_agent["use_text"]:
-            state["mission"] = utils.indexes_from_sentences(observation["mission"], dict_env["word2idx"])
+            state["mission"] = utils.indexes_from_sentences(observation["mission"], dict_env["word2idx"]).to(device)
             #state["text_length"] = len(observation["mission"].split())
         else:
             state["mission"] = utils.mission_tokenizer(dict_env, target).to(device)
@@ -271,7 +278,7 @@ def training(dict_env, dict_agent, dict_expert):
                 dict_expert["update_network"] = dict_expert["update_network"][1:]
                 # Decaying the number of iterations minimal before early stopping
                 dict_expert["config_optimize_net"]["iterations_before_earlystopping"] \
-                    = int(dict_expert["config_optimize_net"]["iterations_before_earlystopping"] / 1.2)
+                    = int(dict_expert["config_optimize_net"]["iterations_before_earlystopping"] / 1.1)
                 # Accuracy
                 writer.add_scalar("Accuracy", acc, global_step=memory_expert.len)
 
@@ -318,9 +325,10 @@ def training(dict_env, dict_agent, dict_expert):
                 object_picked_smoothing += is_carrying
                 success_rate_smoothing += reward > 0
                 # Monitor the accuracy of the expert
-                if is_carrying and reward > 0 and use_expert_to_learn:
+                if is_carrying and reward > 0 and start_use_expert:
                     expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(device)
-                    pred_mission_smoothing += torch.equal(expert_mission, curr_state["mission"])
+                    pred_mission_smoothing += torch.equal(torch.sort(expert_mission[-4:])[0],
+                                                          torch.sort(curr_state["mission"][-4:])[0])
                     episode_done_carrying += 1
 
             if steps_done % dict_env["smoothing"] == 0:
@@ -397,6 +405,12 @@ def training(dict_env, dict_agent, dict_expert):
                         memory_expert.add_data(curr_state=curr_state["image"][:, keep_frames:],
                                                target=curr_state["mission"])
 
+                    if dict_expert["expert_type"] in "rnn" and reward > 0:
+                        miss = torch.cat((curr_state["mission"],
+                                          dict_env["word2idx"]["END"]*torch.ones(1, device=device, dtype=torch.long)))
+                        memory_expert.add_data(curr_state=curr_state["image"][:, keep_frames:],
+                                               target=miss)
+
                 if reward < 1 and start_use_expert:
                     expert_reward = 1
                     with torch.no_grad():
@@ -413,8 +427,8 @@ def training(dict_env, dict_agent, dict_expert):
                                                   dict_env, dict_expert["parameters-noisy-her"]).to(device)
                 else:
                     if dict_agent["use_text"]:
-                        mission = utils.indexes_from_sentences(observation["mission"],
-                                                                        dict_env["word2idx"]).to(device)
+                        mission = utils.indexes_from_sentences(utils.rnn_mission(hindsight_target, dict_env),
+                                                               dict_env["word2idx"]).to(device)
                     else:
                         mission = utils.mission_tokenizer(dict_env, target).to(device)
 
@@ -438,19 +452,19 @@ def training(dict_env, dict_agent, dict_expert):
 
 # To debug :
 
-with open('configs/envs/fetch.json', 'r') as myfile:
-    config_env = myfile.read()
+#with open('configs/envs/fetch.json', 'r') as myfile:
+#    config_env = myfile.read()
 
-with open('configs/agents/fetch/doubledqn.json', 'r') as myfile:
-    config_agent = myfile.read()
+#with open('configs/agents/fetch/doubledqn.json', 'r') as myfile:
+#    config_agent = myfile.read()
 
-with open('configs/experts/her_expert.json', 'r') as myfile:
-    config_expert = myfile.read()
-import json
+#with open('configs/experts/expert_to_learn_rnn.json', 'r') as myfile:
+#    config_expert = myfile.read()
+#import json
 
-dict_env = json.loads(config_env)
-dict_agent = json.loads(config_agent)
-dict_agent["agent_dir"] = dict_env["env_dir"] + "/" + dict_env["name"] + "/" + dict_agent["name"]
-dict_expert = json.loads(config_expert)
-print("Training in progress")
-training(dict_env, dict_agent, dict_expert)
+#dict_env = json.loads(config_env)
+#dict_agent = json.loads(config_agent)
+#dict_agent["agent_dir"] = dict_env["env_dir"] + "/" + dict_env["name"] + "/" + dict_agent["name"]
+#dict_expert = json.loads(config_expert)
+#print("Training in progress")
+#training(dict_env, dict_agent, dict_expert)

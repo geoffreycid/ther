@@ -7,7 +7,7 @@ import torch.nn.functional as F
 
 class DuelingDoubleDQN(nn.Module):
 
-    def __init__(self, h, w, c, n_actions, frames, lr, dim_tokenizer, device, use_memory):
+    def __init__(self, h, w, c, n_actions, frames, lr, dim_tokenizer, device, use_memory, use_text):
         """
         h: height of the screen
         w: width of the screen
@@ -22,6 +22,7 @@ class DuelingDoubleDQN(nn.Module):
         self.device = device
         self.dim_tokenizer = dim_tokenizer
         self.use_memory = use_memory
+        self.use_text = use_text
         self.frames = frames
         self.c = c
         self.h = h
@@ -59,9 +60,16 @@ class DuelingDoubleDQN(nn.Module):
             nn.Linear(in_features=64, out_features=n_actions)
         )
 
-        self.language_net = nn.Sequential(
-            nn.Linear(in_features=self.dim_tokenizer, out_features=self.embedded_dim)
-        )
+        if self.use_text:
+            self.word_embedding_size = 32
+            self.word_embedding = nn.Embedding(27, self.word_embedding_size)
+            self.text_embedding_size = 128
+            self.text_rnn = nn.GRU(self.word_embedding_size, self.text_embedding_size, batch_first=True)
+            self.out = nn.Linear(in_features=self.text_embedding_size, out_features=self.embedded_dim)
+        else:
+            self.language_net = nn.Sequential(
+                nn.Linear(in_features=self.dim_tokenizer, out_features=self.embedded_dim)
+            )
 
         self.optimizer = torch.optim.RMSprop(self.parameters(), lr=lr)
 
@@ -79,7 +87,19 @@ class DuelingDoubleDQN(nn.Module):
             flatten = out_conv.view(out_conv.shape[0], -1)
 
         # Language part
-        out_language = self.language_net(state["mission"])
+        if self.use_text:
+            # state["mission"] contains list of indices
+            embedded = self.word_embedding(state["mission"])
+            # Pack padded batch of sequences for RNN module
+            packed = nn.utils.rnn.pack_padded_sequence(embedded, state["text_length"],
+                                                       batch_first=True, enforce_sorted=False)
+            # Forward pass through GRU
+            outputs, hidden = self.text_rnn(packed)
+            out_language = self.out(hidden[0])
+
+        else:
+            out_language = self.language_net(state["mission"])
+
         # Concatenation between language and image
         concat = torch.cat((flatten, out_language), dim=1)
         # Dueling part
@@ -94,7 +114,13 @@ class DuelingDoubleDQN(nn.Module):
             action = random.choice(range(self.n_actions))
         else:
             # max(1) for the dim, [1] for the indice, [0] for the value
-            action = int(self.forward(state).max(1)[1].detach())
+            if self.use_text:
+                copy_state = state.copy()
+                copy_state["text_length"] = [state["mission"].shape[0]]
+                copy_state["mission"] = state["mission"].unsqueeze(0)
+                action = int(self.forward(copy_state).max(1)[1].detach())
+            else:
+                action = int(self.forward(state).max(1)[1].detach())
 
         return action
 
@@ -112,13 +138,29 @@ class DuelingDoubleDQN(nn.Module):
         batch_next_state = torch.cat(batch_transitions.next_state)
         batch_terminal = torch.as_tensor(batch_transitions.terminal, dtype=torch.int32)
         batch_action = torch.as_tensor(batch_transitions.action, dtype=torch.long, device=self.device).reshape(-1, 1)
-        batch_mission = torch.cat(batch_transitions.mission)
+
+        if self.use_text:
+            text_length = [None] * dict_agent["batch_size"]
+            for ind, mission in enumerate(batch_transitions.mission):
+                text_length[ind] = mission.shape[0]
+            batch_text_length = torch.tensor(text_length, dtype=torch.long).to(self.device)
+            batch_mission = nn.utils.rnn.pad_sequence(batch_transitions.mission, batch_first=True).to(self.device)
+        else:
+            batch_mission = torch.cat(batch_transitions.mission)
 
         # Compute targets according to the Bellman eq
-        batch_next_state_non_terminal_dict = {
-            "image": batch_next_state[batch_terminal == 0],
-            "mission": batch_mission[batch_terminal == 0]
-        }
+        if self.use_text:
+            batch_next_state_non_terminal_dict = {
+                "image": batch_next_state[batch_terminal == 0],
+                "mission": batch_mission[batch_terminal == 0],
+                "text_length": batch_text_length[batch_terminal == 0]
+            }
+        else:
+
+            batch_next_state_non_terminal_dict = {
+                "image": batch_next_state[batch_terminal == 0],
+                "mission": batch_mission[batch_terminal == 0]
+            }
 
         # Evaluation of the Q value with the target net
         targets = torch.as_tensor(batch_transitions.reward, dtype=torch.float32, device=self.device).reshape(-1, 1)
@@ -132,10 +174,17 @@ class DuelingDoubleDQN(nn.Module):
 
         targets = targets.reshape(-1, 1)
         # Compute the current estimate of Q
-        batch_curr_state_dict = {
-            "image": batch_curr_state,
-            "mission": batch_mission
-        }
+        if self.use_text:
+            batch_curr_state_dict = {
+                "image": batch_curr_state,
+                "mission": batch_mission,
+                "text_length": batch_text_length
+            }
+        else:
+            batch_curr_state_dict = {
+                "image": batch_curr_state,
+                "mission": batch_mission
+            }
         predictions = self.forward(batch_curr_state_dict).gather(1, batch_action)
 
         # Loss

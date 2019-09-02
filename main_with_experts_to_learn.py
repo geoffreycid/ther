@@ -19,10 +19,10 @@ if __name__ == '__main__':
 #    with open('configs/agents/fetch/doubledqnper.json', 'r') as myfile:
 #        config_agent_per = myfile.read()
 
-    with open('configs/experts/expert_to_learn.json', 'r') as myfile:
+    with open('configs/experts/expert_to_learn_rnn.json', 'r') as myfile:
         config_expert_to_learn = myfile.read()
-    with open('configs/experts/expert_to_learn_dense.json', 'r') as myfile:
-        config_expert_to_learn_dense = myfile.read()
+    #with open('configs/experts/expert_to_learn_dense.json', 'r') as myfile:
+    #    config_expert_to_learn_dense = myfile.read()
 
     with open('configs/experts/her_expert.json', 'r') as myfile:
         config_her_expert = myfile.read()
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     dict_her_expert = json.loads(config_her_expert)
     dict_no_expert = json.loads(config_no_expert)
     dict_expert_to_learn = json.loads(config_expert_to_learn)
-    dict_expert_to_learn_dense = json.loads(config_expert_to_learn_dense)
+    #dict_expert_to_learn_dense = json.loads(config_expert_to_learn_dense)
 
     ray.init(
         temp_dir='/tmp/ray2',
@@ -73,20 +73,20 @@ if __name__ == '__main__':
                                                                                     grid_search=grid_search,
                                                                                     extension=extension)
 
-    dict_dqn_expert_to_learn_dense, dicts_dqn_expert_to_learn_dense = configwrapper.wrapper(dict_env=dict_fetch,
-                                                                                    dict_agent=dict_agent_simple,
-                                                                                    dict_expert=dict_expert_to_learn_dense,
-                                                                                    grid_search=grid_search,
-                                                                                    extension=extension)
+    #dict_dqn_expert_to_learn_dense, dicts_dqn_expert_to_learn_dense = configwrapper.wrapper(dict_env=dict_fetch,
+    #                                                                                dict_agent=dict_agent_simple,
+    #                                                                                dict_expert=dict_expert_to_learn_dense,
+    #                                                                                grid_search=grid_search,
+    #                                                                                extension=extension)
 
-    dicts_to_train = dicts_dqn_expert_to_learn_dense + dicts_dqn_her + dicts_dqn_no_expert + dicts_dqn_expert_to_learn
+    #dicts_to_train = dicts_dqn_expert_to_learn_dense + dicts_dqn_her + dicts_dqn_no_expert + dicts_dqn_expert_to_learn
+    dicts_to_train = dicts_dqn_her + dicts_dqn_no_expert + dicts_dqn_expert_to_learn
 
     nb_seed = len(dicts_dqn_no_expert)
     #dicts_expert = [dict_expert_to_learn_dense] * nb_seed + [dict_expert_to_learn] * nb_seed + [
     #    dict_her_expert] * nb_seed + [dict_no_expert] * nb_seed
 
-    dicts_expert = [dict_expert_to_learn_dense] * nb_seed + [dict_her_expert] * nb_seed + [dict_no_expert] * nb_seed \
-                    + [dict_expert_to_learn] * nb_seed
+    dicts_expert = [dict_her_expert] * nb_seed + [dict_no_expert] * nb_seed + [dict_expert_to_learn] * nb_seed
 
     # Use Ray to do the allocation of resources
     ray.get([training.remote(dict_env=dict_fetch, dict_agent=agent, dict_expert=expert)

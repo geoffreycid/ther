@@ -1,11 +1,11 @@
 {
-  "name": "Fetch-8x8-N2-C6-SE5-SI5-O5-test-rnn",
+  "name": "rnn-Fetch-5x5-N2-C6-SE5-SI5-O2",
   "game_type": "fetch",
-  "size": 8,
-  "numObjs": 5,
-  "T_max": 50,
+  "size": 5,
+  "numObjs": 2,
+  "T_max": 20,
   "wrong_object_terminal": 1,
-  "reward_if_wrong_object": -0.5,
+  "reward_if_wrong_object": 0,
   "use_held_out_mission": 0,
   "shuffle_attrib": 1,
   "manual": 0,
@@ -65,7 +65,7 @@
     "verybig": 4
   },
   "word2idx": {
-    "pad": 0,
+    "PAD": 0,
     "get": 1,
     "a": 2,
     "go": 3,
@@ -90,8 +90,8 @@
     "average": 22,
     "big": 23,
     "verybig": 24,
-    "start": 25,
-    ".": 26
+    "BEG": 25,
+    "END": 26
   }
 }
 

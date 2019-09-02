@@ -1,5 +1,5 @@
 {
-    "seed": [35],
-    "max_steps": 4000000,
+    "seed": [84],
+    "max_steps": 800000,
     "eps_final": 0.05
 }

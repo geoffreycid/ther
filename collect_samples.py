@@ -106,15 +106,15 @@ def rnn_mission(target, dict_env):
     # Generate the mission string
     idx = random.randint(0, 4)
     if idx == 0:
-        mission = 'get a %s .' % descStr
+        mission = 'get a %s' % descStr
     elif idx == 1:
-        mission = 'go get a %s .' % descStr
+        mission = 'go get a %s' % descStr
     elif idx == 2:
-        mission = 'fetch a %s .' % descStr
+        mission = 'fetch a %s' % descStr
     elif idx == 3:
-        mission = 'go fetch a %s .' % descStr
+        mission = 'go fetch a %s' % descStr
     elif idx == 4:
-        mission = 'you must fetch a %s .' % descStr
+        mission = 'you must fetch a %s' % descStr
 
     return mission
 
@@ -355,7 +355,7 @@ if __name__ == "__main__":
         "frames": 4,
         "n_keep_correspondence": 1,
         "skew_ratio": 0.5,
-        "memory_size": 110000,
+        "memory_size": 1100,
         "use_her": 1,
     }
 

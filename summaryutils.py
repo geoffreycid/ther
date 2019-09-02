@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import torch
+import torch.nn as nn
 import random
 import numpy as np
 
@@ -42,7 +43,10 @@ def summary_trajectory(env, dict_env, writer, n_actions, action_names, policy_ne
     fig = plt.figure(figsize=(10, 6))
     ax1 = fig.add_subplot(1, 2, 2)
     ax1.set_title("Actions")
-    ax1.bar(range(n_actions), policy_net(state).cpu().detach().numpy().reshape(-1))
+    copy_state = state.copy()
+    copy_state["text_length"] = [state["mission"].shape[0]]
+    copy_state["mission"] = state["mission"].unsqueeze(0)
+    ax1.bar(range(n_actions), policy_net(copy_state).cpu().detach().numpy().reshape(-1))
     ax1.set_xticks(range(n_actions))
     ax1.set_xticklabels(action_names, fontdict=None, minor=False)
     ax1.set_ylabel("Q values")
@@ -56,6 +60,7 @@ def summary_trajectory_numpy(env, writer, n_actions, action_names, policy_net, s
     copy_state = state.copy()
     copy_state["image"] = torch.from_numpy(state["image"]).to(policy_net.device).float()
     copy_state["mission"] = torch.from_numpy(state["mission"]).to(policy_net.device).float()
+    copy_state["text_length"] = copy_state["mission"].shape[0]
     image = env.render("rgb_array")
     fig = plt.figure(figsize=(10, 6))
     ax1 = fig.add_subplot(1, 2, 2)
@@ -78,11 +83,28 @@ def summary_mean_max_q(dict_agent, memory, policy_net, writer, steps_done):
         transitions = memory.sample(dict_agent["batch_size"])
     batch_transitions = memory.transition(*zip(*transitions))
     batch_curr_state = torch.cat(batch_transitions.curr_state)
-    batch_mission = torch.cat(batch_transitions.mission)
-    batch_curr_state_dict = {
-        "image": batch_curr_state,
-        "mission": batch_mission
-    }
+    if policy_net.use_text:
+        text_length = [None] * dict_agent["batch_size"]
+        for ind, mission in enumerate(batch_transitions.mission):
+            text_length[ind] = mission.shape[0]
+        batch_text_length = torch.tensor(text_length, dtype=torch.long).to(policy_net.device)
+        batch_mission = nn.utils.rnn.pad_sequence(batch_transitions.mission, batch_first=True).to(policy_net.device)
+    else:
+        batch_mission = torch.cat(batch_transitions.mission)
+
+    # Compute targets according to the Bellman eq
+    if policy_net.use_text:
+        batch_curr_state_dict = {
+            "image": batch_curr_state,
+            "mission": batch_mission,
+            "text_length": batch_text_length
+        }
+    else:
+        batch_curr_state_dict = {
+            "image": batch_curr_state,
+            "mission": batch_mission
+        }
+
     q_values = policy_net(batch_curr_state_dict).detach()
     writer.add_scalar("mean Q", torch.mean(q_values).cpu().numpy().reshape(-1)
                       , global_step=steps_done)
@@ -141,6 +163,32 @@ def indexes_from_sentences(mission, word2idx):
     for word in words:
         indexes.append(word2idx[word])
     return torch.LongTensor(indexes)
+
+
+def rnn_mission(target, dict_env):
+
+    if dict_env["shuffle_attrib"]:
+        attrib = [target["size"], target["seniority"], target["color"]]
+        random.shuffle(attrib)
+        miss = tuple(attrib) + (target["type"],)
+        descStr = '%s %s %s %s' % miss
+    else:
+        descStr = '%s %s %s %s' % (target["size"], target["seniority"], target["color"], target["type"])
+
+    # Generate the mission string
+    idx = random.randint(0, 4)
+    if idx == 0:
+        mission = 'get a %s' % descStr
+    elif idx == 1:
+        mission = 'go get a %s' % descStr
+    elif idx == 2:
+        mission = 'fetch a %s' % descStr
+    elif idx == 3:
+        mission = 'go fetch a %s' % descStr
+    elif idx == 4:
+        mission = 'you must fetch a %s' % descStr
+
+    return mission
 
 
 def noisy_mission(target, dict_env, config):

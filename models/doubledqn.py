@@ -100,10 +100,13 @@ class DoubleDQN(nn.Module):
             action = random.choice(range(self.n_actions))
         else:
             # max(1) for the dim, [1] for the indice, [0] for the value
-            copy_state = state.copy()
-            copy_state["text_length"] = [state["mission"].shape[0]]
-            copy_state["mission"] = state["mission"].unsqueeze(0)
-            action = int(self.forward(copy_state).max(1)[1].detach())
+            if self.use_text:
+                copy_state = state.copy()
+                copy_state["text_length"] = [state["mission"].shape[0]]
+                copy_state["mission"] = state["mission"].unsqueeze(0)
+                action = int(self.forward(copy_state).max(1)[1].detach())
+            else:
+                action = int(self.forward(state).max(1)[1].detach())
 
         return action
 
@@ -130,13 +133,6 @@ class DoubleDQN(nn.Module):
             batch_mission = nn.utils.rnn.pad_sequence(batch_transitions.mission, batch_first=True).to(self.device)
         else:
             batch_mission = torch.cat(batch_transitions.mission)
-
-        #batch_transitions = memory.transition(*zip(*transitions))
-        #batch_curr_state = torch.from_numpy(np.concatenate(batch_transitions.curr_state)).to(self.device).float()
-        #batch_next_state = torch.from_numpy(np.concatenate(batch_transitions.next_state)).to(self.device).float()
-        #batch_terminal = torch.as_tensor(batch_transitions.terminal, dtype=torch.int32)
-        #batch_action = torch.as_tensor(batch_transitions.action, dtype=torch.long, device=self.device).reshape(-1, 1)
-        #batch_mission = torch.from_numpy(np.concatenate(batch_transitions.mission)).to(self.device).float()
 
         # Compute targets according to the Bellman eq
         if self.use_text:

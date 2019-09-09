@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="e8baefdf-93aa-4107-9498-702f2b62cb61" name="lille" url="http://lille.g5k">
+        <fileTransfer host="lille.g5k" port="22" rootFolder="/home/gcideron/project" accessType="SFTP" authAgent="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="6cf9fa96-78e0-4611-8674-406cdcbf3e92" name="nancy" url="http://nancy.g5k">
+        <fileTransfer host="nancy.g5k" port="22" rootFolder="/home/gcideron/project" accessType="SFTP" authAgent="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+    <groups>
+      <group>
+        <name>g5k</name>
+        <servers>
+          <name value="lille" />
+          <name value="nancy" />
+        </servers>
+      </group>
+    </groups>
+  </component>
+</project>

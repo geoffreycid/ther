@@ -1,8 +1,14 @@
 {
     "name": "learned-expert",
-    "T_exploration": 8e5,
+    "T_exploration": 1e5,
     "keep_last_transitions": 0,
-    "expert_type": "onehot",
-    "expert_weights_path": "/home/gcideron/visual_her/out_preds/new/saved_model/onehot/len_train_50000/100000_steps_0.9087_acc.pt"
+    "expert_type": "rnn",
+    "word_embedding_size": 128,
+    "hidden_size": 256,
+    "teacher_forcing_ratio": 0.4,
+    "lr": 1e-4,
+    "weight_decay": 1e-6,
+    "n_words": 27,
+    "expert_weights_path": "/home/gcideron/visual_her/out/"
 
 }

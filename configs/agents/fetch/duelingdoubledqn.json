@@ -11,8 +11,12 @@
     "eps_init": 1,
     "eps_final": 0.1,
     "update_target": 1000,
-    "max_steps": 300000,
     "use_memory": 1,
     "use_text": 1,
-    "use_per": 0
+    "use_per": 0,
+    "evaluate_policy": 5,
+    "seed_evaluate": 870,
+    "max_steps_evaluate": 100,
+    "weights_path": "/home/gcideron/visual_her/out/rnn-Fetch-12x12-N2-C6-SE5-SI5-O10/dueling-double-dqn-expert-to-learn-rnn/run_1/a/model_params/model_steps_1000000.pt"
+
 }

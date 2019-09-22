@@ -67,14 +67,14 @@ def optimization(train_memory, test_memory, config, train_memory_dense, test_mem
     elif use_onehot:
         if use_dense:
             net = prednet.PredMissionOneHotDense(c=4, frames=1, n_type=num_types,
-                                           n_color=num_colors,
-                                           n_seniority=num_seniority,
-                                           n_size=num_size, lr=config["lr"]).to(device)
+                                                 n_color=num_colors,
+                                                 n_shade=num_seniority,
+                                                 n_size=num_size, lr=config["lr"]).to(device)
         else:
             net = prednet.PredMissionOneHot(c=4, frames=1, n_type=num_types,
-                                           n_color=num_colors,
-                                           n_seniority=num_seniority,
-                                           n_size=num_size, lr=config["lr"]).to(device)
+                                            n_color=num_colors,
+                                            n_shade=num_seniority,
+                                            n_size=num_size, lr=config["lr"]).to(device)
 
     # Directories for the logs and save
     dir_logs = config["dir"] + "/logs_pred/"
@@ -291,7 +291,7 @@ def optimization(train_memory, test_memory, config, train_memory_dense, test_mem
                 writer.add_scalar("Accuracy", acc_total, global_step=steps_done)
                 writer.add_scalar("Accuracy type", acc_type, global_step=steps_done)
                 writer.add_scalar("Accuracy color", acc_color, global_step=steps_done)
-                writer.add_scalar("Accuracy seniority", acc_seniority, global_step=steps_done)
+                writer.add_scalar("Accuracy shade", acc_seniority, global_step=steps_done)
                 writer.add_scalar("Accuracy size", acc_size, global_step=steps_done)
 
                 test_accs = np.append(test_accs, acc_total)

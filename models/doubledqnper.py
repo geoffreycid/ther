@@ -27,20 +27,38 @@ class DoubleDQNPER(DoubleDQN):
         transitions, is_weights, transition_idxs = memory.sample(dict_agent["batch_size"])
 
         # Batch the transitions into one namedtuple
+
         batch_transitions = memory.transition(*zip(*transitions))
         batch_curr_state = torch.cat(batch_transitions.curr_state)
         batch_next_state = torch.cat(batch_transitions.next_state)
-        batch_terminal = torch.tensor(batch_transitions.terminal, dtype=torch.int32)
-        batch_action = torch.tensor(batch_transitions.action, dtype=torch.long, device=self.device).reshape(-1, 1)
-        batch_mission = torch.cat(batch_transitions.mission)
+        batch_terminal = torch.as_tensor(batch_transitions.terminal, dtype=torch.int32)
+        batch_action = torch.as_tensor(batch_transitions.action, dtype=torch.long, device=self.device).reshape(-1, 1)
+
+        if self.use_text:
+            text_length = [None] * dict_agent["batch_size"]
+            for ind, mission in enumerate(batch_transitions.mission):
+                text_length[ind] = mission.shape[0]
+            batch_text_length = torch.tensor(text_length, dtype=torch.long).to(self.device)
+            batch_mission = nn.utils.rnn.pad_sequence(batch_transitions.mission, batch_first=True).to(self.device)
+        else:
+            batch_mission = torch.cat(batch_transitions.mission)
 
         # Compute targets according to the Bellman eq
-        batch_next_state_non_terminal_dict = {
-            "image": batch_next_state[batch_terminal == 0],
-            "mission": batch_mission[batch_terminal == 0]
-        }
+        if self.use_text:
+            batch_next_state_non_terminal_dict = {
+                "image": batch_next_state[batch_terminal == 0],
+                "mission": batch_mission[batch_terminal == 0],
+                "text_length": batch_text_length[batch_terminal == 0]
+            }
+        else:
+
+            batch_next_state_non_terminal_dict = {
+                "image": batch_next_state[batch_terminal == 0],
+                "mission": batch_mission[batch_terminal == 0]
+            }
+
         # Evaluation of the Q value with the target net
-        targets = torch.tensor(batch_transitions.reward, dtype=torch.float32, device=self.device).reshape(-1, 1)
+        targets = torch.as_tensor(batch_transitions.reward, dtype=torch.float32, device=self.device).reshape(-1, 1)
         # Double DQN
         if torch.sum(batch_terminal) != dict_agent["batch_size"]:
             # Selection of the action with the policy net
@@ -49,11 +67,20 @@ class DoubleDQNPER(DoubleDQN):
                                        + dict_agent["gamma"] \
                                        * target_net(batch_next_state_non_terminal_dict).gather(1, args_actions).detach()
 
+        targets = targets.reshape(-1, 1)
         # Compute the current estimate of Q
-        batch_curr_state_dict = {
-            "image": batch_curr_state,
-            "mission": batch_mission
-        }
+        if self.use_text:
+            batch_curr_state_dict = {
+                "image": batch_curr_state,
+                "mission": batch_mission,
+                "text_length": batch_text_length
+            }
+        else:
+            batch_curr_state_dict = {
+                "image": batch_curr_state,
+                "mission": batch_mission
+            }
+
         predictions = self.forward(batch_curr_state_dict).gather(1, batch_action)
         # TD-Error
         td_errors = torch.abs(targets - predictions).detach().reshape(-1)

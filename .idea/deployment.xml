@@ -19,6 +19,20 @@
           </excludedPaths>
         </serverdata>
       </paths>
+      <paths name="lille">
+        <serverdata>
+          <mappings>
+            <mapping deploy="visual_her" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="nancy">
+        <serverdata>
+          <mappings>
+            <mapping deploy="visual_her" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="smithers">
         <serverdata>
           <mappings>

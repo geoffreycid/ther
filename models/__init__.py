@@ -4,6 +4,7 @@ from models.doubledqn import *
 from models.doubledqnper import *
 from models.doubledqnher import *
 from models.duelingdoubledqn import *
+from models.duelingdoubledqnper import *
 from models.dqnper import *
 from models.dqncartpole import *
 from models.doubledqnpredher import *

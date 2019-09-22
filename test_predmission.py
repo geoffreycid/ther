@@ -76,7 +76,7 @@ with open('/home/gcideron/datasets/collect_samples_1100_memory_size_4_frames_300
     mem = dill.load(file)
 print("Memory loaded")
 
-config =  {
+config = {
     "log_every": 500,
     "earlystopping": 20,
     "iterations_before_earlystopping": 1e5,
@@ -90,7 +90,7 @@ device = "cuda"
 importlib.reload(prednet)
 
 net = prednet.PredMissionRNN(c=4, frames=1, n_words=27, word_embedding_size=128,
-                             hidden_size=512, teacher_forcing_ratio=0.2, word2idx=word2idx,
+                             hidden_size=256, teacher_forcing_ratio=0.2, word2idx=word2idx,
                              idx2word=idx2word, lr=1e-4).to(device)
 
 net.optimize_model(mem, config)

@@ -1,0 +1,24 @@
+{
+    "name": "dueling-double-dqn",
+    "agent": "dueling-double-dqn",
+    "seed": 29,
+    "frames": 4,
+    "ratio_step_optim": 1,
+    "batch_size": 128,
+    "lr": 1e-5,
+    "memory_size": 5e4,
+    "gamma": 0.99,
+    "eps_init": 1,
+    "eps_final": 0.1,
+    "update_target": 1000,
+    "max_steps": 200000,
+    "use_memory": 1,
+    "use_text": 1,
+    "use_per": 0,
+    "evaluate_policy": 20000,
+    "seed_evaluate": 870,
+    "max_steps_evaluate": 10000,
+    "weights_path": "/home/gcideron/visual_her/out/Fetch-12x12-N2-C6-SE5-SI5-O10-train-missions-50-percent/dueling-double-dqn-expert-to-learn-rnn/run_1/a/model_params/agent_model_steps_100000.pt",
+    "replay_buffer_path": "/home/gcideron/visual_her/out/Fetch-12x12-N2-C6-SE5-SI5-O10-train-missions-50-percent/dueling-double-dqn-expert-to-learn-rnn/run_1/a/model_params/replaybuffer/replaybuffer_steps_1000000.pkl"
+
+}

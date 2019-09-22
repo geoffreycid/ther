@@ -43,10 +43,13 @@ def summary_trajectory(env, dict_env, writer, n_actions, action_names, policy_ne
     fig = plt.figure(figsize=(10, 6))
     ax1 = fig.add_subplot(1, 2, 2)
     ax1.set_title("Actions")
-    copy_state = state.copy()
-    copy_state["text_length"] = [state["mission"].shape[0]]
-    copy_state["mission"] = state["mission"].unsqueeze(0)
-    ax1.bar(range(n_actions), policy_net(copy_state).cpu().detach().numpy().reshape(-1))
+    if policy_net.use_text:
+        copy_state = state.copy()
+        copy_state["text_length"] = [state["mission"].shape[0]]
+        copy_state["mission"] = state["mission"].unsqueeze(0)
+        ax1.bar(range(n_actions), policy_net(copy_state).cpu().detach().numpy().reshape(-1))
+    else:
+        ax1.bar(range(n_actions), policy_net(state).cpu().detach().numpy().reshape(-1))
     ax1.set_xticks(range(n_actions))
     ax1.set_xticklabels(action_names, fontdict=None, minor=False)
     ax1.set_ylabel("Q values")
@@ -77,7 +80,7 @@ def summary_trajectory_numpy(env, writer, n_actions, action_names, policy_net, s
 
 def summary_mean_max_q(dict_agent, memory, policy_net, writer, steps_done):
     # Sample a batch of states and compute mean and max values of Q
-    if dict_agent["agent"] == "dqn-per" or dict_agent["agent"] == "double-dqn-per":
+    if "per" in dict_agent["agent"]:
         transitions, is_weights, transition_idxs = memory.sample(dict_agent["batch_size"])
     else:
         transitions = memory.sample(dict_agent["batch_size"])
@@ -138,7 +141,7 @@ def mission_tokenizer(dict_env, target):
 
     num_colors = len(dict_env["COLOR_TO_IDX"].keys())
     num_types = len(dict_env["TYPE_TO_IDX"].keys())
-    num_seniority = len(dict_env["SENIORITY_TO_IDX"].keys())
+    num_shade = len(dict_env["SHADE_TO_IDX"].keys())
     num_size = len(dict_env["SIZE_TO_IDX"].keys())
 
     mission_color_onehot = torch.zeros(num_colors)
@@ -148,13 +151,13 @@ def mission_tokenizer(dict_env, target):
     mission_type_onehot = torch.zeros(num_types)
     mission_type_onehot[dict_env["TYPE_TO_IDX"][target["type"]]] = 1
 
-    mission_seniority_onehot = torch.zeros(num_seniority)
-    mission_seniority_onehot[dict_env["SENIORITY_TO_IDX"][target["seniority"]]] = 1
+    mission_shade_onehot = torch.zeros(num_shade)
+    mission_shade_onehot[dict_env["SHADE_TO_IDX"][target["shade"]]] = 1
 
     mission_size_onehot = torch.zeros(num_size)
     mission_size_onehot[dict_env["SIZE_TO_IDX"][target["size"]]] = 1
 
-    return torch.cat((mission_type_onehot, mission_color_onehot, mission_seniority_onehot, mission_size_onehot)).unsqueeze(0)
+    return torch.cat((mission_type_onehot, mission_color_onehot, mission_shade_onehot, mission_size_onehot)).unsqueeze(0)
 
 
 def indexes_from_sentences(mission, word2idx):
@@ -168,12 +171,12 @@ def indexes_from_sentences(mission, word2idx):
 def rnn_mission(target, dict_env):
 
     if dict_env["shuffle_attrib"]:
-        attrib = [target["size"], target["seniority"], target["color"]]
+        attrib = [target["size"], target["shade"], target["color"]]
         random.shuffle(attrib)
         miss = tuple(attrib) + (target["type"],)
         descStr = '%s %s %s %s' % miss
     else:
-        descStr = '%s %s %s %s' % (target["size"], target["seniority"], target["color"], target["type"])
+        descStr = '%s %s %s %s' % (target["size"], target["shade"], target["color"], target["type"])
 
     # Generate the mission string
     idx = random.randint(0, 4)
@@ -195,7 +198,7 @@ def noisy_mission(target, dict_env, config):
 
     num_colors = len(dict_env["COLOR_TO_IDX"].keys())
     num_types = len(dict_env["TYPE_TO_IDX"].keys())
-    num_seniority = len(dict_env["SENIORITY_TO_IDX"].keys())
+    num_shade = len(dict_env["SENIORITY_TO_IDX"].keys())
     num_size = len(dict_env["SIZE_TO_IDX"].keys())
 
     mission_color_onehot = torch.zeros(num_colors)
@@ -205,8 +208,8 @@ def noisy_mission(target, dict_env, config):
     mission_type_onehot = torch.zeros(num_types)
     mission_type_onehot[dict_env["TYPE_TO_IDX"][target["type"]]] = 1
 
-    mission_seniority_onehot = torch.zeros(num_seniority)
-    mission_seniority_onehot[dict_env["SENIORITY_TO_IDX"][target["seniority"]]] = 1
+    mission_shade_onehot = torch.zeros(num_shade)
+    mission_shade_onehot[dict_env["SHADE_TO_IDX"][target["shade"]]] = 1
 
     mission_size_onehot = torch.zeros(num_size)
     mission_size_onehot[dict_env["SIZE_TO_IDX"][target["size"]]] = 1
@@ -219,8 +222,8 @@ def noisy_mission(target, dict_env, config):
                 mission_color_onehot = torch.zeros(num_colors)
             if "type" in config["attrib"]:
                 mission_type_onehot = torch.zeros(num_types)
-            if "seniority" in config["attrib"]:
-                mission_seniority_onehot = torch.zeros(num_seniority)
+            if "shade" in config["attrib"]:
+                mission_shade_onehot = torch.zeros(num_shade)
             if "size" in config["attrib"]:
                 mission_size_onehot = torch.zeros(num_size)
             if "random" in config["attrib"]:
@@ -230,7 +233,7 @@ def noisy_mission(target, dict_env, config):
                 elif attrib == 1:
                     mission_type_onehot = torch.zeros(num_types)
                 elif attrib == 2:
-                    mission_seniority_onehot = torch.zeros(num_seniority)
+                    mission_shade_onehot = torch.zeros(num_shade)
                 elif attrib == 3:
                     mission_size_onehot = torch.zeros(num_size)
 
@@ -241,9 +244,9 @@ def noisy_mission(target, dict_env, config):
             if "type" in config["attrib"]:
                 idx = random.randint(0, num_types - 1)
                 mission_type_onehot[idx] = 1
-            if "seniority" in config["attrib"]:
-                idx = random.randint(0, num_seniority - 1)
-                mission_seniority_onehot[idx] = 1
+            if "shade" in config["attrib"]:
+                idx = random.randint(0, num_shade - 1)
+                mission_shade_onehot[idx] = 1
             if "size" in config["attrib"]:
                 idx = random.randint(0, num_size - 1)
                 mission_size_onehot[idx] = 1
@@ -256,13 +259,82 @@ def noisy_mission(target, dict_env, config):
                     idx = random.randint(0, num_types - 1)
                     mission_type_onehot[idx] = 1
                 elif attrib == 2:
-                    idx = random.randint(0, num_seniority - 1)
-                    mission_seniority_onehot[idx] = 1
+                    idx = random.randint(0, num_shade - 1)
+                    mission_shade_onehot[idx] = 1
                 elif attrib == 3:
                     idx = random.randint(0, num_size - 1)
                     mission_size_onehot[idx] = 1
 
-    return torch.cat((mission_type_onehot, mission_color_onehot, mission_seniority_onehot, mission_size_onehot)).unsqueeze(0)
+    return torch.cat((mission_type_onehot, mission_color_onehot, mission_shade_onehot, mission_size_onehot)).unsqueeze(0)
+
+
+def noisy_mission_one_threshold(target, dict_env, config):
+
+    num_colors = len(dict_env["COLOR_TO_IDX"].keys())
+    num_types = len(dict_env["TYPE_TO_IDX"].keys())
+    num_shade = len(dict_env["SHADE_TO_IDX"].keys())
+    num_size = len(dict_env["SIZE_TO_IDX"].keys())
+
+    mission_color_onehot = torch.zeros(num_colors)
+    if num_colors > 1:
+        mission_color_onehot[dict_env["COLOR_TO_IDX"][target["color"]]] = 1
+
+    mission_type_onehot = torch.zeros(num_types)
+    mission_type_onehot[dict_env["TYPE_TO_IDX"][target["type"]]] = 1
+
+    mission_shade_onehot = torch.zeros(num_shade)
+    mission_shade_onehot[dict_env["SHADE_TO_IDX"][target["shade"]]] = 1
+
+    mission_size_onehot = torch.zeros(num_size)
+    mission_size_onehot[dict_env["SIZE_TO_IDX"][target["size"]]] = 1
+
+    proba_type = random.random()
+    if proba_type < config["proba-noisy"]:
+        idx = random.randint(0, num_types - 1)
+        mission_type_onehot[idx] = 1
+
+    proba_color = random.random()
+    if proba_color < config["proba-noisy"]:
+        idx = random.randint(0, num_colors - 1)
+        mission_color_onehot[idx] = 1
+
+    proba_shade = random.random()
+    if proba_shade < config["proba-noisy"]:
+        idx = random.randint(0, num_shade - 1)
+        mission_shade_onehot[idx] = 1
+
+    proba_size = random.random()
+    if proba_size < config["proba-noisy"]:
+        idx = random.randint(0, num_size - 1)
+        mission_size_onehot[idx] = 1
+
+    return torch.cat((mission_type_onehot, mission_color_onehot, mission_shade_onehot, mission_size_onehot)).unsqueeze(0)
+
+
+def noisy_mission_one_threshold_text(target, dict_env, config):
+
+    colors = list(dict_env["COLOR_TO_IDX"].keys())
+    types = list(dict_env["TYPE_TO_IDX"].keys())
+    shades = list(dict_env["SHADE_TO_IDX"].keys())
+    sizes = list(dict_env["SIZE_TO_IDX"].keys())
+
+    proba_type = random.random()
+    if proba_type < config["proba-noisy"]:
+        target["type"] = random.choice(types)
+
+    proba_color = random.random()
+    if proba_color < config["proba-noisy"]:
+        target["color"] = random.choice(colors)
+
+    proba_shade = random.random()
+    if proba_shade < config["proba-noisy"]:
+        target["shade"] = random.choice(shades)
+
+    proba_size = random.random()
+    if proba_size < config["proba-noisy"]:
+        target["size"] = random.choice(sizes)
+
+    return target
 
 
 def mission_tokenizer_numpy(dict_env, target):
@@ -280,7 +352,7 @@ def mission_tokenizer_numpy(dict_env, target):
     mission_type_onehot[dict_env["TYPE_TO_IDX"][target["type"]]] = 1
 
     mission_seniority_onehot = np.zeros(num_seniority)
-    mission_seniority_onehot[dict_env["SENIORITY_TO_IDX"][target["seniority"]]] = 1
+    mission_seniority_onehot[dict_env["SENIORITY_TO_IDX"][target["shade"]]] = 1
 
     mission_size_onehot = np.zeros(num_size)
     mission_size_onehot[dict_env["SIZE_TO_IDX"][target["size"]]] = 1

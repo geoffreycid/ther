@@ -14,7 +14,7 @@ if __name__ == '__main__':
     with open('configs/envs/fetch.json', 'r') as myfile:
         config_env = myfile.read()
 
-    with open('configs/agents/fetch/doubledqn.json', 'r') as myfile:
+    with open('configs/agents/fetch/duelingdoubledqn.json', 'r') as myfile:
         config_agent_simple = myfile.read()
 #    with open('configs/agents/fetch/doubledqnper.json', 'r') as myfile:
 #        config_agent_per = myfile.read()
@@ -81,12 +81,14 @@ if __name__ == '__main__':
 
     #dicts_to_train = dicts_dqn_expert_to_learn_dense + dicts_dqn_her + dicts_dqn_no_expert + dicts_dqn_expert_to_learn
     dicts_to_train = dicts_dqn_her + dicts_dqn_no_expert + dicts_dqn_expert_to_learn
+    #dicts_to_train = dicts_dqn_no_expert + dicts_dqn_expert_to_learn
 
     nb_seed = len(dicts_dqn_no_expert)
     #dicts_expert = [dict_expert_to_learn_dense] * nb_seed + [dict_expert_to_learn] * nb_seed + [
     #    dict_her_expert] * nb_seed + [dict_no_expert] * nb_seed
 
     dicts_expert = [dict_her_expert] * nb_seed + [dict_no_expert] * nb_seed + [dict_expert_to_learn] * nb_seed
+    #dicts_expert = [dict_no_expert] * nb_seed + [dict_expert_to_learn] * nb_seed
 
     # Use Ray to do the allocation of resources
     ray.get([training.remote(dict_env=dict_fetch, dict_agent=agent, dict_expert=expert)

@@ -130,7 +130,7 @@ class PredMissionImc(nn.Module):
 
 
 class PredMissionOneHot(nn.Module):
-    def __init__(self, c, frames, n_type, n_color, n_seniority, n_size, lr):
+    def __init__(self, c, frames, n_type, n_color, n_shade, n_size, lr):
         """
         h: height of the screen
         w: width of the screen
@@ -141,7 +141,7 @@ class PredMissionOneHot(nn.Module):
 
         self.n_type = n_type
         self.n_color = n_color
-        self.n_seniority = n_seniority
+        self.n_seniority = n_shade
         self.n_size = n_size
 
         self.use_dense = 0
@@ -171,7 +171,7 @@ class PredMissionOneHot(nn.Module):
         )
 
         self.seniority_fc = nn.Sequential(
-            nn.Linear(in_features=64, out_features=n_seniority)
+            nn.Linear(in_features=64, out_features=n_shade)
         )
 
         self.size_fc = nn.Sequential(
@@ -315,7 +315,7 @@ class PredMissionOneHot(nn.Module):
 
 class PredMissionOneHotDense(PredMissionOneHot):
 
-    def __init__(self, c, frames, n_type, n_color, n_seniority, n_size, lr):
+    def __init__(self, c, frames, n_type, n_color, n_shade, n_size, lr):
         """
         h: height of the screen
         w: width of the screen
@@ -323,7 +323,7 @@ class PredMissionOneHotDense(PredMissionOneHot):
         n_actions: number of actions
         """
 
-        super(PredMissionOneHotDense, self).__init__(c, frames, n_type, n_color, n_seniority, n_size, lr)
+        super(PredMissionOneHotDense, self).__init__(c, frames, n_type, n_color, n_shade, n_size, lr)
 
         self.use_dense = 1
 

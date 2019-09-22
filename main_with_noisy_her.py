@@ -2,6 +2,8 @@ import configwrapper
 import train
 import ray
 import json
+from copy import deepcopy
+import numpy as np
 #import aggregator.aggregator as aggregator
 
 
@@ -11,24 +13,34 @@ if __name__ == '__main__':
     def training(dict_env, dict_agent, dict_expert):
         return train.training(dict_env=dict_env, dict_agent=dict_agent, dict_expert=dict_expert)
 
-    with open('configs/envs/fetch.json', 'r') as myfile:
+    with open('configs/envs/fetch_noisy_her.json', 'r') as myfile:
         config_env = myfile.read()
 
-    with open('configs/agents/fetch/doubledqn.json', 'r') as myfile:
+    with open('configs/agents/fetch/duelingdoubledqn.json', 'r') as myfile:
         config_agent_simple = myfile.read()
 
     with open('configs/experts/her_expert.json', 'r') as myfile:
         config_her_expert = myfile.read()
-    with open('configs/experts/noisy_her_mask_color_0_5.json', 'r') as myfile:
-        config_her_mask_color_0_5 = myfile.read()
-    with open('configs/experts/noisy_her_mask_color_0_2.json', 'r') as myfile:
-        config_her_mask_color_0_2 = myfile.read()
-    with open('configs/experts/noisy_her_mask_random_0_5.json', 'r') as myfile:
-        config_her_mask_random_0_5 = myfile.read()
-    with open('configs/experts/noisy_her_noise_random_0_5.json', 'r') as myfile:
-        config_her_noise_random_0_5 = myfile.read()
-    with open('configs/experts/noisy_her_noise_random_0_2.json', 'r') as myfile:
-        config_her_noise_random_0_2 = myfile.read()
+
+    with open('configs/experts/no_expert.json', 'r') as myfile:
+        config_no_expert = myfile.read()
+
+    with open('configs/experts/noisy_her_noise_random_0_1.json', 'r') as myfile:
+        config_her_noise_random_0_1 = myfile.read()
+
+    dict_her = json.loads(config_her_expert)
+    dict_no_expert = json.loads(config_no_expert)
+    dict_her_noise_0_1 = json.loads(config_her_noise_random_0_1)
+
+    dicts_expert = {}
+    for proba in [0.2, 0.4, 0.6, 0.8]:
+        dicts_expert["proba_{}".format(proba)] = {}
+        dicts_expert["proba_{}".format(proba)] = deepcopy(dict_her_noise_0_1)
+        dicts_expert["proba_{}".format(proba)]["name"] = "noisy-her-noise-random-{}".format(proba)
+        dicts_expert["proba_{}".format(proba)]["parameters-noisy-her"]["proba-noisy"] = proba
+
+    dicts_expert = [dict_her] + [dict_no_expert] + list(dicts_expert.values())
+    #dicts_expert = list(dicts_expert.values())
 
     # Grid search + extension
     with open('configs/agents/fetch/gridsearch.json', 'r') as myfile:
@@ -45,46 +57,17 @@ if __name__ == '__main__':
 
     dict_agent_simple = json.loads(config_agent_simple)
 
-    dict_her = json.loads(config_her_expert)
-    dict_her_mask_color_0_5 = json.loads(config_her_mask_color_0_5)
-    dict_her_mask_color_0_2 = json.loads(config_her_mask_color_0_2)
-    dict_her_mask_random_0_5 = json.loads(config_her_mask_random_0_5)
-    dict_her_noise_random_0_5 = json.loads(config_her_noise_random_0_5)
-    dict_her_noise_random_0_2 = json.loads(config_her_noise_random_0_2)
-
-
     ray.init(
         temp_dir='/tmp/ray2'
     )
 
-    dict_dqn_her, dicts_dqn_her = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
-                                                dict_expert=dict_her, grid_search=grid_search,
-                                                extension=extension)
+    dicts_to_train = []
+    for dict_expert in dicts_expert:
+        dicts_to_train += configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
+                                                dict_expert=dict_expert, grid_search=grid_search,
+                                                extension=extension)[1]
 
-    dict_dqn_her_mask_color_0_5, dicts_dqn_her_mask_color_0_5 = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
-                                                dict_expert=dict_her_mask_color_0_5, grid_search=grid_search,
-                                                extension=extension)
-
-    dict_dqn_her_mask_color_0_2, dicts_dqn_her_mask_color_0_2 = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
-                                                dict_expert=dict_her_mask_color_0_2, grid_search=grid_search,
-                                                extension=extension)
-
-    dict_dqn_her_mask_random_0_5, dicts_dqn_her_mask_random_0_5 = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
-                                                dict_expert=dict_her_mask_random_0_5, grid_search=grid_search,
-                                                extension=extension)
-
-    dict_dqn_her_noise_random_0_5, dicts_dqn_her_noise_random_0_5 = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
-                                                dict_expert=dict_her_noise_random_0_5, grid_search=grid_search,
-                                                extension=extension)
-    dict_dqn_her_noise_random_0_2, dicts_dqn_her_noise_random_0_2 = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
-                                                dict_expert=dict_her_noise_random_0_2, grid_search=grid_search,
-                                                extension=extension)
-
-    dicts_to_train = dicts_dqn_her + dicts_dqn_her_mask_color_0_5 + dicts_dqn_her_mask_color_0_2 \
-                     + dicts_dqn_her_mask_random_0_5 + dicts_dqn_her_noise_random_0_5 + dicts_dqn_her_noise_random_0_2
-
-    dicts_expert = [dict_her, dict_her_mask_color_0_5, dict_her_mask_color_0_2,
-                    dict_her_mask_random_0_5, dict_her_noise_random_0_5, dict_her_noise_random_0_2]
+    dicts_expert = list(np.repeat(dicts_expert, len(extension["seed"])))
 
     # Use Ray to do the allocation of resources
     ray.get([training.remote(dict_env=dict_fetch, dict_agent=agent, dict_expert=expert)

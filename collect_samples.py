@@ -96,12 +96,12 @@ class CollectSampleMemory(object):
 def rnn_mission(target, dict_env):
 
     if dict_env["shuffle_attrib"]:
-        attrib = [target["size"], target["seniority"], target["color"]]
+        attrib = [target["size"], target["shade"], target["color"]]
         random.shuffle(attrib)
         miss = tuple(attrib) + (target["type"],)
         descStr = '%s %s %s %s' % miss
     else:
-        descStr = '%s %s %s %s' % (target["size"], target["seniority"], target["color"], target["type"])
+        descStr = '%s %s %s %s' % (target["size"], target["shade"], target["color"], target["type"])
 
     # Generate the mission string
     idx = random.randint(0, 4)
@@ -135,6 +135,7 @@ def collect_samples(dict_env, dict_agent, use_her, use_imc, use_dense=0, use_rnn
     # Fix all seeds
     seed = dict_agent["seed"]
     env.seed(seed)
+    np.random.seed(seed)
 
     # Number of types + colors
     if "COLOR_TO_IDX" and "TYPE_TO_IDX" in dict_env.keys():
@@ -175,7 +176,7 @@ def collect_samples(dict_env, dict_agent, use_her, use_imc, use_dense=0, use_rnn
         target = {
             "color": env.targetColor,
             "type": env.targetType,
-            "seniority": env.targetSeniority,
+            "shade": env.targetShade,
             "size": env.targetSize
         }
         state["mission"] = utils.mission_tokenizer(dict_env, target).to(device)
@@ -277,15 +278,15 @@ def collect_samples(dict_env, dict_agent, use_her, use_imc, use_dense=0, use_rnn
 if __name__ == "__main__":
 
     dict_env = {
-        "name": "10x10-C4-N2-O8",
+        "name": "12x12-C4-N2-O10",
         "device": "cpu",
         "game_type": "fetch",
         "wrong_object_terminal": 1,
         "reward_if_wrong_object": 0,
-        "use_held_out_mission": 0,
+        "use_defined_missions": 1,
         "shuffle_attrib": 1,
-        "size": 10,
-        "numObjs": 8,
+        "size": 12,
+        "numObjs": 10,
         "manual": 0,
         "random_target": 1,
         "oneobject": 0,
@@ -301,24 +302,24 @@ if __name__ == "__main__":
             "key": 0,
             "ball": 1
         },
-        "SENIORITY_TO_IDX": {
-            "veryyoung": 0,
-            "young": 1,
-            "middle": 2,
-            "old": 3,
-            "veryold": 4
+        "SHADE_TO_IDX": {
+            "very_light": 0,
+            "light": 1,
+            "neutral": 2,
+            "dark": 3,
+            "very_dark": 4
         },
         "SIZE_TO_IDX": {
-            "verysmall": 0,
+            "tiny": 0,
             "small": 1,
-            "average": 2,
-            "big": 3,
-            "verybig": 4
+            "medium": 2,
+            "large": 3,
+            "giant": 4
         },
         "T_max": 50,
 
         "word2idx": {
-            "pad": 0,
+            "PAD": 0,
             "get": 1,
             "a": 2,
             "go": 3,
@@ -333,29 +334,180 @@ if __name__ == "__main__":
             "grey": 12,
             "key": 13,
             "ball": 14,
-            "veryyoung": 15,
-            "young": 16,
-            "middle": 17,
-            "old": 18,
-            "veryold": 19,
-            "verysmall": 20,
+            "very_light": 15,
+            "light": 16,
+            "neutral": 17,
+            "dark": 18,
+            "very_dark": 19,
+            "tiny": 20,
             "small": 21,
-            "average": 22,
-            "big": 23,
-            "verybig": 24,
-            "start": 25,
-            ".": 26
-        }
+            "medium": 22,
+            "large": 23,
+            "giant": 24,
+            "BEG": 25,
+            "END": 26
+        },
+
+        "missions": [["red", "key", "medium", "very_dark"],
+                     ["purple", "key", "giant", "dark"],
+                     ["yellow", "key", "giant", "very_dark"],
+                     ["blue", "ball", "small", "neutral"],
+                     ["red", "ball", "medium", "neutral"],
+                     ["purple", "ball", "medium", "dark"],
+                     ["grey", "key", "medium", "dark"],
+                     ["yellow", "key", "tiny", "neutral"],
+                     ["grey", "key", "large", "neutral"],
+                     ["green", "key", "giant", "neutral"],
+                     ["purple", "key", "large", "dark"],
+                     ["purple", "ball", "tiny", "light"],
+                     ["green", "ball", "giant", "light"],
+                     ["blue", "key", "large", "dark"],
+                     ["purple", "key", "small", "very_light"],
+                     ["blue", "ball", "small", "light"],
+                     ["purple", "key", "large", "light"],
+                     ["yellow", "ball", "tiny", "very_dark"],
+                     ["red", "ball", "large", "dark"],
+                     ["blue", "key", "medium", "light"],
+                     ["purple", "key", "tiny", "dark"],
+                     ["purple", "key", "tiny", "neutral"],
+                     ["blue", "key", "small", "light"],
+                     ["yellow", "key", "large", "very_dark"],
+                     ["blue", "ball", "giant", "very_dark"],
+                     ["purple", "ball", "large", "very_light"],
+                     ["purple", "key", "small", "very_dark"],
+                     ["red", "ball", "small", "neutral"],
+                     ["blue", "ball", "large", "very_dark"],
+                     ["blue", "key", "giant", "neutral"],
+                     ["blue", "key", "medium", "very_dark"],
+                     ["purple", "key", "giant", "very_dark"],
+                     ["blue", "ball", "medium", "neutral"],
+                     ["purple", "ball", "giant", "dark"],
+                     ["red", "key", "large", "very_dark"],
+                     ["red", "key", "small", "light"],
+                     ["green", "ball", "tiny", "neutral"],
+                     ["green", "ball", "small", "neutral"],
+                     ["yellow", "ball", "giant", "dark"],
+                     ["grey", "ball", "medium", "neutral"],
+                     ["green", "key", "large", "very_light"],
+                     ["red", "ball", "medium", "very_light"],
+                     ["red", "key", "tiny", "very_dark"],
+                     ["green", "ball", "large", "very_light"],
+                     ["yellow", "ball", "small", "light"],
+                     ["green", "key", "small", "very_light"],
+                     ["red", "key", "medium", "light"],
+                     ["grey", "key", "large", "light"],
+                     ["grey", "key", "tiny", "neutral"],
+                     ["blue", "ball", "small", "very_dark"],
+                     ["green", "ball", "small", "very_light"],
+                     ["grey", "key", "small", "dark"],
+                     ["purple", "ball", "giant", "very_dark"],
+                     ["yellow", "ball", "large", "very_dark"],
+                     ["blue", "ball", "tiny", "light"],
+                     ["grey", "ball", "tiny", "neutral"],
+                     ["grey", "ball", "tiny", "very_dark"],
+                     ["purple", "ball", "medium", "very_dark"],
+                     ["red", "ball", "giant", "very_dark"],
+                     ["blue", "key", "tiny", "neutral"],
+                     ["green", "ball", "tiny", "light"],
+                     ["green", "key", "large", "very_dark"],
+                     ["blue", "ball", "tiny", "very_light"],
+                     ["purple", "key", "small", "neutral"],
+                     ["red", "key", "large", "dark"],
+                     ["purple", "key", "giant", "neutral"],
+                     ["red", "key", "giant", "very_light"],
+                     ["purple", "key", "large", "very_dark"],
+                     ["blue", "ball", "large", "dark"],
+                     ["red", "key", "giant", "neutral"],
+                     ["green", "key", "tiny", "neutral"],
+                     ["red", "ball", "tiny", "dark"],
+                     ["purple", "key", "medium", "light"],
+                     ["red", "ball", "giant", "neutral"],
+                     ["green", "key", "giant", "very_dark"],
+                     ["green", "key", "small", "very_dark"],
+                     ["purple", "ball", "giant", "light"],
+                     ["red", "ball", "medium", "light"],
+                     ["green", "ball", "tiny", "very_dark"],
+                     ["blue", "key", "small", "neutral"],
+                     ["purple", "key", "tiny", "very_dark"],
+                     ["green", "key", "small", "light"],
+                     ["grey", "key", "giant", "dark"],
+                     ["yellow", "ball", "medium", "dark"],
+                     ["blue", "ball", "giant", "dark"],
+                     ["green", "ball", "medium", "dark"],
+                     ["green", "key", "small", "dark"],
+                     ["green", "ball", "small", "very_dark"],
+                     ["purple", "key", "medium", "very_light"],
+                     ["blue", "key", "tiny", "light"],
+                     ["yellow", "key", "small", "light"],
+                     ["red", "ball", "small", "very_dark"],
+                     ["grey", "key", "medium", "light"],
+                     ["green", "key", "tiny", "light"],
+                     ["blue", "key", "medium", "dark"],
+                     ["purple", "key", "giant", "very_light"],
+                     ["grey", "ball", "tiny", "very_light"],
+                     ["green", "ball", "small", "light"],
+                     ["red", "ball", "large", "neutral"],
+                     ["purple", "ball", "small", "very_dark"],
+                     ["purple", "ball", "giant", "neutral"],
+                     ["green", "ball", "tiny", "very_light"],
+                     ["red", "key", "small", "neutral"],
+                     ["green", "key", "medium", "dark"],
+                     ["red", "ball", "small", "dark"],
+                     ["grey", "ball", "small", "neutral"],
+                     ["purple", "key", "giant", "light"],
+                     ["grey", "ball", "small", "dark"],
+                     ["red", "key", "tiny", "very_light"],
+                     ["blue", "ball", "large", "light"],
+                     ["grey", "ball", "tiny", "dark"],
+                     ["grey", "key", "small", "neutral"],
+                     ["grey", "ball", "small", "very_dark"],
+                     ["grey", "ball", "giant", "neutral"],
+                     ["blue", "ball", "small", "very_light"],
+                     ["green", "key", "tiny", "very_dark"],
+                     ["blue", "key", "medium", "very_light"],
+                     ["green", "key", "giant", "very_light"],
+                     ["red", "ball", "medium", "very_dark"],
+                     ["red", "key", "medium", "very_light"],
+                     ["grey", "ball", "tiny", "light"],
+                     ["green", "key", "large", "dark"],
+                     ["purple", "ball", "tiny", "very_dark"],
+                     ["yellow", "key", "medium", "very_light"],
+                     ["blue", "ball", "tiny", "dark"],
+                     ["grey", "key", "large", "dark"],
+                     ["blue", "key", "large", "neutral"],
+                     ["purple", "key", "medium", "neutral"],
+                     ["purple", "key", "medium", "dark"],
+                     ["green", "key", "medium", "light"],
+                     ["blue", "key", "small", "very_light"],
+                     ["grey", "ball", "large", "very_light"],
+                     ["red", "key", "tiny", "dark"],
+                     ["blue", "key", "giant", "dark"],
+                     ["grey", "ball", "small", "light"],
+                     ["yellow", "ball", "giant", "neutral"],
+                     ["green", "key", "medium", "very_dark"],
+                     ["grey", "key", "small", "light"],
+                     ["green", "ball", "medium", "very_dark"],
+                     ["red", "ball", "large", "very_light"],
+                     ["yellow", "ball", "small", "very_light"],
+                     ["yellow", "key", "giant", "light"],
+                     ["purple", "ball", "tiny", "dark"],
+                     ["green", "key", "small", "neutral"],
+                     ["purple", "key", "small", "light"],
+                     ["blue", "ball", "giant", "neutral"],
+                     ["grey", "ball", "medium", "dark"],
+                     ["grey", "key", "tiny", "very_light"],
+                     ["green", "ball", "giant", "dark"],
+                     ["grey", "key", "tiny", "light"]]
     }
 
     dict_agent = {
         "name": "double-dqn",
         "agent": "double-dqn",
-        "seed": 29,
+        "seed": 1,
         "frames": 4,
         "n_keep_correspondence": 1,
         "skew_ratio": 0.5,
-        "memory_size": 1100,
+        "memory_size": 50000,
         "use_her": 1,
     }
 
@@ -365,8 +517,12 @@ if __name__ == "__main__":
     else:
         use_her = 0
         use_imc = 1
+
     mem = collect_samples(dict_env, dict_agent, use_her=use_her, use_imc=use_imc, use_dense=0, use_rnn=1)
 
-    with open("/home/gcideron/datasets/collect_samples_{}_memory_size_{}_frames_{}_missions_her_cpu_rnn_shuffle_attrib.pkl"
-                      .format(int(dict_agent["memory_size"]), dict_agent["frames"], 300), 'wb') as output:
+    with open("/home/gcideron/datasets/memory_size_{}_seed_{}_test_only_list.pkl"
+                      .format(int(dict_agent["memory_size"]), int(dict_agent["seed"])), 'wb') as output:
         dill.dump(mem, output, dill.HIGHEST_PROTOCOL)
+
+    # /home/gcideron/datasets/collect_samples_{}_memory_size_{}_frames_{}_missions_her_cpu_rnn_shuffle_attrib
+    # .format(int(dict_agent["memory_size"]), dict_agent["frames"], 300), 'wb') as output:

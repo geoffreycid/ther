@@ -43,10 +43,10 @@ def wrapper(dict_env, dict_agent, dict_expert, grid_search, extension):
                 or dict_env["TYPE_TO_IDX"] != dict_already_here_env["TYPE_TO_IDX"]:
             print("Try to override an existing env without the same parameters")
             sys.exit()
-
-        if dict_agent["name"] in os.listdir(env_dir):
-            print("Environment & Agent names already used")
-            sys.exit()
+        name_agent = dict_agent["name"] + "-" + dict_expert["name"]
+        if name_agent in os.listdir(env_dir):
+            print("Environment & Agent names already used but nothing is done")
+            #sys.exit()
         else:
             os.mkdir(agent_dir)
     else:
@@ -65,10 +65,7 @@ def wrapper(dict_env, dict_agent, dict_expert, grid_search, extension):
     with open(agent_dir + '/expert.json', 'w') as outfile:
         json.dump(dict_expert, outfile)
 
-
-    
     dict_agent["agent_dir"] = agent_dir
-    # Train the model
 
     def cleanstr(string):
         string = string.replace("{", "")
@@ -89,7 +86,7 @@ def wrapper(dict_env, dict_agent, dict_expert, grid_search, extension):
                 d = dict_agent.copy()
                 d.update(dict(zip(keys, val)))
                 d["seed"] = seed
-                d["agent_dir"] = dict_agent["agent_dir"] + "/run_{}".format(ind + 1) + "/{}".format(cleanstr(str(dict(zip(keys, val)))))
+                d["agent_dir"] = dict_agent["agent_dir"] + "/run_{}".format(seed) + "/{}".format(cleanstr(str(dict(zip(keys, val)))))
                 os.makedirs(d["agent_dir"])
                 dicts.append(d)
 
@@ -99,7 +96,7 @@ def wrapper(dict_env, dict_agent, dict_expert, grid_search, extension):
         for ind, seed in enumerate(dict_agent["seed"]):
             d = dict_agent.copy()
             d["seed"] = seed
-            d["agent_dir"] = dict_agent["agent_dir"] + "/run_{}".format(ind + 1) + "/a"
+            d["agent_dir"] = dict_agent["agent_dir"] + "/run_{}".format(seed) + "/a"
             os.makedirs(d["agent_dir"])
             dicts.append(d)
         return dict_agent, dicts

@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import time
 
 env = gym.make("MiniGrid-Fetch-5x5-N2-v0")
-
+env.render("rgb_array")
 observation = env.reset()
 
 for _ in range(10000):

@@ -1,0 +1,14 @@
+{
+    "name": "learned-expert",
+    "T_exploration": 1e5,
+    "keep_last_transitions": 0,
+    "expert_type": "rnn",
+    "word_embedding_size": 128,
+    "hidden_size": 256,
+    "teacher_forcing_ratio": 0.4,
+    "lr": 1e-4,
+    "weight_decay": 1e-6,
+    "n_words": 27,
+    "expert_weights_path": "/home/gcideron/visual_her/out/Fetch-12x12-N2-C6-SE5-SI5-O10-train-missions-50-percent/dueling-double-dqn-expert-to-learn-rnn/run_1/a/model_params/expert_model_steps_3000000.pt"
+
+}

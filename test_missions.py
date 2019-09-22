@@ -14,7 +14,7 @@ for c in colors:
                 mission = {
                     "color": c,
                     "type": t,
-                    "seniority": se,
+                    "shade": se,
                     "size": si
                 }
                 all_possible_missions.append(mission)

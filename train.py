@@ -5,6 +5,7 @@ import gym_minigrid.envs.game as game
 import torch
 import torch.nn.functional as F
 import tensorboardX as tb
+import dill
 
 import models
 import replaymemory
@@ -85,12 +86,12 @@ def training(dict_env, dict_agent, dict_expert):
     action_names = [a.name for a in env.actions]
 
     # Number of types + colors
-    if "COLOR_TO_IDX" and "TYPE_TO_IDX" and "SENIORITY_TO_IDX" and "SIZE_TO_IDX" in dict_env.keys():
+    if "COLOR_TO_IDX" and "TYPE_TO_IDX" and "SHADE_TO_IDX" and "SIZE_TO_IDX" in dict_env.keys():
         num_colors = len(dict_env["COLOR_TO_IDX"].keys())
         num_types = len(dict_env["TYPE_TO_IDX"].keys())
-        num_seniority = len(dict_env["SENIORITY_TO_IDX"].keys())
+        num_shade = len(dict_env["SHADE_TO_IDX"].keys())
         num_size = len(dict_env["SIZE_TO_IDX"].keys())
-        dim_tokenizer = num_colors + num_types + num_seniority + num_size
+        dim_tokenizer = num_colors + num_types + num_shade + num_size
     else:
         # The mission is not used
         dim_tokenizer = 1
@@ -103,11 +104,11 @@ def training(dict_env, dict_agent, dict_expert):
     if use_learned_expert or use_expert_to_learn:
         if dict_expert["expert_type"] == "onehot":
             net_expert = models.PredMissionOneHot(c=c, frames=1, n_type=num_types, n_color=num_colors,
-                                                          n_seniority=num_seniority, n_size=num_size, lr=dict_agent["lr"])
+                                                  n_shade=num_shade, n_size=num_size, lr=dict_agent["lr"])
         if dict_expert["expert_type"] == "dense":
             net_expert = models.PredMissionOneHotDense(c=c, frames=1, n_type=num_types,
-                                                               n_color=num_colors, n_seniority=num_seniority,
-                                                               n_size=num_size, lr=dict_agent["lr"])
+                                                       n_color=num_colors, n_shade=num_shade,
+                                                       n_size=num_size, lr=dict_agent["lr"])
             # F1 score of the dense network
             f1 = 0
         if dict_expert["expert_type"] == "rnn":
@@ -130,12 +131,21 @@ def training(dict_env, dict_agent, dict_expert):
         net_expert.eval()
 
     # Define the agent
-    if dict_agent["use_per"]:
-        agent = models.DoubleDQNPER
-    elif "dueling" in dict_agent["name"]:
-        agent = models.DuelingDoubleDQN
+    if "per" in dict_agent["name"]:
+        use_per = 1
     else:
-        agent = models.DoubleDQN
+        use_per = 0
+
+    if "dueling" in dict_agent["name"]:
+        if use_per:
+            agent = models.DuelingDoubleDQNPER
+        else:
+            agent = models.DuelingDoubleDQN
+    else:
+        if use_per:
+            agent = models.DoubleDQNPER
+        else:
+            agent = models.DoubleDQN
 
     params = (h, w, c, n_actions, frames,
               dict_agent["lr"], dim_tokenizer, device, dict_agent["use_memory"], dict_agent["use_text"])
@@ -146,7 +156,7 @@ def training(dict_env, dict_agent, dict_expert):
     target_net.eval()
 
     # Replay memory
-    if dict_agent["use_per"]:
+    if use_per:
         memory = replaymemory.PrioritizedReplayMemory(size=dict_agent["memory_size"],
                                                       seed=seed, alpha=dict_agent["alpha"], beta=dict_agent["beta"],
                                                       annealing_rate=dict_agent["annealing_rate"])
@@ -175,11 +185,11 @@ def training(dict_env, dict_agent, dict_expert):
     # Monitor the accuracy of the expert
     pred_mission_smoothing = 0
     episode_done_carrying = 0
+    pred_mission_attrib_smoothing = 0
 
     # Success rate useful for negative reward
     success_rate_smoothing = 0
 
-    #
     if not dict_env["wrong_object_terminal"]:
         wrong_object_picked = 0
 
@@ -194,14 +204,13 @@ def training(dict_env, dict_agent, dict_expert):
         # Reward per episode
         reward_ep = 0
         # Erase stored transitions (used for every experts)
-        if not dict_agent["use_per"]:
-            memory.erase_stored_transitions()
+        memory.erase_stored_transitions()
 
         # One hot encoding of the type and the color of the target object
         target = {
             "color": env.targetColor,
             "type": env.targetType,
-            "seniority": env.targetSeniority,
+            "shade": env.targetShade,
             "size": env.targetSize
         }
         if dict_agent["use_text"]:
@@ -251,7 +260,7 @@ def training(dict_env, dict_agent, dict_expert):
             # Add a transition
             memory.add_transition(curr_state["image"], action, reward, state["image"], terminal, curr_state["mission"])
             # Useful for her, and learned expert
-            if not dict_agent["use_per"]:
+            if use_her or use_expert_to_learn:
                 memory.store_transition(curr_state["image"], action, reward,
                                     state["image"], terminal, curr_state["mission"])
 
@@ -325,10 +334,17 @@ def training(dict_env, dict_agent, dict_expert):
                 object_picked_smoothing += is_carrying
                 success_rate_smoothing += reward > 0
                 # Monitor the accuracy of the expert
-                if is_carrying and reward > 0 and start_use_expert:
+                if is_carrying and reward > 0 and use_expert_to_learn:
                     expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(device)
                     pred_mission_smoothing += torch.equal(torch.sort(expert_mission[-4:])[0],
                                                           torch.sort(curr_state["mission"][-4:])[0])
+
+                    if len(expert_mission[-4:]) == 0:
+                        pass
+                    elif expert_mission[-4:].shape[0] == 4:
+                        pred_mission_attrib_smoothing += torch.sum(torch.eq(torch.sort(expert_mission[-4:])[0],
+                                                                torch.sort(curr_state["mission"][-4:])[0])).item() / 4
+
                     episode_done_carrying += 1
 
             if steps_done % dict_env["smoothing"] == 0:
@@ -361,6 +377,8 @@ def training(dict_env, dict_agent, dict_expert):
                     writer.add_scalar("length memory expert", memory_expert.len, global_step=steps_done)
                     writer.add_scalar("Mean acc of pred per episode during {} steps".format(dict_env["smoothing"]),
                                       pred_mission_smoothing / episode_done_carrying, global_step=steps_done)
+                    writer.add_scalar("Mean acc of pred of attrib per episode during {} steps".format(dict_env["smoothing"]),
+                                      pred_mission_attrib_smoothing / episode_done_carrying, global_step=steps_done)
                     writer.add_scalar("start use expert", start_use_expert, global_step=steps_done)
 
                 if use_expert_to_learn and use_dense:
@@ -375,12 +393,27 @@ def training(dict_env, dict_agent, dict_expert):
                 timeout_smoothing = 0
                 object_picked_smoothing = 0
                 pred_mission_smoothing = 0
+                pred_mission_attrib_smoothing = 0
                 episode_done_carrying = 0
                 success_rate_smoothing = 0
                 if not dict_env["wrong_object_terminal"]:
                     wrong_object_picked = 0
 
-            if steps_done > dict_agent["max_steps"] - 1:
+            # Save policy_net's parameters
+            if steps_done % dict_env["save_model"] == 0:
+                curr_path_to_save = os.path.join(path_save_model, "agent_model_steps_{}.pt".format(steps_done))
+                torch.save(policy_net.state_dict(), curr_path_to_save)
+                if use_expert_to_learn:
+                    curr_path_to_save = os.path.join(path_save_model, "expert_model_steps_{}.pt".format(steps_done))
+                    torch.save(net_expert.state_dict(), curr_path_to_save)
+            if steps_done % dict_env["save_replay_buffer"] == 0:
+                path_save_replaybuffer = path_save_model + "/replaybuffer/"
+                if not os.path.exists(path_save_replaybuffer):
+                    os.makedirs(path_save_replaybuffer)
+                with open(path_save_replaybuffer + "replaybuffer_steps_{}.pkl".format(steps_done), 'wb') as output:
+                    dill.dump(memory, output, dill.HIGHEST_PROTOCOL)
+
+            if steps_done > dict_env["max_steps"] - 1:
                 max_steps_reached = 1
                 break
 
@@ -423,7 +456,14 @@ def training(dict_env, dict_agent, dict_expert):
                 hindsight_reward = out_step[5]
                 hindsight_target = out_step[6]
                 if use_noisy_her:
-                    mission = utils.noisy_mission(hindsight_target,
+                    if dict_agent["use_text"]:
+                        mission = utils.noisy_mission_one_threshold_text(hindsight_target,
+                                                                         dict_env,
+                                                                         dict_expert["parameters-noisy-her"])
+                        mission = utils.indexes_from_sentences(utils.rnn_mission(mission, dict_env),
+                                                               dict_env["word2idx"]).to(device)
+                    else:
+                        mission = utils.noisy_mission_one_threshold(hindsight_target,
                                                   dict_env, dict_expert["parameters-noisy-her"]).to(device)
                 else:
                     if dict_agent["use_text"]:
@@ -438,11 +478,6 @@ def training(dict_env, dict_agent, dict_expert):
             if terminal:
                 break
 
-        # Save policy_net's parameters
-        if steps_done % dict_env["save_model"] == 0:
-            curr_path_to_save = os.path.join(path_save_model, "model_ep_{}.pt".format(steps_done))
-            torch.save(policy_net.state_dict(), curr_path_to_save)
-
         if max_steps_reached:
             break
 
@@ -455,7 +490,7 @@ def training(dict_env, dict_agent, dict_expert):
 #with open('configs/envs/fetch.json', 'r') as myfile:
 #    config_env = myfile.read()
 
-#with open('configs/agents/fetch/doubledqn.json', 'r') as myfile:
+#with open('configs/agents/fetch/duelingdoubledqn.json', 'r') as myfile:
 #    config_agent = myfile.read()
 
 #with open('configs/experts/expert_to_learn_rnn.json', 'r') as myfile:

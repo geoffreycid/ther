@@ -161,7 +161,7 @@ def training(dict_env, dict_agent):
         target = {
             "color": env.targetColor,
             "type": env.targetType,
-            "seniority": env.targetSeniority,
+            "shade": env.targetSeniority,
             "size": env.targetSize
         }
         state["mission"] = utils.mission_tokenizer_numpy(dict_env, target)

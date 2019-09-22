@@ -233,6 +233,7 @@ class PrioritizedReplayMemory(object):
         self.len = 0
         random.seed(seed)
         np.random.seed(seed)
+        self.stored_transitions = []
 
     def add_transition(self, curr_state, action, reward, next_state, terminal, mission):
         self.memory[self.position] = \
@@ -267,4 +268,35 @@ class PrioritizedReplayMemory(object):
         self.priorities[idxs] = errors
 
     def __len__(self):
+
         return self.len
+
+    def store_transition(self, curr_state, action, reward, next_state, terminal, mission):
+        self.stored_transitions.append(self.transition(curr_state, action, reward, next_state, terminal, mission))
+
+    def add_hindsight_transitions(self, reward, mission, keep_last_transitions):
+        # keep_last_transitions = 0 => keep the whole episode
+        if keep_last_transitions == 0:
+            keep = 0
+        elif keep_last_transitions > 0:
+            keep = max(len(self.stored_transitions) - keep_last_transitions, 0)
+        # Update the last transition with hindsight replay
+        self.memory[self.position] = self.stored_transitions[-1]._replace(reward=reward, mission=mission)
+        # Update the position and the len of the memory size
+        self.position += 1
+        self.len = min(self.memory_size, self.len + 1)
+        if self.position > self.memory_size - 1:
+            self.position = 0
+        # Update all the transitions of the current episode with hindsight replay
+        for transition in self.stored_transitions[keep:-1]:
+            self.memory[self.position] = transition._replace(mission=mission)
+            # Update the position and the len of the memory size
+            self.position += 1
+            self.len = min(self.memory_size, self.len + 1)
+            if self.position > self.memory_size - 1:
+                self.position = 0
+
+        self.erase_stored_transitions()
+
+    def erase_stored_transitions(self):
+        self.stored_transitions = []

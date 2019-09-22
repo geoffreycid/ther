@@ -1,0 +1,18 @@
+{
+    "name": "dueling-double-dqn",
+    "agent": "dueling-double-dqn",
+    "seed": 29,
+    "frames": 4,
+    "ratio_step_optim": 1,
+    "batch_size": 128,
+    "lr": 1e-5,
+    "memory_size": 5e4,
+    "gamma": 0.99,
+    "eps_init": 1,
+    "eps_final": 0.1,
+    "update_target": 1000,
+    "max_steps": 300000,
+    "use_memory": 1,
+    "use_text": 0,
+    "use_per": 0
+}

@@ -1,0 +1,10 @@
+{
+    "name": "noisy-her-noise-random-0.1",
+    "keep_last_transitions": 0,
+    "T_exploration": 1e5,
+    "parameters-noisy-her": {
+        "proba-noisy": 0.1,
+        "noisy-type": "noise",
+        "attrib": "random"
+    }
+}

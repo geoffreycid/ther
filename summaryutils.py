@@ -168,6 +168,13 @@ def indexes_from_sentences(mission, word2idx):
     return torch.LongTensor(indexes)
 
 
+def sentences_from_indexes(mission, idx2word):
+    sentence = ''
+    for idx in mission:
+        sentence += idx2word[idx.item()] + " "
+    return sentence[:-1]
+
+
 def rnn_mission(target, dict_env):
 
     if dict_env["shuffle_attrib"]:

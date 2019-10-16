@@ -30,10 +30,13 @@ for _ in range(10):
 
 hist = np.histogram(same_attrib_accuracy, bins=[0, 0.24, 0.26, 0.51, 0.76, 1.1])[0]
 hist = hist / hist.sum()
+plt.figure(figsize=(10, 6))
 plt.bar(["0", "1", "2", "3", "4"], hist)
-plt.title("Average shared attributes between two objects")
-plt.xlabel("attributes")
-plt.ylabel("")
+# plt.title("Average shared attributes between two objects")
+plt.xlabel("Attributes", size=15)
+plt.ylabel("Ratio", size=15)
+plt.xticks(fontsize=15)
+plt.yticks(fontsize=15)
 plt.show()
 
 
@@ -52,8 +55,11 @@ for _ in range(1000):
 
 hist = np.histogram(discriminant_attrib_accuracy, bins=[0, 1, 2, 3, 4, 5])[0]
 hist = hist / hist.sum()
+plt.figure(figsize=(10, 6))
 plt.bar(["0", "1", "2", "3", "4"], hist)
-plt.title("Discriminant")
-plt.xlabel("attributes")
-plt.ylabel("")
+# plt.title("Discriminant")
+plt.xlabel("Attributes", size=15)
+plt.ylabel("Ratio", size=15)
+plt.xticks(fontsize=15)
+plt.yticks(fontsize=15)
 plt.show()

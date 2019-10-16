@@ -2,7 +2,7 @@ import dill
 import ray
 import collections
 import sys
-sys.path.extend(['/home/gcideron/visual_her', '/home/gcideron/visual_her'])
+sys.path.extend(['/home/user/ther', '/home/user/ther'])
 import aggregator.aggregator as aggregator
 import random
 import torch
@@ -19,7 +19,7 @@ def training_with_one_dataset(mem, run_id):
 
     # Load the memory
     #with open(
-    #        '/home/gcideron/datasets/collect_samples_11000_memory_size_4_frames_300_missions_her_cpu_rnn_shuffle_attrib.pkl',
+    #        '/home/user/datasets/collect_samples_11000_memory_size_4_frames_300_missions_her_cpu_rnn_shuffle_attrib.pkl',
     #        'rb') as file:
     #    mem = dill.load(file)
     #print("Memory loaded")
@@ -99,15 +99,15 @@ def training_with_one_dataset(mem, run_id):
 
 if __name__ == '__main__':
     # Load the memory
-    with open('/home/gcideron/datasets/memory_size_60000_seed_1.pkl', 'rb') as file:
+    with open('/home/user/datasets/memory_size_60000_seed_1.pkl', 'rb') as file:
         mem_1 = dill.load(file)
-    with open('/home/gcideron/datasets/memory_size_60000_seed_2.pkl', 'rb') as file:
+    with open('/home/user/datasets/memory_size_60000_seed_2.pkl', 'rb') as file:
         mem_2 = dill.load(file)
-    with open('/home/gcideron/datasets/memory_size_60000_seed_3.pkl', 'rb') as file:
+    with open('/home/user/datasets/memory_size_60000_seed_3.pkl', 'rb') as file:
         mem_3 = dill.load(file)
-    with open('/home/gcideron/datasets/memory_size_60000_seed_4.pkl', 'rb') as file:
+    with open('/home/user/datasets/memory_size_60000_seed_4.pkl', 'rb') as file:
         mem_4 = dill.load(file)
-    with open('/home/gcideron/datasets/memory_size_60000_seed_5.pkl', 'rb') as file:
+    with open('/home/user/datasets/memory_size_60000_seed_5.pkl', 'rb') as file:
         mem_5 = dill.load(file)
     print('loaded memories')
 

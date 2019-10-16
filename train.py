@@ -184,8 +184,16 @@ def training(dict_env, dict_agent, dict_expert):
     object_picked_smoothing = 0
     # Monitor the accuracy of the expert
     pred_mission_smoothing = 0
+    one_well_pred_attrib = 0
+    two_well_pred_attrib = 0
+    three_well_pred_attrib = 0
+    four_well_pred_attrib = 0
     episode_done_carrying = 0
     pred_mission_attrib_smoothing = 0
+    # Logs sentences pred by the expert
+
+    with open(dict_agent["agent_dir"] + "/sentences.csv", "a") as log:
+        log.write("{},{},{}\n".format("index", "prediction", "truth"))
 
     # Success rate useful for negative reward
     success_rate_smoothing = 0
@@ -335,15 +343,36 @@ def training(dict_env, dict_agent, dict_expert):
                 success_rate_smoothing += reward > 0
                 # Monitor the accuracy of the expert
                 if is_carrying and reward > 0 and use_expert_to_learn:
+
                     expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(device)
+
                     pred_mission_smoothing += torch.equal(torch.sort(expert_mission[-4:])[0],
                                                           torch.sort(curr_state["mission"][-4:])[0])
 
+                    with open(dict_agent["agent_dir"] + "/sentences.csv", "a") as log:
+                        log.write("{},{},{}\n".format(steps_done,
+                                                      utils.sentences_from_indexes(expert_mission, idx2word),
+                                                      utils.sentences_from_indexes(state["mission"], idx2word)))
+
                     if len(expert_mission[-4:]) == 0:
                         pass
-                    elif expert_mission[-4:].shape[0] == 4:
-                        pred_mission_attrib_smoothing += torch.sum(torch.eq(torch.sort(expert_mission[-4:])[0],
-                                                                torch.sort(curr_state["mission"][-4:])[0])).item() / 4
+                    else:
+
+                        if expert_mission[-4:].shape[0] == 4:
+
+                            n_well_pred_attrib = torch.sum(torch.eq(torch.sort(expert_mission[-4:])[0],
+                                               torch.sort(curr_state["mission"][-4:])[0])).item()
+
+                            pred_mission_attrib_smoothing += n_well_pred_attrib / 4
+
+                            if n_well_pred_attrib == 1:
+                                one_well_pred_attrib += 1
+                            if n_well_pred_attrib == 2:
+                                two_well_pred_attrib += 1
+                            if n_well_pred_attrib == 3:
+                                three_well_pred_attrib += 1
+                            if n_well_pred_attrib == 4:
+                                four_well_pred_attrib += 1
 
                     episode_done_carrying += 1
 
@@ -381,6 +410,19 @@ def training(dict_env, dict_agent, dict_expert):
                                       pred_mission_attrib_smoothing / episode_done_carrying, global_step=steps_done)
                     writer.add_scalar("start use expert", start_use_expert, global_step=steps_done)
 
+                    # Attributes predictions
+                    writer.add_scalar("at least one attrib well predicted",
+                                      (one_well_pred_attrib + two_well_pred_attrib + three_well_pred_attrib
+                                       + four_well_pred_attrib) / episode_done_carrying, global_step=steps_done)
+                    writer.add_scalar("at least two attrib well predicted",
+                                      (two_well_pred_attrib + three_well_pred_attrib
+                                       + four_well_pred_attrib) / episode_done_carrying, global_step=steps_done)
+                    writer.add_scalar("at least three attrib well predicted",
+                                      (three_well_pred_attrib
+                                       + four_well_pred_attrib) / episode_done_carrying, global_step=steps_done)
+                    writer.add_scalar("at least one attrib well predicted",
+                                      four_well_pred_attrib / episode_done_carrying, global_step=steps_done)
+
                 if use_expert_to_learn and use_dense:
                     writer.add_scalar("length memory dense expert", memory_expert.len_dense, global_step=steps_done)
                     writer.add_scalar("start use dense expert", start_use_dense_expert, global_step=steps_done)
@@ -393,6 +435,10 @@ def training(dict_env, dict_agent, dict_expert):
                 timeout_smoothing = 0
                 object_picked_smoothing = 0
                 pred_mission_smoothing = 0
+                one_well_pred_attrib = 0
+                two_well_pred_attrib = 0
+                three_well_pred_attrib = 0
+                four_well_pred_attrib = 0
                 pred_mission_attrib_smoothing = 0
                 episode_done_carrying = 0
                 success_rate_smoothing = 0
@@ -451,6 +497,7 @@ def training(dict_env, dict_agent, dict_expert):
                             device)
                     memory.add_hindsight_transitions(reward=expert_reward, mission=expert_mission,
                                                      keep_last_transitions=dict_expert["keep_last_transitions"])
+                    memory.erase_stored_transitions()
 
             if return_her and use_her:
                 hindsight_reward = out_step[5]
@@ -474,6 +521,7 @@ def training(dict_env, dict_agent, dict_expert):
 
                 memory.add_hindsight_transitions(reward=hindsight_reward, mission=mission,
                                                  keep_last_transitions=dict_expert["keep_last_transitions"])
+                memory.erase_stored_transitions()
 
             if terminal:
                 break

@@ -11,33 +11,40 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aggregator" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aggregator/aggregator.py" beforeDir="false" afterPath="$PROJECT_DIR$/aggregator/aggregator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/average_number_of_same_attributes.py" beforeDir="false" afterPath="$PROJECT_DIR$/average_number_of_same_attributes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/collect_samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/collect_samples.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn_continual.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn_continual.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configs/agents/fetch/extension.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/agents/fetch/extension.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configs/envs/fetch.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/envs/fetch.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/experts/expert_to_learn_rnn.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/experts/expert_to_learn_rnn.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/experts/her_expert.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/experts/her_expert.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/experts/learned_expert.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/experts/learned_expert.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/experts/no_expert.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/experts/no_expert.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configwrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/configwrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/envs/fetch_hold_out_missions.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/envs/fetch_hold_out_missions.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/envs/fetch_hold_out_missions_50_percent.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/envs/fetch_hold_out_missions_50_percent.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/envs/fetch_train_missions.json" beforeDir="false" afterPath="$PROJECT_DIR$/configs/envs/fetch_train_missions.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/evaluate.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/evaluate_generalization.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluate_generalization.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gym_minigrid" beforeDir="false" afterPath="$PROJECT_DIR$/gym_minigrid" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py" beforeDir="false" afterPath="$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gym_minigrid/envs/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/gym_minigrid/envs/game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gym_minigrid/minigridattrib.py" beforeDir="false" afterPath="$PROJECT_DIR$/gym_minigrid/minigridattrib.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main_with_experts_to_learn.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_with_experts_to_learn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_with_noisy_her.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_with_noisy_her.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/doubledqnper.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/doubledqnper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/predmissionnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/predmissionnet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/old/trainbettermemory.py" beforeDir="false" afterPath="$PROJECT_DIR$/old/trainbettermemory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction_mission/train_pred.py" beforeDir="false" afterPath="$PROJECT_DIR$/prediction_mission/train_pred.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_with_experts_to_learn_train_missions.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_with_experts_to_learn_train_missions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/cartpoletrainwithconfig.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/evaluate.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/fetch_1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/fetch_2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/fetch_3.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/main_1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/main_2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/main_3.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/main_all.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/sumtree.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/old/trainbettermemory.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/replaymemory.py" beforeDir="false" afterPath="$PROJECT_DIR$/replaymemory.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/summaryutils.py" beforeDir="false" afterPath="$PROJECT_DIR$/summaryutils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_fetch.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_fetch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_missions.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_missions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_predmission.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_predmission.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train_continual_learning.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_continual_learning.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,75 +53,45 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/prediction_mission/main_pred_language.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="543">
+              <caret line="61" column="51" selection-start-line="61" selection-start-column="51" selection-end-line="61" selection-end-column="51" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/predmissionnet.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="563">
+              <caret line="814" column="35" selection-start-line="814" selection-start-column="35" selection-end-line="814" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/train_continual_learning.py">
+        <entry file="file://$PROJECT_DIR$/configs/experts/expert_to_learn_rnn.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="249" column="120" lean-forward="true" selection-start-line="249" selection-start-column="120" selection-end-line="249" selection-end-column="120" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="270">
+              <caret line="18" column="24" lean-forward="true" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/replaymemory.py">
+        <entry file="file://$PROJECT_DIR$/main_with_experts_to_learn_train_missions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="205">
-              <caret line="276" column="8" selection-start-line="276" selection-start-column="8" selection-end-line="276" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/configs/experts/learned_expert_continual.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="1" lean-forward="true" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn_continual.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="1" lean-forward="true" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/train.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="489" selection-start-line="489" selection-end-line="499" selection-end-column="34" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/evaluate.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-813">
-              <caret line="64" column="29" lean-forward="true" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main_continual_learning.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+            <state relative-caret-position="452">
+              <caret line="64" selection-start-line="64" selection-end-line="64" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -123,13 +100,31 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py">
+        <entry file="file://$PROJECT_DIR$/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="220" column="44" lean-forward="true" selection-start-line="220" selection-start-column="44" selection-end-line="220" selection-end-column="44" />
+            <state relative-caret-position="15">
+              <caret line="369" column="28" selection-start-line="369" selection-start-column="28" selection-end-line="369" selection-end-column="28" />
               <folding>
-                <element signature="e#0#41#0" expanded="true" />
+                <element signature="e#0#9#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="22" lean-forward="true" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/duelingdoubledqn.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret line="4" column="31" lean-forward="true" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -147,36 +142,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>observation</find>
-      <find>gen_obs</find>
-      <find>gen_ob</find>
-      <find>terminal</find>
-      <find>manual</find>
-      <find>&quot;light&quot;</find>
-      <find>&gt;</find>
-      <find>r</find>
-      <find>update</find>
-      <find>pred_mission_smoot</find>
-      <find>pred_mission_attrib</find>
-      <find>memory_collectsample</find>
-      <find>use_expert</find>
-      <find>max_steps_reached</find>
-      <find>max_steps</find>
-      <find>pred_mission_attr</find>
-      <find>pred_mission_smoo</find>
+      <find>pred_mission_smoothi</find>
+      <find>start_use_expert</find>
+      <find>&quot;start use</find>
+      <find>can</find>
+      <find>out_step</find>
+      <find>add_hindsight_transitions</find>
+      <find>store_transition</find>
       <find>memory</find>
-      <find>path_to_save</find>
-      <find>pred_</find>
-      <find>prediction_mission</find>
-      <find>save</find>
-      <find>reset</find>
-      <find>render</find>
-      <find>max_q</find>
-      <find>path_save_model</find>
+      <find>pred_mission_smoothing</find>
+      <find>writer</find>
+      <find>agent_dir</find>
+      <find>pred_mission_smo</find>
+      <find>/sent</find>
+      <find>state</find>
+      <find>sentences</find>
+      <find>log</find>
+      <find>reward_if</find>
+      <find>pred_miss</find>
       <find>pred_mission</find>
-      <find>pick</find>
-      <find>step</find>
-      <find>evaluate_p</find>
+      <find>dict_env</find>
+      <find>smoothing</find>
+      <find>evaluat</find>
+      <find>evalua</find>
+      <find>use_learned_expert</find>
+      <find>net_expert</find>
+      <find>evaluate</find>
+      <find>reward</find>
+      <find>at_step</find>
+      <find>rewards_at</find>
+      <find>steps_done</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -191,24 +186,18 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/configs/experts/noisy_her_noise_random_0_1.json" />
-        <option value="$PROJECT_DIR$/prediction_mission/train_pred_language.py" />
-        <option value="$PROJECT_DIR$/test_log.py" />
         <option value="$PROJECT_DIR$/configs/agents/fetch/doubledqn.json" />
         <option value="$PROJECT_DIR$/configwrapper.py" />
         <option value="$PROJECT_DIR$/models/doubledqnper.py" />
         <option value="$PROJECT_DIR$/models/duelingdoubledqnper.py" />
-        <option value="$PROJECT_DIR$/replaymemory.py" />
         <option value="$PROJECT_DIR$/models/__init__.py" />
         <option value="$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqnper.json" />
         <option value="$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqnonehot.json" />
         <option value="$PROJECT_DIR$/configs/experts/her_expert.json" />
         <option value="$PROJECT_DIR$/gym_minigrid/envs/game.py" />
         <option value="$PROJECT_DIR$/configs/experts/learned_expert.json" />
-        <option value="$PROJECT_DIR$/summaryutils.py" />
         <option value="$PROJECT_DIR$/prediction_mission/main_pred_language.py" />
         <option value="$PROJECT_DIR$/prediction_mission/config_language.json" />
-        <option value="$PROJECT_DIR$/aggregator/aggregator.py" />
         <option value="$PROJECT_DIR$/script_aggregation.py" />
         <option value="$PROJECT_DIR$/main_with_noisy_her.py" />
         <option value="$PROJECT_DIR$/models/duelingdoubledqn.py" />
@@ -219,37 +208,41 @@
         <option value="$PROJECT_DIR$/configs/envs/fetch_hold_out_missions_10_percent.json" />
         <option value="$PROJECT_DIR$/select_missions.py" />
         <option value="$PROJECT_DIR$/configs/experts/expert_to_learn_rnn.json" />
-        <option value="$PROJECT_DIR$/configs/envs/fetch_hold_out_missions.json" />
-        <option value="$PROJECT_DIR$/configs/envs/fetch_hold_out_missions_50_percent.json" />
         <option value="$PROJECT_DIR$/configs/envs/fetch_hold_out_missions_90_percent.json" />
         <option value="$PROJECT_DIR$/configs/envs/fetch_noisy_her.json" />
-        <option value="$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn.json" />
-        <option value="$PROJECT_DIR$/evaluate_generalization.py" />
-        <option value="$PROJECT_DIR$/main_with_experts_to_learn.py" />
         <option value="$PROJECT_DIR$/models/predmissionnet.py" />
         <option value="$PROJECT_DIR$/configs/envs/fetch_train_missions_50_percent.json" />
-        <option value="$PROJECT_DIR$/configs/envs/fetch.json" />
         <option value="$PROJECT_DIR$/configs/envs/fetch_train_missions_10_percent.json" />
-        <option value="$PROJECT_DIR$/configs/envs/fetch_train_missions.json" />
-        <option value="$PROJECT_DIR$/configs/agents/fetch/extension.json" />
-        <option value="$PROJECT_DIR$/collect_samples.py" />
-        <option value="$PROJECT_DIR$/train.py" />
-        <option value="$PROJECT_DIR$/main_with_experts_to_learn_train_missions.py" />
         <option value="$PROJECT_DIR$/test_2.py" />
-        <option value="$PROJECT_DIR$/average_number_of_same_attributes.py" />
-        <option value="$PROJECT_DIR$/evaluate.py" />
-        <option value="$PROJECT_DIR$/configs/experts/learned_expert_continual.json" />
         <option value="$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py" />
-        <option value="$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn_continual.json" />
+        <option value="$PROJECT_DIR$/evaluate_generalization.py" />
+        <option value="$PROJECT_DIR$/aggregator/aggregator.py" />
+        <option value="$PROJECT_DIR$/debug_agg.py" />
+        <option value="$PROJECT_DIR$/configs/envs/fetch_hold_out_missions_50_percent.json" />
+        <option value="$PROJECT_DIR$/replaymemory.py" />
+        <option value="$PROJECT_DIR$/configs/experts/learned_expert_continual.json" />
         <option value="$PROJECT_DIR$/train_continual_learning.py" />
+        <option value="$PROJECT_DIR$/evaluate.py" />
+        <option value="$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn_continual.json" />
+        <option value="$PROJECT_DIR$/summaryutils.py" />
+        <option value="$PROJECT_DIR$/main_with_experts_to_learn.py" />
+        <option value="$PROJECT_DIR$/train.py" />
+        <option value="$PROJECT_DIR$/configs/envs/fetch_hold_out_missions.json" />
+        <option value="$PROJECT_DIR$/configs/envs/fetch.json" />
+        <option value="$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn.json" />
+        <option value="$PROJECT_DIR$/main_with_experts_to_learn_train_missions.py" />
+        <option value="$PROJECT_DIR$/evaluate_on_test.py" />
+        <option value="$PROJECT_DIR$/configs/envs/fetch_train_missions.json" />
+        <option value="$PROJECT_DIR$/train_with_unseen_instructions.py" />
+        <option value="$PROJECT_DIR$/configs/agents/fetch/extension.json" />
+        <option value="$PROJECT_DIR$/average_number_of_same_attributes.py" />
+        <option value="$PROJECT_DIR$/collect_samples.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="-1920" />
-    <option name="y" value="-180" />
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -257,7 +250,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -273,36 +265,13 @@
             <path>
               <item name="visual_her" type="b2602c69:ProjectViewProjectNode" />
               <item name="visual_her" type="462c0819:PsiDirectoryNode" />
-              <item name="configs" type="462c0819:PsiDirectoryNode" />
-              <item name="agents" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="visual_her" type="b2602c69:ProjectViewProjectNode" />
-              <item name="visual_her" type="462c0819:PsiDirectoryNode" />
-              <item name="configs" type="462c0819:PsiDirectoryNode" />
-              <item name="agents" type="462c0819:PsiDirectoryNode" />
-              <item name="fetch" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="visual_her" type="b2602c69:ProjectViewProjectNode" />
-              <item name="visual_her" type="462c0819:PsiDirectoryNode" />
-              <item name="configs" type="462c0819:PsiDirectoryNode" />
-              <item name="envs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="visual_her" type="b2602c69:ProjectViewProjectNode" />
-              <item name="visual_her" type="462c0819:PsiDirectoryNode" />
-              <item name="gym_minigrid" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="visual_her" type="b2602c69:ProjectViewProjectNode" />
-              <item name="visual_her" type="462c0819:PsiDirectoryNode" />
-              <item name="prediction_mission" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -320,7 +289,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="web.server" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -357,7 +326,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.train_continual_learning">
+  <component name="RunManager" selected="Python.collect_samples">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="visual_her" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -399,26 +368,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="select_missions" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="visual_her" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/select_missions.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test_2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="collect_samples" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="visual_her" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -431,7 +381,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_2.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/collect_samples.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -444,9 +394,6 @@
       <module name="visual_her" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -481,20 +428,39 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="train_with_unseen_instructions" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="visual_her" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train_with_unseen_instructions.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="Python.select_missions" />
-      <item itemvalue="Python.test_2" />
-      <item itemvalue="Python.train" />
-      <item itemvalue="Python.average_number_of_same_attributes" />
       <item itemvalue="Python.train_continual_learning" />
+      <item itemvalue="Python.train" />
+      <item itemvalue="Python.train_with_unseen_instructions" />
+      <item itemvalue="Python.average_number_of_same_attributes" />
+      <item itemvalue="Python.collect_samples" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.train_continual_learning" />
+        <item itemvalue="Python.collect_samples" />
         <item itemvalue="Python.average_number_of_same_attributes" />
-        <item itemvalue="Python.test_2" />
+        <item itemvalue="Python.train_with_unseen_instructions" />
         <item itemvalue="Python.train" />
-        <item itemvalue="Python.select_missions" />
+        <item itemvalue="Python.train_continual_learning" />
       </list>
     </recent_temporary>
   </component>
@@ -537,12 +503,15 @@
       <workItem from="1564889846723" duration="75918000" />
       <workItem from="1566205715257" duration="24654000" />
       <workItem from="1566377329041" duration="88965000" />
-      <workItem from="1567590055543" duration="140011000" />
+      <workItem from="1567590055543" duration="163431000" />
+      <workItem from="1569270129283" duration="1194000" />
+      <workItem from="1569271527170" duration="1024000" />
+      <workItem from="1569273924436" duration="17522000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="988950000" />
+    <option name="totallyTimeSpent" value="1032110000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -554,35 +523,34 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1920" y="-180" width="1920" height="1080" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6212575" visible="true" weight="0.24479167" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6212575" visible="true" weight="0.2832618" />
       <window_info id="Structure" order="1" sideWeight="0.37874252" side_tool="true" weight="0.15340315" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.39952996" />
+      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.39759037" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32786885" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6322917" weight="0.27061105" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6322917" weight="0.37108433" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49928468" weight="0.32872927" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4985694" weight="0.32771084" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32872927" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32771084" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.37083334" side_tool="true" weight="0.2444229" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50143063" side_tool="true" weight="0.18072289" />
       <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.56614584" weight="0.24830262" />
-      <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.62916666" visible="true" weight="0.35693502" />
+      <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.62660944" weight="0.23373494" />
       <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.32953367" />
-      <window_info anchor="bottom" id="File Transfer" order="14" sideWeight="0.721875" weight="0.17652765" />
+      <window_info anchor="bottom" id="File Transfer" order="14" sideWeight="0.72031474" weight="0.18072289" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" weight="0.33541667" />
-      <window_info anchor="right" x="0" y="0" width="300" height="574" id="Documentation" order="4" sideWeight="0.5010482" side_tool="true" weight="0.115625" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.15307583" />
+      <window_info anchor="right" x="0" y="0" width="300" height="574" id="Documentation" order="4" sideWeight="0.5010482" side_tool="true" weight="0.11516452" />
       <window_info anchor="right" id="Database" order="5" />
       <window_info anchor="right" id="Coverage" order="6" side_tool="true" />
-      <window_info anchor="right" id="Remote Host" order="7" sideWeight="0.4989518" weight="0.115625" />
+      <window_info anchor="right" id="Remote Host" order="7" sideWeight="0.4989518" weight="0.11516452" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -597,38 +565,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main_continual_learning.py</url>
-          <option name="timeStamp" value="459" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/evaluate.py</url>
-          <line>39</line>
-          <option name="timeStamp" value="462" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test_2.py</url>
-          <line>27</line>
-          <option name="timeStamp" value="464" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test_fetch.py</url>
-          <line>17</line>
-          <option name="timeStamp" value="466" />
+          <url>file://$PROJECT_DIR$/average_number_of_same_attributes.py</url>
+          <line>56</line>
+          <option name="timeStamp" value="499" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/collect_samples.py</url>
-          <line>204</line>
-          <option name="timeStamp" value="467" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/summaryutils.py</url>
-          <line>320</line>
-          <option name="timeStamp" value="470" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/replaymemory.py</url>
-          <line>261</line>
-          <option name="timeStamp" value="485" />
+          <line>220</line>
+          <option name="timeStamp" value="500" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -644,13 +588,13 @@
     <SUITE FILE_PATH="coverage/visual_her$main_train_pred_mission.coverage" NAME="main_train_pred_mission Coverage Results" MODIFIED="1561711219449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$game.coverage" NAME="game Coverage Results" MODIFIED="1558086405057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gym_minigrid/envs" />
     <SUITE FILE_PATH="coverage/visual_her$main_pred.coverage" NAME="main_pred Coverage Results" MODIFIED="1564588039861" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/visual_her$average_number_of_same_attributes.coverage" NAME="average_number_of_same_attributes Coverage Results" MODIFIED="1569084201763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/visual_her$average_number_of_same_attributes.coverage" NAME="average_number_of_same_attributes Coverage Results" MODIFIED="1569354747681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$test_predmission.coverage" NAME="test_predmission Coverage Results" MODIFIED="1566832180323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$test_missions.coverage" NAME="test_missions Coverage Results" MODIFIED="1565972445950" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$script_aggregation.coverage" NAME="script_aggregation Coverage Results" MODIFIED="1568116782313" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/visual_her$train_continual_learning.coverage" NAME="train_continual_learning Coverage Results" MODIFIED="1568814949214" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/visual_her$train_continual_learning.coverage" NAME="train_continual_learning Coverage Results" MODIFIED="1569266440770" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$test.coverage" NAME="test Coverage Results" MODIFIED="1559639653297" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/visual_her$collect_samples.coverage" NAME="collect_samples Coverage Results" MODIFIED="1568986740856" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/visual_her$collect_samples.coverage" NAME="collect_samples Coverage Results" MODIFIED="1569361686987" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$trainbettermemory.coverage" NAME="trainbettermemory Coverage Results" MODIFIED="1563456449531" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$test_fetch.coverage" NAME="test_fetch Coverage Results" MODIFIED="1568984834541" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$testfetch.coverage" NAME="testfetch Coverage Results" MODIFIED="1558022058253" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -658,9 +602,11 @@
     <SUITE FILE_PATH="coverage/visual_her$main_with_experts_to_learn.coverage" NAME="main_with_experts_to_learn Coverage Results" MODIFIED="1567953538195" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$train_with_config.coverage" NAME="train_with_config Coverage Results" MODIFIED="1558013642356" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$test_2.coverage" NAME="test_2 Coverage Results" MODIFIED="1569082296352" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/visual_her$train.coverage" NAME="train Coverage Results" MODIFIED="1569072464190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/visual_her$train.coverage" NAME="train Coverage Results" MODIFIED="1569281040165" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$main_all.coverage" NAME="main_all Coverage Results" MODIFIED="1563919011005" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$main_pred_dense.coverage" NAME="main_pred_dense Coverage Results" MODIFIED="1564499254556" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction_mission" />
+    <SUITE FILE_PATH="coverage/visual_her$evaluate_generalization.coverage" NAME="evaluate_generalization Coverage Results" MODIFIED="1569233397296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/visual_her$train_with_unseen_instructions.coverage" NAME="train_with_unseen_instructions Coverage Results" MODIFIED="1569328989013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$sumtree.coverage" NAME="sumtree Coverage Results" MODIFIED="1558603461736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$train_pred.coverage" NAME="train_pred Coverage Results" MODIFIED="1564580230532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction_mission" />
     <SUITE FILE_PATH="coverage/visual_her$main_pred_language.coverage" NAME="main_pred_language Coverage Results" MODIFIED="1567599145418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction_mission" />
@@ -670,121 +616,9 @@
     <SUITE FILE_PATH="coverage/visual_her$debug_pred_language.coverage" NAME="debug_pred_language Coverage Results" MODIFIED="1567462293024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/prediction_mission" />
     <SUITE FILE_PATH="coverage/visual_her$main.coverage" NAME="main Coverage Results" MODIFIED="1559551443741" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/visual_her$test_cartpole.coverage" NAME="test_cartpole Coverage Results" MODIFIED="1558013177996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/visual_her$debug_agg.coverage" NAME="debug_agg Coverage Results" MODIFIED="1569248363955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main_with_noisy_her.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="69" column="72" lean-forward="true" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="72" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/wrappers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="132" column="19" selection-start-line="132" selection-start-column="8" selection-end-line="132" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/experts/expert_to_learn.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/duelingdoubledqn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction_mission/config_language.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="41" column="16" lean-forward="true" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/gridsearch.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/envs/fetch_3.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqnonehot.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_predmission.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/213846842/1846490132/gym/envs/registration.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2055">
-          <caret line="141" selection-start-line="141" selection-end-line="141" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="41" lean-forward="true" selection-start-line="16" selection-start-column="41" selection-end-line="16" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#58#82#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_log.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/game.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="37" selection-start-line="37" selection-end-line="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction_mission/train_pred.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction_mission/train_pred_language.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="110" column="34" selection-start-line="110" selection-start-column="34" selection-end-line="110" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/select_missions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="14" column="60" selection-start-line="14" selection-start-column="60" selection-end-line="14" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/configs/envs/fetch_noisy_her.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -799,34 +633,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/configs/envs/fetch_hold_out_missions.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="23" lean-forward="true" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/213846842/964053808/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="212">
           <caret line="310" selection-start-line="310" selection-end-line="310" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/aggregator/aggregator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="472">
-          <caret line="51" column="124" lean-forward="true" selection-start-line="51" selection-start-column="124" selection-end-line="51" selection-end-column="124" />
-          <folding>
-            <element signature="e#249#259#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -837,95 +647,6 @@
           <folding>
             <element signature="e#94#103#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_with_experts_to_learn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="28" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/summaryutils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="622">
-          <caret line="320" selection-start-line="320" selection-end-line="320" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluate_generalization.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="33" column="9" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/experts/expert_to_learn_rnn.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/envs/fetch_train_missions.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="43" column="18" selection-start-line="43" selection-start-column="18" selection-end-line="43" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/predmissionnet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="814" column="35" lean-forward="true" selection-start-line="814" selection-start-column="35" selection-end-line="814" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/envs/fetch.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="44" column="2" selection-start-line="44" selection-start-column="2" selection-end-line="44" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/extension.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/collect_samples.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="508" column="26" selection-start-line="508" selection-start-column="26" selection-end-line="508" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main_with_experts_to_learn_train_missions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="32" column="29" lean-forward="true" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/envs/fetch_hold_out_missions_50_percent.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -963,40 +684,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="489" selection-start-line="489" selection-end-line="499" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda/lib/python3.5/os.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="240" selection-start-line="240" selection-end-line="240" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/prediction_mission/main_pred_language.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="445">
-          <caret line="102" column="31" selection-start-line="101" selection-start-column="4" selection-end-line="102" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/evaluate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-813">
-          <caret line="64" column="29" lean-forward="true" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1012,62 +703,320 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gym_minigrid/minigridattrib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="1172" column="20" selection-start-line="1172" selection-start-column="16" selection-end-line="1172" selection-end-column="20" />
+        <state relative-caret-position="-430">
+          <caret line="1113" column="12" selection-start-line="1113" selection-start-column="8" selection-end-line="1113" selection-end-column="12" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/average_number_of_same_attributes.py">
+    <entry file="file://$PROJECT_DIR$/configs/experts/learned_expert.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state>
           <folding>
-            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/aggregator/aggregator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="38" column="16" lean-forward="true" selection-start-line="38" selection-start-column="16" selection-end-line="38" selection-end-column="16" />
+          <folding>
+            <element signature="e#249#259#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug_agg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Script.sh">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/experts/learned_expert_continual.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="194" selection-start-line="11" selection-start-column="194" selection-end-line="11" selection-end-column="194" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model.py" />
+    <entry file="file://$PROJECT_DIR$/replaymemory.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="50" column="39" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydevd_bundle/pydevd_resolver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="212" selection-start-line="212" selection-end-line="212" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/1216080453/964053808/_bootlocale.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/remote_sources/1216080453/964053808/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="310" selection-start-line="310" selection-end-line="310" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gym_minigrid/envs/fetchattrib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="220" column="44" lean-forward="true" selection-start-line="220" selection-start-column="44" selection-end-line="220" selection-end-column="44" />
+        <state relative-caret-position="314">
+          <caret line="166" column="52" lean-forward="true" selection-start-line="166" selection-start-column="52" selection-end-line="166" selection-end-column="52" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/configs/experts/learned_expert_continual.json">
+    <entry file="file://$PROJECT_DIR$/summaryutils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="1" lean-forward="true" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+        <state relative-caret-position="386">
+          <caret line="184" column="9" lean-forward="true" selection-start-line="184" selection-start-column="9" selection-end-line="184" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/envs/fetch_hold_out_missions_50_percent.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="26" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-827">
+          <caret line="15" column="64" lean-forward="true" selection-start-line="15" selection-start-column="64" selection-end-line="15" selection-end-column="64" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn_continual.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="1" lean-forward="true" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/replaymemory.py">
+    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqnonehot.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_with_experts_to_learn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="276" column="8" selection-start-line="276" selection-start-column="8" selection-end-line="276" selection-end-column="8" />
+        <state relative-caret-position="570">
+          <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/train_continual_learning.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="249" column="120" lean-forward="true" selection-start-line="249" selection-start-column="120" selection-end-line="249" selection-end-column="120" />
+        <state relative-caret-position="417">
+          <caret line="306" selection-start-line="306" selection-end-line="306" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction_mission/main_pred_dense.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-164">
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction_mission/train_pred_dense.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction_mission/train_pred_language.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="331">
+          <caret line="182" column="60" selection-start-line="182" selection-start-column="60" selection-end-line="182" selection-end-column="60" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/envs/fetch.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="70" column="6" selection-start-line="70" selection-start-column="6" selection-end-line="70" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluate_generalization.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="903">
+          <caret line="115" column="37" lean-forward="true" selection-start-line="115" selection-start-column="37" selection-end-line="115" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluate_on_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="129" column="31" selection-start-line="129" selection-start-column="31" selection-end-line="129" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/extension.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/envs/fetch_train_missions.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="46" column="15" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/agents/fetch/duelingdoubledqn.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="22" lean-forward="true" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda/lib/python3.5/site-packages/torch/nn/functional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="2184" column="4" selection-start-line="2184" selection-start-column="4" selection-end-line="2184" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/duelingdoubledqn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="4" column="31" lean-forward="true" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/collect_samples.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="208" column="40" lean-forward="true" selection-start-line="208" selection-start-column="40" selection-end-line="208" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="369" column="28" selection-start-line="369" selection-start-column="28" selection-end-line="369" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/envs/fetch_hold_out_missions.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1425">
+          <caret line="95" column="14" lean-forward="true" selection-start-line="95" selection-start-column="14" selection-end-line="95" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_with_experts_to_learn_train_missions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="452">
+          <caret line="64" selection-start-line="64" selection-end-line="64" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/average_number_of_same_attributes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="49" lean-forward="true" selection-start-line="28" selection-start-column="12" selection-end-line="28" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train_with_unseen_instructions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="526" column="21" lean-forward="true" selection-start-line="526" selection-start-column="21" selection-end-line="526" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prediction_mission/main_pred_language.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="543">
+          <caret line="61" column="51" selection-start-line="61" selection-start-column="51" selection-end-line="61" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/experts/expert_to_learn.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/predmissionnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="563">
+          <caret line="814" column="35" selection-start-line="814" selection-start-column="35" selection-end-line="814" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/experts/expert_to_learn_rnn.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="24" lean-forward="true" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
         </state>
       </provider>
     </entry>

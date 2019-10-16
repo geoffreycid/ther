@@ -7,7 +7,7 @@ import json
 
 if __name__ == '__main__':
 
-    @ray.remote(num_gpus=0.5, max_calls=1)
+    @ray.remote(num_gpus=0.33, max_calls=1)
     def training(dict_env, dict_agent, dict_expert):
         return train.training(dict_env=dict_env, dict_agent=dict_agent, dict_expert=dict_expert)
 

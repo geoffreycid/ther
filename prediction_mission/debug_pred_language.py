@@ -7,7 +7,7 @@ import train_pred_language as train_pred
 
 # Load the memory
 with open(
-        '/home/gcideron/datasets/collect_samples_11000_memory_size_4_frames_300_missions_her_cpu_rnn_shuffle_attrib.pkl',
+        '/home/user/datasets/collect_samples_11000_memory_size_4_frames_300_missions_her_cpu_rnn_shuffle_attrib.pkl',
         'rb') as file:
     mem = dill.load(file)
 print("Memory loaded")

@@ -12,9 +12,9 @@ if __name__ == '__main__':
                                        train_memory_dense=train_memory_dense, test_memory_dense=test_memory_dense)
 
     # Load memories
-    with open('/home/gcideron/visual_her/datasets/collect_samples_110000_memory_size_4_frames_300_missions_imc_cpu.pkl', 'rb') as file:
+    with open('/home/user/ther/datasets/collect_samples_110000_memory_size_4_frames_300_missions_imc_cpu.pkl', 'rb') as file:
         mem_imc = dill.load(file)
-    with open('/home/gcideron/visual_her/datasets/collect_samples_110000_memory_size_4_frames_300_missions_her_cpu_dense_pickup.pkl', 'rb') as file:
+    with open('/home/user/ther/datasets/collect_samples_110000_memory_size_4_frames_300_missions_her_cpu_dense_pickup.pkl', 'rb') as file:
         mem_onehot_dense = dill.load(file)
     print("Memories loaded")
 

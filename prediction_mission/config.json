@@ -12,7 +12,7 @@
   "num_size": 5,
   "lr": 1e-5,
   "weight_decay": 0,
-  "dir": "/home/gcideron/visual_her/out_preds/new",
+  "dir": "/home/user/ther/out_preds/new",
   "earlystopping": 1000,
   "iterations_before_earlystopping": 1000
 }

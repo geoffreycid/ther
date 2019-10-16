@@ -1,5 +1,6 @@
 {
   "name": "continual-rnn-Fetch-12x12-N2-C6-SE5-SI5-O10-50-percent",
+  "setting_with_pickup": 1,
   "game_type": "fetch",
   "size": 12,
   "numObjs": 10,
@@ -38,7 +39,7 @@
     "large": 3,
     "giant": 4
   },
-  "env_dir": "/home/gcideron/visual_her/out",
+  "env_dir": "/home/user/ther/out",
   "summary_trajectory": 5000,
   "summary_mean_max_q": 1000,
   "save_model": 1000000,

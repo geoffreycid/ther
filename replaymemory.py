@@ -72,8 +72,6 @@ class ReplayMemory(object):
             if self.position > self.memory_size - 1:
                 self.position = 0
 
-        self.erase_stored_transitions()
-
     def erase_stored_transitions(self):
         self.stored_transitions = []
 

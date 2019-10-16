@@ -11,8 +11,8 @@
   "teacher_forcing_ratio": 0.4,
   "weight_decay": 1e-6,
   "lr": 1e-4,
-  "dir": "/home/gcideron/visual_her/out_pred_language",
-  "dir_logs": "/home/gcideron/visual_her/out_pred_language/logs_pred",
+  "dir": "/home/user/ther/out_pred_language",
+  "dir_logs": "/home/user/ther/out_pred_language/logs_pred",
   "earlystopping": 1000,
   "iterations_before_earlystopping": 1000,
   "word2idx": {

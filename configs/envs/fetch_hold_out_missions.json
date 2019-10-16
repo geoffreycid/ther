@@ -1,10 +1,10 @@
 {
-  "name": "continual-rnn-Fetch-12x12-N2-C6-SE5-SI5-O10",
+  "name": "Fetch-12x12-N2-C6-SE5-SI5-O10-hold-out-missions",
   "game_type": "fetch",
   "size": 12,
   "numObjs": 10,
   "T_max": 40,
-  "max_steps": 3000000,
+  "max_steps": 5000000,
   "wrong_object_terminal": 1,
   "reward_if_wrong_object": 0,
   "use_defined_missions": 1,
@@ -38,10 +38,13 @@
     "large": 3,
     "giant": 4
   },
-  "env_dir": "/home/gcideron/visual_her/out",
+  "env_dir": "/home/user/ther/out",
   "summary_trajectory": 5000,
   "summary_mean_max_q": 1000,
-  "save_model": 1000000,
+  "save_model": 100000,
+  "save_replay_buffer": 1000000,
+  "smoothing": 5000,
+  "max_steps_evalutate": 5000,
   "full_idx": {
     "red": 0,
     "green": 1,

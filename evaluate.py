@@ -166,7 +166,9 @@ def evaluate(dict_env, dict_agent, policy_net, net_expert, writer, global_step):
     writer.add_scalar("Success rate per episode during {} steps".format(dict_agent["max_steps_evaluate"]),
                       success_rate_smoothing / episode_done_smoothing, global_step=global_step)
 
-    print("Success rate", success_rate_smoothing / episode_done_smoothing)
+    print("Success rate", round(success_rate_smoothing / episode_done_smoothing, 2))
+    print("Timeout", round(timeout_smoothing / episode_done_smoothing, 2))
+    print("Mean length episode", round(length_episode_done_smoothing / episode_done_smoothing, 2))
 
     if not dict_env["wrong_object_terminal"]:
         writer.add_scalar("Wrong object picked rate per episode during {} steps".format(dict_agent["max_steps_evaluate"]),
@@ -178,5 +180,6 @@ def evaluate(dict_env, dict_agent, policy_net, net_expert, writer, global_step):
         writer.add_scalar("Mean acc of pred per episode during {} steps".format(dict_agent["max_steps_evaluate"]),
                       pred_mission_smoothing / episode_done_carrying, global_step=global_step)
         print("Mean acc pred", pred_mission_smoothing / episode_done_carrying)
+    print(" ")
 
     env.close()

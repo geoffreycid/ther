@@ -1,7 +1,7 @@
 import aggregator.aggregator as aggregator
 
-#path = "/home/gcideron/out_texther/out_texther/rnn_Fetch_12x12_all_missions/rnn-Fetch-12x12-N2-C6-SE5-SI5-O10/"
-path = "/home/gcideron/out_texther/out_texther/noisy_her/noisy-her-rnn-Fetch-12x12-N2-C6-SE5-SI5-O10/"
+#path = "/home/user/out_texther/out_texther/rnn_Fetch_12x12_all_missions/rnn-Fetch-12x12-N2-C6-SE5-SI5-O10/"
+path = "/home/user/out_texther/out_texther/noisy_her/noisy-her-rnn-Fetch-12x12-N2-C6-SE5-SI5-O10/"
 #aggregator.wrapper(path+"dueling-double-dqn-her", output="csv")
 #aggregator.wrapper(path+"dueling-double-dqn-no-expert", output="csv")
 #aggregator.wrapper(path+"dueling-double-dqn-expert-to-learn-rnn", output="csv")

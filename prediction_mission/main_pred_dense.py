@@ -11,7 +11,7 @@ if __name__ == '__main__':
                                        test_memory=test_memory, test_memory_dense=test_memory_dense, config=config)
 
     # Load the memory
-    with open('/home/gcideron/home/gcideron/visual_her/collect_samples_110000_memory_size_4_frames_300_missions_her_cpu_dense_pickup.pkl', 'rb') as file:
+    with open('/home/user/home/user/ther/collect_samples_110000_memory_size_4_frames_300_missions_her_cpu_dense_pickup.pkl', 'rb') as file:
         mem_dense = dill.load(file)
     print("Memory loaded")
 

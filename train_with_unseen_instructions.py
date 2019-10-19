@@ -98,10 +98,10 @@ def training(dict_env, dict_agent, dict_expert):
         num_types = len(dict_env["TYPE_TO_IDX"].keys())
         num_shade = len(dict_env["SHADE_TO_IDX"].keys())
         num_size = len(dict_env["SIZE_TO_IDX"].keys())
-        dim_tokenizer = num_colors + num_types + num_shade + num_size
+        num_token = num_colors + num_types + num_shade + num_size
     else:
         # The mission is not used
-        dim_tokenizer = 1
+        num_token = 1
 
     # By default do not use her and imc
     use_imc = 0
@@ -157,7 +157,7 @@ def training(dict_env, dict_agent, dict_expert):
             agent = models.DoubleDQN
 
     params = (h, w, c, n_actions, frames,
-              dict_agent["lr"], dim_tokenizer, device, dict_agent["use_memory"], dict_agent["use_text"])
+              dict_agent["lr"], num_token, device, dict_agent["use_memory"], dict_agent["use_text"])
 
     policy_net = agent(*params).to(device)
     target_net = agent(*params).to(device)

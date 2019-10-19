@@ -27,7 +27,7 @@ class BaseAgent(nn.Module):
 class DQNVanille(BaseAgent):
     def __init__(self, h, w, c, n_actions, lr, frames, device):
         """
-        dim_tokenizer is not used !
+        num_token is not used !
         h: height of the screen
         w: width of the screen
         frames: number of frames taken into account for the state

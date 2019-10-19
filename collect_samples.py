@@ -144,10 +144,10 @@ def collect_samples(dict_env, dict_agent, use_her, use_imc, use_dense=0, use_rnn
     if "COLOR_TO_IDX" and "TYPE_TO_IDX" in dict_env.keys():
         num_colors = len(dict_env["COLOR_TO_IDX"].keys())
         num_types = len(dict_env["TYPE_TO_IDX"].keys())
-        dim_tokenizer = num_colors * num_types
+        num_token = num_colors * num_types
     else:
         # The mission is not used
-        dim_tokenizer = 1
+        num_token = 1
 
     # Memory that collect all the samples
     memory_collectsample = CollectSampleMemory(size=dict_agent["memory_size"],

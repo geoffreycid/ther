@@ -10,7 +10,7 @@ import torch.nn.functional as F
 
 class DoubleDQNIMC(nn.Module):
 
-    def __init__(self, h, w, c, n_actions, frames, lr, lr_imc, dim_tokenizer, device):
+    def __init__(self, h, w, c, n_actions, frames, lr, lr_imc, num_token, device):
         """
         h: height of the screen
         w: width of the screen
@@ -23,7 +23,7 @@ class DoubleDQNIMC(nn.Module):
         self.mission = True
         self.embedded_dim = 32
         self.device = device
-        self.dim_tokenizer = dim_tokenizer
+        self.num_token = num_token
 
         self.conv_net_1 = nn.Sequential(
             nn.Conv2d(c * frames, 16, (2, 2)),
@@ -50,7 +50,7 @@ class DoubleDQNIMC(nn.Module):
         )
 
         self.language_net = nn.Sequential(
-            nn.Linear(in_features=self.dim_tokenizer, out_features=self.embedded_dim)
+            nn.Linear(in_features=self.num_token, out_features=self.embedded_dim)
         )
 
         self.embedding_image_conv = nn.Sequential(
@@ -68,7 +68,7 @@ class DoubleDQNIMC(nn.Module):
         )
 
         self.embedding_mission_fc = nn.Sequential(
-            nn.Linear(in_features=dim_tokenizer, out_features=64),
+            nn.Linear(in_features=num_token, out_features=64),
             nn.ReLU(),
             nn.Linear(in_features=64, out_features=128)
         )

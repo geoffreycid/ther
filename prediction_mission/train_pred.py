@@ -28,7 +28,7 @@ def optimization(train_memory, test_memory, config, train_memory_dense, test_mem
     num_seniority = config["num_seniority"]
     num_size = config["num_size"]
 
-    dim_tokenizer = num_types + num_colors + num_seniority + num_size
+    num_token = num_types + num_colors + num_seniority + num_size
 
     # Choose the device
     if "device" in config:
@@ -63,7 +63,7 @@ def optimization(train_memory, test_memory, config, train_memory_dense, test_mem
     # Network
     if use_imc:
         net = prednet.PredMissionImc(h=7, w=7, c=4, frames=1, lr_imc=config["lr"],
-                                     dim_tokenizer=dim_tokenizer, weight_decay=config["weight_decay"]).to(device)
+                                     num_token=num_token, weight_decay=config["weight_decay"]).to(device)
     elif use_onehot:
         if use_dense:
             net = prednet.PredMissionOneHotDense(c=4, frames=1, n_type=num_types,

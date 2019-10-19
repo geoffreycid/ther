@@ -9,7 +9,7 @@ from sklearn.metrics import f1_score
 
 class PredMissionImc(nn.Module):
 
-    def __init__(self, h, w, c, frames, lr_imc, dim_tokenizer, weight_decay):
+    def __init__(self, h, w, c, frames, lr_imc, num_token, weight_decay):
         """
         h: height of the screen
         w: width of the screen
@@ -20,7 +20,7 @@ class PredMissionImc(nn.Module):
         super(PredMissionImc, self).__init__()
 
         self.embedded_dim = 32
-        self.dim_tokenizer = dim_tokenizer
+        self.num_token = num_token
 
         output_conv_h = ((h - 1) // 2 - 2)  # h-3 without maxpooling
         output_conv_w = ((w - 1) // 2 - 2)  # w-3 without maxpooling
@@ -41,7 +41,7 @@ class PredMissionImc(nn.Module):
         )
 
         self.embedding_mission_fc = nn.Sequential(
-            nn.Linear(in_features=dim_tokenizer, out_features=64),
+            nn.Linear(in_features=num_token, out_features=64),
             nn.ReLU(),
             nn.Linear(in_features=64, out_features=128)
         )
@@ -454,7 +454,7 @@ class PredMissionMultiLabel(nn.Module):
         self.n_seniority = n_seniority
         self.n_size = n_size
 
-        self.dim_tokenizer = n_type + n_color + n_seniority + n_size
+        self.num_token = n_type + n_color + n_seniority + n_size
 
         self.conv_net = nn.Sequential(
             nn.Conv2d(c * frames, 16, (2, 2)),
@@ -469,7 +469,7 @@ class PredMissionMultiLabel(nn.Module):
         self.fc = nn.Sequential(
             nn.Linear(in_features=64, out_features=64),
             nn.ReLU(),
-            nn.Linear(in_features=64, out_features=self.dim_tokenizer)
+            nn.Linear(in_features=64, out_features=self.num_token)
         )
 
         self.optimizer = torch.optim.RMSprop(self.parameters(), lr=lr, weight_decay=1e-7)
@@ -578,7 +578,7 @@ class PredMissionRNNSum(nn.Module):
         self.n_color = n_color
         self.n_seniority = n_seniority
         self.n_size = n_size
-        self.dim_tokenizer = n_type + n_color + n_seniority + n_size
+        self.num_token = n_type + n_color + n_seniority + n_size
 
         self.conv_net = nn.Sequential(
             nn.Conv2d(c * frames, 16, (2, 2)),
@@ -591,9 +591,9 @@ class PredMissionRNNSum(nn.Module):
         )
 
         self.hidden_size = 64
-        self.rnn = torch.nn.RNN(input_size=self.dim_tokenizer, hidden_size=self.hidden_size)
+        self.rnn = torch.nn.RNN(input_size=self.num_token, hidden_size=self.hidden_size)
 
-        self.out = nn.Linear(self.hidden_size, self.dim_tokenizer)
+        self.out = nn.Linear(self.hidden_size, self.num_token)
 
         self.optimizer = torch.optim.Adam(self.parameters(), lr=lr)
 
@@ -606,9 +606,9 @@ class PredMissionRNNSum(nn.Module):
         decoder_hidden = out_conv.view(batch_size, -1)
         decoder_hidden = decoder_hidden.unsqueeze(0)
         # First input to the rnn is 0
-        output = torch.zeros(1, batch_size, self.dim_tokenizer).to(self.device)
+        output = torch.zeros(1, batch_size, self.num_token).to(self.device)
         # Aggregate all outputs
-        cum_output = torch.zeros(batch_size, self.dim_tokenizer).to(self.device)
+        cum_output = torch.zeros(batch_size, self.num_token).to(self.device)
         # RNN to predict all 4 words
         for _ in range(4):
             output, decoder_hidden = self.rnn(output, decoder_hidden)
@@ -625,9 +625,9 @@ class PredMissionRNNSum(nn.Module):
             decoder_hidden = out_conv.view(batch_size, -1)
             decoder_hidden = decoder_hidden.unsqueeze(0)
             # First input to the rnn is 0, dim = (seq_len, batch, input size)
-            output = torch.zeros(1, batch_size, self.dim_tokenizer).to(self.device)
+            output = torch.zeros(1, batch_size, self.num_token).to(self.device)
             # Predictions
-            prediction = torch.zeros(batch_size, self.dim_tokenizer)
+            prediction = torch.zeros(batch_size, self.num_token)
             for _ in range(4):
                 output, decoder_hidden = self.rnn(output, decoder_hidden)
                 output = self.out(output[0])

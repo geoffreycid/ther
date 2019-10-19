@@ -7,7 +7,7 @@ import torch.nn.functional as F
 
 class DoubleDQNPredHER(nn.Module):
 
-    def __init__(self, h, w, c, n_actions, frames, lr, dict_env, dim_tokenizer, device):
+    def __init__(self, h, w, c, n_actions, frames, lr, dict_env, num_token, device):
         """
         h: height of the screen
         w: width of the screen
@@ -20,7 +20,7 @@ class DoubleDQNPredHER(nn.Module):
         self.mission = True
         self.embedded_dim = 16
         self.device = device
-        self.dim_tokenizer = dim_tokenizer
+        self.num_token = num_token
 
         self.conv_net_1 = nn.Sequential(
             nn.Conv2d(c * frames, 16, (2, 2)),
@@ -47,7 +47,7 @@ class DoubleDQNPredHER(nn.Module):
         )
 
         self.language_net = nn.Sequential(
-            nn.Linear(in_features=self.dim_tokenizer, out_features=self.embedded_dim)
+            nn.Linear(in_features=self.num_token, out_features=self.embedded_dim)
         #    nn.ReLU(),
         #    nn.Linear(in_features=self.embedded_dim, out_features=64)
         )

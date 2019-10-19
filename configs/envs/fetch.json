@@ -1,8 +1,10 @@
 {
-  "name": "test-fixed-Fetch-12x12-N2-C6-SE5-SI5-O10-5M-steps",
+  "name": "test-fixed-Fetch-5x5-N2-C6-SE5-SI5-O2-5M-steps",
+  "env_dir": "/home/gcideron/ther/out",
   "game_type": "fetch",
-  "size": 12,
-  "numObjs": 10,
+  "size": 5,
+  "numObjs": 2,
+  "n_attrib": 4,
   "T_max": 40,
   "max_steps": 5000000,
   "wrong_object_terminal": 1,
@@ -38,7 +40,6 @@
     "large": 3,
     "giant": 4
   },
-  "env_dir": "/home/user/ther/out",
   "summary_trajectory": 5000,
   "summary_mean_max_q": 1000,
   "save_model": 1000000,

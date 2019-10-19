@@ -1,5 +1,3 @@
-import random
-import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -8,14 +6,14 @@ from models.duelingdoubledqn import DuelingDoubleDQN
 
 class DuelingDoubleDQNPER(DuelingDoubleDQN):
 
-    def __init__(self, h, w, c, n_actions, frames, lr, dim_tokenizer, device, use_memory, use_text):
+    def __init__(self, h, w, c, n_actions, frames, lr, num_token, device, use_memory, use_text):
         """
         h: height of the screen
         w: width of the screen
         frames: last observations to make a state
         n_actions: number of actions
         """
-        super(DuelingDoubleDQNPER, self).__init__(h, w, c, n_actions, frames, lr, dim_tokenizer, device, use_memory, use_text)
+        super(DuelingDoubleDQNPER, self).__init__(h, w, c, n_actions, frames, lr, num_token, device, use_memory, use_text)
 
     # Optimize the model
     def optimize_model(self, memory, target_net, dict_agent):

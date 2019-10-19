@@ -545,8 +545,9 @@ class Grid:
 
         if vis_mask is None:
             vis_mask = np.ones((self.width, self.height), dtype=bool)
-        # Important
-        array = np.zeros((self.width, self.height, 5), dtype='uint8')
+
+        array = np.zeros((self.width, self.height, 4), dtype='uint8')
+        # array = np.zeros((self.width, self.height, 5), dtype='uint8') use the state
         for i in range(self.width):
             for j in range(self.height):
                 if vis_mask[i, j]:
@@ -558,18 +559,19 @@ class Grid:
                         array[i, j, 2] = 0
                         array[i, j, 3] = 0
                     else:
+                        pass
                         # State, 0: open, 1: closed, 2: locked
-                        state = 0
-                        if hasattr(v, 'is_open') and not v.is_open:
-                            state = 1
-                        if hasattr(v, 'is_locked') and v.is_locked:
-                            state = 2
+                        # state = 0
+                        # if hasattr(v, 'is_open') and not v.is_open:
+                        #     state = 1
+                        # if hasattr(v, 'is_locked') and v.is_locked:
+                        #     state = 2
 
                         array[i, j, 0] = OBJECT_TO_IDX[v.type]
                         array[i, j, 1] = COLOR_TO_IDX[v.color]
                         array[i, j, 2] = SHADE_TO_IDX[v.shade]
                         array[i, j, 3] = SIZE_TO_IDX[v.size]
-                        array[i, j, 4] = state
+                        # array[i, j, 4] = state
 
         return array
 

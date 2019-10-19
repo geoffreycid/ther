@@ -23,8 +23,7 @@ class FetchGame(MiniGridEnv):
         use_defined_missions,
         shuffle_attrib,
         missions,
-        num_attrib=4,
-        n_channels=4
+        num_attrib=4
     ):
         self.numObjs = numObjs
         self.color_to_idx = color_to_idx
@@ -42,7 +41,6 @@ class FetchGame(MiniGridEnv):
         self.shuffle_attrib = shuffle_attrib
         self.missions = missions
         self.num_attrib = num_attrib
-        self.n_channels = n_channels
         random.seed(self.seed)
         super().__init__(
             grid_size=size,
@@ -184,9 +182,6 @@ class FetchGame(MiniGridEnv):
                     done = False
 
                     obs = self.gen_obs()
-
-        # Keep only the right number of channels
-        obs["image"] = obs["image"][:, :, :self.n_channels]
 
         return obs, reward, done, is_carrying, hindsight_reward, hindsight_target
 

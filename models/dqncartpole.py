@@ -1,13 +1,10 @@
 import random
-
-import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
-# DQN for cartpole
+
 class DQNCartpole(nn.Module):
 
-    def __init__(self, n_actions, frames=4):
+    def __init__(self, n_actions):
         """
         h: height of the screen
         w: width of the screen

@@ -1,9 +1,8 @@
 import dill
 import ray
-import collections
 import sys
 sys.path.extend(['/home/user/ther', '/home/user/ther'])
-import aggregator.aggregator as aggregator
+import aggregator as aggregator
 import random
 import torch
 import json

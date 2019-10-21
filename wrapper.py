@@ -1,17 +1,7 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue May 14 16:15:23 2019
-
-@author: geoffreycideron
-"""
 import os
 import sys
 import json
-import time
 from itertools import product
-
-import ray
-import train
 
 
 def wrapper(dict_env, dict_agent, dict_expert, grid_search, extension):
@@ -44,11 +34,14 @@ def wrapper(dict_env, dict_agent, dict_expert, grid_search, extension):
             print("Try to override an existing env without the same parameters")
             sys.exit()
         name_agent = dict_agent["name"] + "-" + dict_expert["name"]
-        if name_agent in os.listdir(env_dir):
-            print("Environment & Agent names already used but nothing is done")
-            #sys.exit()
-        else:
+
+        if name_agent not in os.listdir(env_dir):
             os.mkdir(agent_dir)
+        else:
+            for seed in dict_agent["seed"]:
+                if "run_{}".format(seed) in os.listdir(agent_dir):
+                    print("Environment & Agent & run names already used")
+                    sys.exit()
     else:
         os.makedirs(agent_dir)
         

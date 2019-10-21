@@ -8,7 +8,7 @@ import tensorboardX as tb
 import dill
 
 import models
-import replaymemory
+import replay_memory
 import summaryutils as utils
 
 """training procedure"""
@@ -143,14 +143,14 @@ def training(dict_env, dict_agent, dict_expert):
 
     # Replay memory
     if "per" in dict_agent["name"]:
-        memory = replaymemory.PrioritizedReplayMemory(size=dict_agent["memory_size"],
-                                                      seed=seed, alpha=dict_agent["alpha"], beta=dict_agent["beta"],
-                                                      annealing_rate=dict_agent["annealing_rate"])
+        memory = replay_memory.PrioritizedReplayMemory(size=dict_agent["memory_size"],
+                                                       seed=seed, alpha=dict_agent["alpha"], beta=dict_agent["beta"],
+                                                       annealing_rate=dict_agent["annealing_rate"])
     else:
-        memory = replaymemory.ReplayMemory(size=dict_agent["memory_size"], seed=seed)
+        memory = replay_memory.ReplayMemory(size=dict_agent["memory_size"], seed=seed)
 
     if use_expert_to_learn:
-        memory_expert = replaymemory.ReplayMemoryExpert(size=dict_agent["memory_size"], seed=seed)
+        memory_expert = replay_memory.ReplayMemoryExpert(size=dict_agent["memory_size"], seed=seed)
 
     # Max steps per episode
     T_MAX = min(dict_env["T_max"], env.max_steps)
@@ -450,8 +450,8 @@ def training(dict_env, dict_agent, dict_expert):
 
                 # Re-labelling trajectories with HER
                 if use_her:
-                    hindsight_reward = out_step[5]
-                    hindsight_target = out_step[6]
+                    hindsight_reward = out_step[4]
+                    hindsight_target = out_step[5]
                     if use_noisy_her:
                         if dict_agent["use_text"]:
                             mission = utils.noisy_mission_one_threshold_text(hindsight_target,

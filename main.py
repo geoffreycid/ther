@@ -1,9 +1,7 @@
-import configwrapper
+import wrapper
 import train
 import ray
 import json
-import aggregator.aggregator as aggregator
-
 
 if __name__ == '__main__':
 
@@ -43,14 +41,14 @@ if __name__ == '__main__':
         temp_dir='/tmp/ray2'
     )
 
-    dict_simple, dicts_simple = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
-                                                      grid_search=grid_search, extension=extension)
-
-    dict_per, dicts_per = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_per,
+    dict_simple, dicts_simple = wrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
                                                 grid_search=grid_search, extension=extension)
 
-    dict_her, dicts_her = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_her,
-                                                grid_search=grid_search, extension=extension)
+    dict_per, dicts_per = wrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_per,
+                                          grid_search=grid_search, extension=extension)
+
+    dict_her, dicts_her = wrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_her,
+                                          grid_search=grid_search, extension=extension)
 
     #dict_imc, dicts_imc = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_imc,
     #                                            grid_search=grid_search, extension=extension)

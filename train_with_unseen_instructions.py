@@ -8,7 +8,7 @@ import tensorboardX as tb
 import dill
 
 import models
-import replaymemory
+import replay_memory
 import summaryutils as utils
 import evaluate_on_test as evaluate
 import json
@@ -166,14 +166,14 @@ def training(dict_env, dict_agent, dict_expert):
 
     # Replay memory
     if use_per:
-        memory = replaymemory.PrioritizedReplayMemory(size=dict_agent["memory_size"],
-                                                      seed=seed, alpha=dict_agent["alpha"], beta=dict_agent["beta"],
-                                                      annealing_rate=dict_agent["annealing_rate"])
+        memory = replay_memory.PrioritizedReplayMemory(size=dict_agent["memory_size"],
+                                                       seed=seed, alpha=dict_agent["alpha"], beta=dict_agent["beta"],
+                                                       annealing_rate=dict_agent["annealing_rate"])
     else:
-        memory = replaymemory.ReplayMemory(size=dict_agent["memory_size"], seed=seed)
+        memory = replay_memory.ReplayMemory(size=dict_agent["memory_size"], seed=seed)
 
     if use_expert_to_learn:
-        memory_expert = replaymemory.ReplayMemoryExpert(size=dict_agent["memory_size"], seed=seed)
+        memory_expert = replay_memory.ReplayMemoryExpert(size=dict_agent["memory_size"], seed=seed)
 
     # Max steps per episode
     T_MAX = min(dict_env["T_max"], env.max_steps)

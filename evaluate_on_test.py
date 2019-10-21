@@ -7,7 +7,7 @@ import torch.nn.functional as F
 import tensorboardX as tb
 
 import models
-import replaymemory
+import replay_memory
 import summaryutils as utils
 
 """training procedure"""

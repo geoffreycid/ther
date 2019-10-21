@@ -1,4 +1,4 @@
-import configwrapper
+import wrapper
 import train
 import ray
 import json
@@ -63,9 +63,9 @@ if __name__ == '__main__':
 
     dicts_to_train = []
     for dict_expert in dicts_expert:
-        dicts_to_train += configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
-                                                dict_expert=dict_expert, grid_search=grid_search,
-                                                extension=extension)[1]
+        dicts_to_train += wrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
+                                          dict_expert=dict_expert, grid_search=grid_search,
+                                          extension=extension)[1]
 
     dicts_expert = list(np.repeat(dicts_expert, len(extension["seed"])))
 

@@ -1,9 +1,7 @@
-import configwrapper
+import wrapper
 import train
 import ray
 import json
-import aggregator.aggregator as aggregator
-
 
 if __name__ == '__main__':
 
@@ -62,17 +60,17 @@ if __name__ == '__main__':
         temp_dir='/tmp/ray2'
     )
 
-    dict_dqn_no_expert, dicts_dqn_no_expert = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
-                                                      dict_expert=dict_no_expert, grid_search=grid_search,
-                                                      extension=extension)
+    dict_dqn_no_expert, dicts_dqn_no_expert = wrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
+                                                              dict_expert=dict_no_expert, grid_search=grid_search,
+                                                              extension=extension)
 
-    dict_per_no_expert, dicts_per_no_expert = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_per,
-                                                dict_expert=dict_no_expert, grid_search=grid_search,
-                                                extension=extension)
+    dict_per_no_expert, dicts_per_no_expert = wrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_per,
+                                                              dict_expert=dict_no_expert, grid_search=grid_search,
+                                                              extension=extension)
 
-    dict_dqn_her, dicts_dqn_her = configwrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
-                                                dict_expert=dict_her_expert, grid_search=grid_search,
-                                                extension=extension)
+    dict_dqn_her, dicts_dqn_her = wrapper.wrapper(dict_env=dict_fetch, dict_agent=dict_agent_simple,
+                                                  dict_expert=dict_her_expert, grid_search=grid_search,
+                                                  extension=extension)
 
     # dict_dqn_learned_expert, dicts_dqn_learned_expert = configwrapper.wrapper(dict_env=dict_fetch,
     #                                                                                 dict_agent=dict_agent_simple,
@@ -86,17 +84,17 @@ if __name__ == '__main__':
     #                                                                                 grid_search=grid_search,
     #                                                                                 extension=extension)
 
-    dict_dqn_expert_to_learn, dicts_dqn_expert_to_learn = configwrapper.wrapper(dict_env=dict_fetch,
-                                                                                    dict_agent=dict_agent_simple,
-                                                                                    dict_expert=dict_expert_to_learn,
-                                                                                    grid_search=grid_search,
-                                                                                    extension=extension)
+    dict_dqn_expert_to_learn, dicts_dqn_expert_to_learn = wrapper.wrapper(dict_env=dict_fetch,
+                                                                          dict_agent=dict_agent_simple,
+                                                                          dict_expert=dict_expert_to_learn,
+                                                                          grid_search=grid_search,
+                                                                          extension=extension)
 
-    dict_dqn_expert_to_learn_dense, dicts_dqn_expert_to_learn_dense = configwrapper.wrapper(dict_env=dict_fetch,
-                                                                                    dict_agent=dict_agent_simple,
-                                                                                    dict_expert=dict_expert_to_learn_dense,
-                                                                                    grid_search=grid_search,
-                                                                                    extension=extension)
+    dict_dqn_expert_to_learn_dense, dicts_dqn_expert_to_learn_dense = wrapper.wrapper(dict_env=dict_fetch,
+                                                                                      dict_agent=dict_agent_simple,
+                                                                                      dict_expert=dict_expert_to_learn_dense,
+                                                                                      grid_search=grid_search,
+                                                                                      extension=extension)
 
     #dicts_to_train = dicts_dqn_expert_to_learn_dense + dicts_dqn_expert_to_learn \
     #                 + dicts_dqn_learned_dense_expert + dicts_dqn_learned_expert \

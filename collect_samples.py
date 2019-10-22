@@ -4,7 +4,7 @@ import numpy as np
 import gym_minigrid.envs.game as game
 import torch
 
-import summaryutils as utils
+import utils as utils
 import collections
 import random
 import operator

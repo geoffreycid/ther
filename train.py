@@ -9,7 +9,7 @@ import dill
 
 import models
 import replay_memory
-import summaryutils as utils
+import utils as utils
 
 """training procedure"""
 

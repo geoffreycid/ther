@@ -1,14 +1,8 @@
-import os
-
 import numpy as np
 import gym_minigrid.envs.game as game
 import torch
-import torch.nn.functional as F
-import tensorboardX as tb
 
-import models
-import replay_memory
-import summaryutils as utils
+import utils
 
 """training procedure"""
 
@@ -41,8 +35,6 @@ def evaluate(dict_env, dict_agent, policy_net, net_expert, writer, global_step):
     observation = env.reset()
     # height, width, number of channels
     (h, w, c) = observation['image'].shape
-    # the last channel is close/open
-    c = c-1
     frames = dict_agent["frames"]
     # The network that predicts the mission only use the last frame
     keep_frames = frames * (c-1)
@@ -94,7 +86,6 @@ def evaluate(dict_env, dict_agent, policy_net, net_expert, writer, global_step):
             state["mission"] = utils.mission_tokenizer(dict_env, target).to(device)
 
         # Stacking frames to make a state
-        observation["image"] = observation["image"][:, :, :c]
         state_frames = [observation["image"]] * frames
         state_frames = np.concatenate(state_frames, axis=2).transpose((2, 0, 1))
         state_frames = torch.as_tensor(state_frames, dtype=torch.float32).unsqueeze(0)
@@ -117,7 +108,6 @@ def evaluate(dict_env, dict_agent, policy_net, net_expert, writer, global_step):
                 terminal = True
 
             # Update of the next state
-            observation["image"] = observation["image"][:, :, :c]
             observation_prep \
                 = torch.as_tensor(observation["image"].transpose((2, 0, 1)), dtype=torch.float32, device=device).unsqueeze(0)
 

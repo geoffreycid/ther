@@ -83,8 +83,6 @@ def training(dict_env, dict_agent, dict_expert):
     observation = env.reset()
     # height, width, number of channels
     (h, w, c) = observation['image'].shape
-    # the last channel is close/open
-    c = c-1
     frames = dict_agent["frames"]
     # The network that predicts the mission only use the last frame
     keep_frames = frames * (c-1)

@@ -18,7 +18,8 @@
     "evaluate_policy": 5000,
     "seed_evaluate": 870,
     "max_steps_evaluate": 10000,
-    "weights_path": "/home/user/ther/out/Fetch-12x12-N2-C6-SE5-SI5-O10-train-missions-50-percent/dueling-double-dqn-expert-to-learn-rnn/run_1/a/model_params/agent_model_steps_2000000.pt",
-    "replay_buffer_path": "/home/user/ther/out/Fetch-12x12-N2-C6-SE5-SI5-O10-train-missions-50-percent/dueling-double-dqn-expert-to-learn-rnn/run_1/a/model_params/replaybuffer/replaybuffer_steps_2000000.pkl"
+    "weights_path": "/home/gcideron/visual_her/out/Fetch-12x12-N2-C6-SE5-SI5-O10-train-missions-50-percent/dueling-double-dqn-expert-to-learn-rnn/run_1/a/model_params/agent_model_steps_2000000.pt",
+    "warm_start_replay_buffer": 0,
+    "replay_buffer_path": "/home/gcideron/visual_her/out/Fetch-12x12-N2-C6-SE5-SI5-O10-train-missions-50-percent/dueling-double-dqn-expert-to-learn-rnn/run_1/a/model_params/replaybuffer/replaybuffer_steps_2000000.pkl"
 
 }

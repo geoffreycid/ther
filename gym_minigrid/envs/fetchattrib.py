@@ -9,21 +9,21 @@ class FetchGame(MiniGridEnv):
     """
 
     def __init__(
-        self,
-        color_to_idx,
-        shade_to_idx,
-        size_to_idx,
-        size,
-        numObjs,
-        manual,
-        oneobject,
-        random_target,
-        reward_if_wrong_object,
-        wrong_object_terminal,
-        use_defined_missions,
-        shuffle_attrib,
-        missions,
-        num_attrib=4
+            self,
+            color_to_idx,
+            shade_to_idx,
+            size_to_idx,
+            size,
+            numObjs,
+            manual,
+            oneobject,
+            random_target,
+            reward_if_wrong_object,
+            wrong_object_terminal,
+            use_defined_missions,
+            shuffle_attrib,
+            missions,
+            num_attrib=4
     ):
         self.numObjs = numObjs
         self.color_to_idx = color_to_idx
@@ -44,7 +44,7 @@ class FetchGame(MiniGridEnv):
         random.seed(self.seed)
         super().__init__(
             grid_size=size,
-            max_steps=5*size**2,
+            max_steps=5 * size ** 2,
             # Set this to True for maximum speed
             see_through_walls=True
         )
@@ -54,9 +54,9 @@ class FetchGame(MiniGridEnv):
 
         # Generate the surrounding walls
         self.grid.horz_wall(0, 0)
-        self.grid.horz_wall(0, height-1)
+        self.grid.horz_wall(0, height - 1)
         self.grid.vert_wall(0, 0)
-        self.grid.vert_wall(width-1, 0)
+        self.grid.vert_wall(width - 1, 0)
 
         types = ['key', 'ball']
 
@@ -148,13 +148,13 @@ class FetchGame(MiniGridEnv):
             is_carrying = 1
             if self.carrying.color == self.targetColor \
                     and self.carrying.type == self.targetType \
-                    and self.carrying.shade == self.targetShade\
+                    and self.carrying.shade == self.targetShade \
                     and self.carrying.size == self.targetSize:
-                #reward = self._reward()
+                # reward = self._reward()
                 reward = 1
                 done = True
             else:
-                #hindsight_reward = self._reward()
+                # hindsight_reward = self._reward()
                 hindsight_reward = 1
                 hindsight_target = {
                     "color": self.carrying.color,

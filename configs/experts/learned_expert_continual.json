@@ -9,6 +9,6 @@
     "lr": 1e-4,
     "weight_decay": 1e-6,
     "n_words": 27,
-    "expert_weights_path": "/home/user/ther/out/Fetch-12x12-N2-C6-SE5-SI5-O10-train-missions-50-percent/dueling-double-dqn-expert-to-learn-rnn/run_1/a/model_params/expert_model_steps_3000000.pt"
+    "expert_weights_path": "/home/gcideron/visual_her/out/Fetch-12x12-N2-C6-SE5-SI5-O10-train-missions-50-percent/dueling-double-dqn-expert-to-learn-rnn/run_1/a/model_params/expert_model_steps_3000000.pt"
 
 }

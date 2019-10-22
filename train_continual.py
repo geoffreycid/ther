@@ -298,19 +298,19 @@ def training(dict_env, dict_agent, dict_expert):
 
 # To debug :
 
-with open('configs/envs/fetch_hold_out_missions_50_percent.json', 'r') as myfile:
-    config_env = myfile.read()
+#with open('configs/envs/fetch_hold_out_missions_50_percent.json', 'r') as myfile:
+#    config_env = myfile.read()
 
-with open('configs/agents/fetch/duelingdoubledqn_continual.json', 'r') as myfile:
-    config_agent = myfile.read()
+#with open('configs/agents/fetch/duelingdoubledqn_continual.json', 'r') as myfile:
+#    config_agent = myfile.read()
 
-with open('configs/experts/learned_expert_continual.json', 'r') as myfile:
-    config_expert = myfile.read()
-import json
+#with open('configs/experts/learned_expert_continual.json', 'r') as myfile:
+#    config_expert = myfile.read()
+#import json
 
-dict_env = json.loads(config_env)
-dict_agent = json.loads(config_agent)
-dict_agent["agent_dir"] = dict_env["env_dir"] + "/" + dict_env["name"] + "/" + dict_agent["name"]
-dict_expert = json.loads(config_expert)
-print("Training in progress")
-training(dict_env, dict_agent, dict_expert)
+#dict_env = json.loads(config_env)
+#dict_agent = json.loads(config_agent)
+#dict_agent["agent_dir"] = dict_env["env_dir"] + "/" + dict_env["name"] + "/" + dict_agent["name"]
+#dict_expert = json.loads(config_expert)
+#print("Training in progress")
+#training(dict_env, dict_agent, dict_expert)

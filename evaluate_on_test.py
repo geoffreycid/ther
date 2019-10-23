@@ -21,6 +21,11 @@ def evaluate(dict_env, dict_agent, policy_net, net_expert, writer, global_step):
     else:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+    if dict_agent["use_text"]:
+        idx2word = {}
+        for key, ind in dict_env["word2idx"].items():
+            idx2word[ind] = key
+
     # Create the environment
     env = game.game(dict_env)
 
@@ -100,8 +105,8 @@ def evaluate(dict_env, dict_agent, policy_net, net_expert, writer, global_step):
 
             # Interaction with the environment
             out_step = env.step(action)
-            observation, reward, terminal, return_her, is_carrying \
-                = out_step[0], out_step[1], out_step[2], out_step[3], out_step[4]
+            observation, reward, terminal, is_carrying \
+                = out_step[0], out_step[1], out_step[2], out_step[3]
 
             # Timeout
             if t == T_MAX - 1:
@@ -135,8 +140,14 @@ def evaluate(dict_env, dict_agent, policy_net, net_expert, writer, global_step):
                 object_picked_smoothing += is_carrying
                 success_rate_smoothing += reward > 0
                 # Monitor the accuracy of the expert
+
                 if is_carrying and reward > 0 and use_learned_expert:
                     expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(device)
+                    with open(dict_agent["agent_dir"] + "/sentences.csv", "a") as log:
+                        log.write("{},{},{}\n".format(steps_done,
+                                                      utils.sentences_from_indexes(expert_mission, idx2word),
+                                                      utils.sentences_from_indexes(state["mission"], idx2word)))
+
                     pred_mission_smoothing += torch.equal(torch.sort(expert_mission[-4:])[0],
                                                           torch.sort(curr_state["mission"][-4:])[0])
                     episode_done_carrying += 1

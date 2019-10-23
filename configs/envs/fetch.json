@@ -1,5 +1,5 @@
 {
-  "name": "test-fixed-Fetch-5x5-N2-C6-SE5-SI5-O2-5M-steps",
+  "name": "Fetch-5x5-N2-C6-SE5-SI5-O2-5M-steps",
   "env_dir": "/home/gcideron/ther/out",
   "game_type": "fetch",
   "size": 5,

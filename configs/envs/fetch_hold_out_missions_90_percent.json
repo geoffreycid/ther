@@ -1,6 +1,7 @@
 {
   "name": "continual-rnn-Fetch-12x12-N2-C6-SE5-SI5-O10-90-percent",
   "game_type": "fetch",
+  "setting_with_pickup": 0,
   "size": 12,
   "numObjs": 10,
   "T_max": 40,

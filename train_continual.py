@@ -214,10 +214,12 @@ def training(dict_env, dict_agent, dict_expert):
 
             # Interaction with the environment
             # step_continual: even if an object is picked, the episode continues
-            #out_step = env.step_continual(action)
-            #observation, reward, terminal, can_pickup = out_step[0], out_step[1], out_step[2], out_step[3]
-            out_step = env.step(action)
-            observation, reward, terminal, is_carrying = out_step[0], out_step[1], out_step[2], out_step[3]
+            if dict_env["setting_with_pickup"]:
+                out_step = env.step_continual(action)
+                observation, reward, terminal, can_pickup = out_step[0], out_step[1], out_step[2], out_step[3]
+            else:
+                out_step = env.step(action)
+                observation, reward, terminal, is_carrying = out_step[0], out_step[1], out_step[2], out_step[3]
 
             # Timeout
             if t == T_MAX - 1:
@@ -268,23 +270,26 @@ def training(dict_env, dict_agent, dict_expert):
                 max_steps_reached = 1
                 break
 
-            #if can_pickup:
-            #    expert_reward = dict_agent["gamma"] * 1
-            #    with torch.no_grad():
-            #        expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(
-            #            device)
-            #    memory.add_hindsight_transitions(reward=expert_reward, mission=expert_mission,
-            #                                     keep_last_transitions=dict_expert["keep_last_transitions"])
-            #    memory.erase_stored_transitions()
+            if dict_env["setting_with_pickup"]:
 
-            if is_carrying:
-                expert_reward = 1
-                with torch.no_grad():
-                    expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(
-                        device)
-                memory.add_hindsight_transitions(reward=expert_reward, mission=expert_mission,
-                                                 keep_last_transitions=dict_expert["keep_last_transitions"])
-                memory.erase_stored_transitions()
+                if can_pickup:
+                    expert_reward = dict_agent["gamma"] * 1
+                    with torch.no_grad():
+                        expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(
+                            device)
+                    memory.add_hindsight_transitions(reward=expert_reward, mission=expert_mission,
+                                                     keep_last_transitions=dict_expert["keep_last_transitions"])
+                    memory.erase_stored_transitions()
+            else:
+
+                if is_carrying:
+                    expert_reward = 1
+                    with torch.no_grad():
+                        expert_mission = net_expert.prediction_mission(curr_state["image"][:, keep_frames:]).to(
+                            device)
+                    memory.add_hindsight_transitions(reward=expert_reward, mission=expert_mission,
+                                                     keep_last_transitions=dict_expert["keep_last_transitions"])
+                    memory.erase_stored_transitions()
 
             if terminal:
                 break

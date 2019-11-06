@@ -100,7 +100,7 @@ class FetchGame(MiniGridEnv):
                 self.place_obj(obj)
                 objs.append(obj)
 
-        # Usefuk for stats on objects
+        # Useful for stats on objects
         self.objs = objs
         # Randomize the player start position and orientation
         self.place_agent()

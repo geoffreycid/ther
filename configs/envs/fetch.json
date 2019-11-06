@@ -1,9 +1,9 @@
 {
-  "name": "Fetch-5x5-N2-C6-SE5-SI5-O2-5M-steps",
+  "name": "test-burns-Fetch-5x5-N2-C6-SE5-SI5-O2-5M-steps",
   "env_dir": "/home/gcideron/ther/out",
   "game_type": "fetch",
-  "size": 5,
-  "numObjs": 2,
+  "size": 12,
+  "numObjs": 10,
   "n_attrib": 4,
   "T_max": 40,
   "max_steps": 5000000,
@@ -43,7 +43,7 @@
   "summary_trajectory": 5000,
   "summary_mean_max_q": 1000,
   "save_model": 1000000,
-  "save_replay_buffer": 1000000,
+  "save_replay_buffer": 3000000,
   "smoothing": 5000,
   "full_idx": {
     "red": 0,

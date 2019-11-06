@@ -8,7 +8,7 @@ with open(path + 'configs/envs/fetch.json', 'r') as myfile:
 with open(path + 'configs/agents/fetch/duelingdoubledqn.json', 'r') as myfile:
     config_agent = myfile.read()
 
-with open(path + 'configs/experts/expert_to_learn_rnn.json', 'r') as myfile:
+with open(path + 'configs/experts/her_expert.json', 'r') as myfile:
     config_expert = myfile.read()
 import json
 

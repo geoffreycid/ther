@@ -3,7 +3,6 @@ import os
 import numpy as np
 import gym_minigrid.envs.game as game
 import torch
-import torch.nn.functional as F
 import tensorboardX as tb
 import dill
 
@@ -419,7 +418,7 @@ def training(dict_env, dict_agent, dict_expert):
                 break
 
             # Episodes that end before timeout
-            if terminal and t < T_MAX:
+            if terminal and t < T_MAX - 1:
 
                 # Fill the dataset to train the expert
                 if use_expert_to_learn:
@@ -449,7 +448,7 @@ def training(dict_env, dict_agent, dict_expert):
                     memory.erase_stored_transitions()
 
                 # Re-labelling trajectories with HER
-                if use_her:
+                if use_her and reward <= 0:
                     hindsight_reward = out_step[4]
                     hindsight_target = out_step[5]
                     if use_noisy_her:
